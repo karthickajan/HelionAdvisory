@@ -42,26 +42,32 @@
       overflow-x: hidden;
     }
 
-    /* ── CUSTOM CURSOR ── */
-    * { cursor: none !important; }
-    #cursor {
-      position: fixed; width: 10px; height: 10px;
-      background: var(--gold); border-radius: 50%;
-      pointer-events: none; z-index: 99999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
-      mix-blend-mode: normal;
+    /* ── CUSTOM CURSOR (desktop only) ── */
+    @media (pointer: fine) {
+      * { cursor: none !important; }
+      #cursor {
+        position: fixed; width: 10px; height: 10px;
+        background: var(--gold); border-radius: 50%;
+        pointer-events: none; z-index: 99999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+        mix-blend-mode: normal;
+      }
+      #cursor-ring {
+        position: fixed; width: 36px; height: 36px;
+        border: 1px solid rgba(249,178,51,0.4); border-radius: 50%;
+        pointer-events: none; z-index: 99998;
+        transform: translate(-50%, -50%);
+        transition: transform 0.18s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+      }
+      body.cursor-hover #cursor { width: 6px; height: 6px; background: var(--titanium); }
+      body.cursor-hover #cursor-ring { width: 50px; height: 50px; border-color: rgba(249,178,51,0.7); }
+      body.cursor-click #cursor { width: 14px; height: 14px; }
     }
-    #cursor-ring {
-      position: fixed; width: 36px; height: 36px;
-      border: 1px solid rgba(249,178,51,0.4); border-radius: 50%;
-      pointer-events: none; z-index: 99998;
-      transform: translate(-50%, -50%);
-      transition: transform 0.18s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+    /* Hide cursor elements on touch devices */
+    @media (pointer: coarse) {
+      #cursor, #cursor-ring { display: none !important; }
     }
-    body.cursor-hover #cursor { width: 6px; height: 6px; background: var(--titanium); }
-    body.cursor-hover #cursor-ring { width: 50px; height: 50px; border-color: rgba(249,178,51,0.7); }
-    body.cursor-click #cursor { width: 14px; height: 14px; }
 
     /* ── SCROLLBAR ── */
     ::-webkit-scrollbar { width: 4px; }
@@ -90,10 +96,10 @@
       transition: all 0.45s cubic-bezier(0.23,1,0.32,1);
     }
     .glass:hover {
-      border-color: rgba(249,178,51,0.3);
+      border-color: rgba(249,178,51,0.35);
       background: rgba(0,77,90,0.18);
       transform: translateY(-4px);
-      box-shadow: 0 32px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(249,178,51,0.06);
+      box-shadow: 0 32px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(249,178,51,0.08);
     }
 
     /* ── PULSE ── */
@@ -115,8 +121,8 @@
     /* ── HERO WORD ANIMATION ── */
     .hero-word { display:inline-block; overflow:hidden; }
     .hero-word span {
-      display:inline-block; opacity:0; transform:translateY(105%);
-      animation: wordUp 0.95s cubic-bezier(0.16,1,0.3,1) forwards;
+      display:inline-block; opacity:0; transform:translateY(100%);
+      animation: wordUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
     }
     @keyframes wordUp { to { opacity:1; transform:translateY(0); } }
 
@@ -164,7 +170,7 @@
     .not-tag::before { content:'✕'; color:rgba(249,178,51,0.5); font-size:0.55rem; }
 
     /* ── DIAGONAL RULE ── */
-    .diagonal-rule { height:1px; background:linear-gradient(90deg,transparent 0%,rgba(249,178,51,0.2) 30%,rgba(249,178,51,0.2) 70%,transparent 100%); }
+    .diagonal-rule { height:1px; background:linear-gradient(90deg,transparent 0%,rgba(249,178,51,0.25) 30%,rgba(249,178,51,0.25) 70%,transparent 100%); }
 
     /* ── STAT NUM ── */
     .stat-num { font-family:'Cormorant Garamond',serif; font-size:clamp(2.6rem,4.5vw,4rem); font-weight:300; color:var(--titanium); line-height:1; }
@@ -338,7 +344,7 @@
 
 <!-- HERO -->
 <section id="home" class="relative min-h-screen flex flex-col justify-end pb-24 px-6 overflow-hidden">
-  <canvas id="hero-canvas" class="absolute inset-0 z-0" style="opacity:0.22;"></canvas>
+  <canvas id="hero-canvas" class="absolute inset-0 z-0"></canvas>
   <div class="absolute inset-0 bg-gradient-to-b from-transparent via-obsidian/40 to-obsidian z-0"></div>
   <div class="absolute inset-0 bg-gradient-to-r from-obsidian/60 via-transparent to-transparent z-0"></div>
 
@@ -358,7 +364,7 @@
     <div class="flex flex-wrap items-center gap-6 reveal" style="animation-delay:0.45s;">
       <a href="#services" class="inline-block font-mono text-[0.72rem] tracking-[0.14em] uppercase bg-gold text-obsidian px-7 py-3.5 rounded-sm hover:bg-titanium transition-all hover:-translate-y-0.5 shadow-lg">Advisory Services</a>
       <a href="#engage" class="group inline-flex items-center gap-3 font-mono text-[0.7rem] tracking-[0.12em] uppercase text-titanium/55 hover:text-titanium transition-all">
-        When to Engage<span class="w-8 h-px bg-gold group-hover:w-14 transition-all duration-500"></span>
+        When to Engage <span class="text-gold transition-transform duration-300 group-hover:translate-x-1">→</span>
       </a>
     </div>
   </div>
@@ -558,8 +564,8 @@
           <p class="text-titanium/45 text-sm leading-relaxed">Development logic being retrofitted to existing data.</p>
           <p class="text-titanium/45 text-sm leading-relaxed">Regulatory questions focusing on consistency rather than gaps.</p>
         </div>
-        <a href="#contact" class="inline-flex items-center gap-2 mt-8 font-mono text-[0.68rem] tracking-widest uppercase text-gold hover:text-titanium transition-colors">
-          Start Review <span class="w-6 h-px bg-gold"></span>
+        <a href="#contact" class="group inline-flex items-center gap-2 mt-8 font-mono text-[0.68rem] tracking-widest uppercase text-gold hover:text-titanium transition-colors">
+          Start Review <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
         </a>
       </div>
 
@@ -658,16 +664,16 @@
         <p class="text-titanium/50 text-[0.95rem] leading-[1.9] mb-14 max-w-md">
           Strategic engagements are managed with strict discretion. Reach out directly for technical briefing or program-level requirements.
         </p>
-        <div class="space-y-8">
-          <div>
+        <div class="space-y-0">
+          <div class="py-6 border-b border-white/5">
             <div class="section-label mb-3">Primary Correspondence</div>
-            <a href="mailto:senthil@helionadvisory.net" class="font-serif text-2xl font-light text-titanium hover:text-gold transition-colors">senthil@helionadvisory.net</a>
+            <a href="mailto:senthil@helionadvisory.net" class="font-serif font-light text-titanium hover:text-gold transition-colors break-all" style="font-size:clamp(1.1rem,2.5vw,1.5rem);">senthil@helionadvisory.net</a>
           </div>
-          <div class="pt-8 border-t border-white/5">
+          <div class="py-6 border-b border-white/5">
             <div class="section-label mb-3">Office Location</div>
-            <span class="font-light text-titanium/55">Brisbane, Australia — Serving Global Clients</span>
+            <span class="font-serif font-light text-titanium/55" style="font-size:clamp(1.1rem,2.5vw,1.5rem);">Brisbane, Australia — Serving Global Clients</span>
           </div>
-          <div class="pt-8 border-t border-white/5 flex items-center gap-3">
+          <div class="py-6 flex items-center gap-3">
             <span class="pulse-dot"></span>
             <span class="font-mono text-[0.65rem] uppercase tracking-widest text-titanium/40">Currently available for advisory engagements</span>
           </div>
@@ -740,18 +746,10 @@
 </section>
 
 <!-- FOOTER -->
-<footer class="py-16 px-6 bg-black border-t border-white/4">
+<footer class="py-16 px-6 bg-black">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
     <a href="#home" class="flex items-center gap-3">
-      <svg width="26" height="26" viewBox="0 0 34 34" fill="none">
-        <circle cx="17" cy="17" r="5.5" fill="#F9B233"/>
-        <circle cx="17" cy="4.5" r="2.8" fill="#004D5A"/>
-        <circle cx="17" cy="29.5" r="2.8" fill="#004D5A"/>
-        <circle cx="4.5" cy="11" r="2.8" fill="#004D5A"/>
-        <circle cx="29.5" cy="11" r="2.8" fill="#004D5A"/>
-        <circle cx="4.5" cy="23" r="2.8" fill="#004D5A"/>
-        <circle cx="29.5" cy="23" r="2.8" fill="#004D5A"/>
-      </svg>
+      <img src="assets/images/symbol_teal.png" alt="Helion Advisory Group" width="26" height="26" class="opacity-55">
       <div class="leading-none">
         <div class="font-sans font-medium text-[0.75rem] tracking-[0.12em] uppercase text-titanium/55">Helion</div>
         <div class="font-mono text-[0.55rem] tracking-[0.3em] uppercase text-gold/45 mt-0.5">Advisory Group</div>
@@ -806,25 +804,58 @@ document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 // ── MOLECULE CANVAS ──
 const canvas = document.getElementById('hero-canvas');
 const ctx = canvas.getContext('2d');
-let pts = [];
-function resizeC() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-resizeC();
-window.addEventListener('resize', resizeC, { passive: true });
-class Pt { constructor() { this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height; this.vx=(Math.random()-.5)*.4; this.vy=(Math.random()-.5)*.4; this.r=1.5+Math.random()*2; } update() { this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>canvas.width)this.vx*=-1; if(this.y<0||this.y>canvas.height)this.vy*=-1; } }
-for(let i=0;i<30;i++) pts.push(new Pt());
-function drawMol() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  pts.forEach((p,i) => {
-    p.update();
-    pts.slice(i+1).forEach(q => {
-      const d = Math.hypot(p.x-q.x, p.y-q.y);
-      if(d<160) { ctx.beginPath(); ctx.strokeStyle=`rgba(249,178,51,${0.22*(1-d/160)})`; ctx.lineWidth=0.7; ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke(); }
-    });
-    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle='rgba(249,178,51,0.5)'; ctx.fill();
-  });
-  requestAnimationFrame(drawMol);
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
-drawMol();
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() {
+    this.reset();
+    this.y = Math.random() * canvas.height;
+  }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.vx = (Math.random() - 0.5) * 0.4;
+    this.vy = (Math.random() - 0.5) * 0.4;
+    this.r = 1.5 + Math.random() * 2;
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+  }
+}
+
+for (let i = 0; i < 32; i++) particles.push(new Particle());
+
+function animateMolecule() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach((p, i) => {
+    p.update();
+    particles.slice(i + 1).forEach(p2 => {
+      const d = Math.hypot(p.x - p2.x, p.y - p2.y);
+      if (d < 165) {
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(249,178,51,${0.25 * (1 - d / 165)})`;
+        ctx.lineWidth = 0.6;
+        ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+      }
+    });
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(249,178,51,0.55)';
+    ctx.fill();
+  });
+  requestAnimationFrame(animateMolecule);
+}
+animateMolecule();
 
 // ── MOBILE MENU ──
 function openMobile()  { document.getElementById('mobile-menu').classList.add('open');    document.body.style.overflow='hidden'; }
