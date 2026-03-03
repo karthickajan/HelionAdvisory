@@ -6,8 +6,8 @@
   <title>Helion Advisory Group — Independent Technical Advisory</title>
   <meta name="description" content="Independent technical advisory for pharmaceutical and biotechnology development. Senior-level judgement at early development, formulation, and CMC decision points.">
   <meta name="author" content="Helion Advisory Group">
-  <link rel="icon" type="image/png" href="assets/images/helion_logo_transparent.png">
-  <link rel="apple-touch-icon" href="assets/images/helion_logo_transparent.png">
+  <link rel="icon" type="image/png" href="assets/images/symbol_teal.png">
+  <link rel="apple-touch-icon" href="assets/images/symbol_teal.png">
   <meta name="theme-color" content="#001820">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -171,12 +171,21 @@
 
     /* ── FOUNDER IMG ── */
     .founder-img {
-      width:100%; display:block; object-fit:cover; object-position:top center;
-      aspect-ratio:4/5;
+      width:100%; max-width:100%; display:block; object-fit:cover; object-position:top center;
+      aspect-ratio:4/5; /* kept for larger screens */
       filter:grayscale(15%) contrast(1.05) brightness(0.95);
       transition:filter 1.2s ease;
     }
     .founder-img:hover { filter:grayscale(0%) contrast(1.02) brightness(1.0); }
+
+    /* MOBILE FIXES: prevent tiny horizontal shifts caused by decorative offsets */
+    @media (max-width: 768px) {
+      .founder-img { aspect-ratio: auto; width:100%; height:auto; max-width:100%; }
+      /* Contain absolutely-positioned decorative element that used translation and could cause overflow */
+      .founder-wrap { overflow:hidden; }
+      /* Reduce the decorative offset so it doesn't nudge layout on very small screens */
+      .founder-wrap > .absolute { transform: none !important; left:0; top:0; }
+    }
 
     /* ── INSIGHT CARD ── */
     .insight-card {
@@ -304,7 +313,7 @@
 <nav id="navbar" class="fixed w-full z-50 px-5 py-5 transition-all duration-500">
   <div class="max-w-7xl mx-auto flex items-center justify-between bg-obsidian/80 backdrop-blur-xl border border-white/5 rounded-full px-7 py-3.5 shadow-2xl transition-all duration-500">
     <a href="#home" class="flex items-center gap-3.5 group">
-      <img src="assets/images/helion_logo_transparent.webp" alt="Helion Advisory Group Logo" width="40" height="40" class="transition-transform duration-300 group-hover:scale-110">
+      <img src="assets/images/symbol_teal.png" alt="Helion Advisory Group Logo" width="40" height="40" class="transition-transform duration-300 group-hover:scale-110">
       <div class="leading-none">
         <div class="font-sans font-medium text-[0.8rem] tracking-[0.12em] uppercase text-titanium">Helion</div>
         <div class="font-mono text-[0.58rem] tracking-[0.3em] uppercase text-gold mt-0.5">Advisory Group</div>
@@ -390,8 +399,8 @@
 <section id="about" class="py-40 px-6 bg-obsidian">
   <div class="max-w-7xl mx-auto">
     <div class="grid lg:grid-cols-2 gap-24 items-start">
-      <!-- Founder Photo -->
-      <div class="reveal relative order-2 lg:order-1">
+  <!-- Founder Photo -->
+  <div class="reveal relative order-2 lg:order-1 founder-wrap">
         <div class="absolute -inset-3 border border-gold/10 rounded-sm translate-x-6 translate-y-6 -z-10"></div>
         <div class="glass rounded-sm overflow-hidden p-1">
           <img src="assets/images/founder_optimised.webp" alt="Senthil Murugappan — Founder, Helion Advisory Group" class="founder-img rounded-sm" loading="lazy">
