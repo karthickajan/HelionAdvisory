@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helion Advisory Group — Independent Technical Advisory</title>
+  <meta name="description" content="Independent technical advisory for pharmaceutical and biotechnology development. Senior-level judgement at early development, formulation, and CMC decision points.">
+  <meta name="author" content="Helion Advisory Group">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            teal: '#004D5A', 'teal-dark': '#002d35', 'teal-mid': '#003d48',
+            gold: '#F9B233', 'gold-dim': '#d4921f',
+            obsidian: '#001820', titanium: '#F4F1EC',
+          },
+          fontFamily: {
+            sans: ['DM Sans','sans-serif'],
+            serif: ['Cormorant Garamond','serif'],
+            mono: ['DM Mono','monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root { --gold:#F9B233; --teal:#004D5A; --obsidian:#001820; --titanium:#F4F1EC; }
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      background: var(--obsidian);
+      color: var(--titanium);
+      font-feature-settings: "kern" 1, "liga" 1;
+      overflow-x: hidden;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    * { cursor: none !important; }
+    #cursor {
+      position: fixed; width: 10px; height: 10px;
+      background: var(--gold); border-radius: 50%;
+      pointer-events: none; z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+      mix-blend-mode: normal;
+    }
+    #cursor-ring {
+      position: fixed; width: 36px; height: 36px;
+      border: 1px solid rgba(249,178,51,0.4); border-radius: 50%;
+      pointer-events: none; z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+    }
+    body.cursor-hover #cursor { width: 6px; height: 6px; background: var(--titanium); }
+    body.cursor-hover #cursor-ring { width: 50px; height: 50px; border-color: rgba(249,178,51,0.7); }
+    body.cursor-click #cursor { width: 14px; height: 14px; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--obsidian); }
+    ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    /* ── READING PROGRESS ── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+      background: linear-gradient(90deg, #F9B233, #d4921f);
+      z-index: 9999; transition: width 0.08s ease-out;
+    }
+
+    /* ── NOISE ── */
+    body::before {
+      content:''; position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity:0.022; pointer-events:none; z-index:1;
+    }
+
+    /* ── GLASS ── */
+    .glass {
+      background: rgba(0,77,90,0.08); backdrop-filter: blur(16px);
+      border: 1px solid rgba(249,178,51,0.10);
+      transition: all 0.45s cubic-bezier(0.23,1,0.32,1);
+    }
+    .glass:hover {
+      border-color: rgba(249,178,51,0.3);
+      background: rgba(0,77,90,0.18);
+      transform: translateY(-4px);
+      box-shadow: 0 32px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(249,178,51,0.06);
+    }
+
+    /* ── PULSE ── */
+    .pulse-dot {
+      width:7px; height:7px; background:#22c55e; border-radius:50%;
+      display:inline-block; box-shadow:0 0 0 rgba(34,197,94,0.4);
+      animation: pulse-anim 2.2s infinite;
+    }
+    @keyframes pulse-anim {
+      0%  { box-shadow:0 0 0 0 rgba(34,197,94,0.7); }
+      70% { box-shadow:0 0 0 8px rgba(34,197,94,0); }
+      100%{ box-shadow:0 0 0 0 rgba(34,197,94,0); }
+    }
+
+    /* ── REVEAL ── */
+    .reveal { opacity:0; transform:translateY(32px); transition:opacity 0.85s ease,transform 0.85s ease; }
+    .reveal.up { opacity:1; transform:translateY(0); }
+
+    /* ── HERO WORD ANIMATION ── */
+    .hero-word { display:inline-block; overflow:hidden; }
+    .hero-word span {
+      display:inline-block; opacity:0; transform:translateY(105%);
+      animation: wordUp 0.95s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    @keyframes wordUp { to { opacity:1; transform:translateY(0); } }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family:'DM Mono',monospace; font-size:0.67rem;
+      letter-spacing:0.22em; text-transform:uppercase; color:var(--gold);
+      display:inline-flex; align-items:center; gap:0.7rem;
+    }
+    .section-label::before {
+      content:''; width:18px; height:1px;
+      background:var(--gold); opacity:0.65;
+    }
+
+    /* ── OUTCOME TAG ── */
+    .outcome-tag {
+      font-family:'DM Mono',monospace; font-size:0.66rem;
+      letter-spacing:0.08em; color:var(--gold);
+      border-top:1px solid rgba(249,178,51,0.15);
+      padding-top:1rem; margin-top:1.5rem;
+    }
+    .outcome-tag::before { content:'Outcome → '; }
+
+    /* ── ENGAGEMENT ROW ── */
+    .et-row {
+      display:flex; align-items:center; gap:1rem;
+      padding:1.1rem 1.4rem;
+      background:rgba(0,24,32,0.5);
+      border:1px solid rgba(249,178,51,0.07); border-radius:3px;
+      transition:border-color 0.25s, background 0.25s;
+    }
+    .et-row:hover { border-color:rgba(249,178,51,0.22); background:rgba(0,61,72,0.45); }
+
+    /* ── NOT TAGS ── */
+    .not-tag {
+      display:inline-flex; align-items:center; gap:0.4rem;
+      font-family:'DM Mono',monospace; font-size:0.65rem;
+      letter-spacing:0.1em; text-transform:uppercase;
+      padding:0.35rem 0.85rem;
+      border:1px solid rgba(244,241,236,0.10); border-radius:2px;
+      color:rgba(244,241,236,0.38);
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .not-tag:hover { border-color:rgba(249,178,51,0.3); color:rgba(244,241,236,0.65); }
+    .not-tag::before { content:'✕'; color:rgba(249,178,51,0.5); font-size:0.55rem; }
+
+    /* ── DIAGONAL RULE ── */
+    .diagonal-rule { height:1px; background:linear-gradient(90deg,transparent 0%,rgba(249,178,51,0.2) 30%,rgba(249,178,51,0.2) 70%,transparent 100%); }
+
+    /* ── STAT NUM ── */
+    .stat-num { font-family:'Cormorant Garamond',serif; font-size:clamp(2.6rem,4.5vw,4rem); font-weight:300; color:var(--titanium); line-height:1; }
+
+    /* ── FOUNDER IMG ── */
+    .founder-img {
+      width:100%; display:block; object-fit:cover; object-position:top center;
+      aspect-ratio:4/5;
+      filter:grayscale(15%) contrast(1.05) brightness(0.95);
+      transition:filter 1.2s ease;
+    }
+    .founder-img:hover { filter:grayscale(0%) contrast(1.02) brightness(1.0); }
+
+    /* ── INSIGHT CARD ── */
+    .insight-card {
+      padding:2.5rem 2.2rem;
+      border:1px solid rgba(249,178,51,0.08);
+      background:rgba(0,45,53,0.22); border-radius:4px;
+      transition:all 0.35s ease;
+    }
+    .insight-card:hover {
+      border-color:rgba(249,178,51,0.28);
+      background:rgba(0,61,72,0.38);
+      transform:translateY(-3px);
+    }
+
+    /* ── FORM INPUTS ── */
+    .form-line {
+      border-bottom:1px solid rgba(244,241,236,0.08);
+      padding-bottom:1.2rem; margin-bottom:1.4rem;
+    }
+    .form-line label { display:block; font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(244,241,236,0.3); margin-bottom:0.5rem; }
+    .form-line input, .form-line select {
+      width:100%; background:transparent; border:none; outline:none;
+      color:var(--titanium); font-family:'DM Sans',sans-serif;
+      font-size:0.95rem; font-weight:300; padding:0.4rem 0;
+    }
+    .form-line input::placeholder { color:rgba(244,241,236,0.22); }
+    .form-line select { color:rgba(244,241,236,0.4); }
+    .form-line select option { background:#002a33; color:var(--titanium); }
+
+    /* ── AUTOFILL FIX — prevents browser white/yellow background ── */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 1000px #002030 inset !important;
+      -webkit-text-fill-color: #F4F1EC !important;
+      caret-color: #F4F1EC;
+      transition: background-color 9999s ease-in-out 0s;
+    }
+
+    /* ── TEXTAREA ── */
+    .styled-textarea {
+      width:100%;
+      background: rgba(0,40,55,0.6) !important;
+      border:1px solid rgba(249,178,51,0.12) !important;
+      border-radius:4px; padding:1rem 1.2rem;
+      color:var(--titanium) !important; font-family:'DM Sans',sans-serif;
+      font-size:0.92rem; font-weight:300; line-height:1.75;
+      outline:none; resize:vertical; min-height:100px;
+      transition:border-color 0.25s;
+      caret-color: var(--gold);
+    }
+    .styled-textarea::placeholder { color:rgba(244,241,236,0.22); }
+    .styled-textarea:focus { border-color:rgba(249,178,51,0.35) !important; background:rgba(0,50,68,0.7) !important; }
+
+    /* ── VERIFY INPUT ── */
+    .verify-input {
+      width:72px; background:rgba(0,45,60,0.7) !important;
+      border:1px solid rgba(244,241,236,0.1) !important;
+      border-radius:3px; padding:0.5rem 0.75rem;
+      text-align:center; color:var(--titanium) !important;
+      font-family:'DM Mono',monospace; font-size:0.85rem;
+      outline:none; transition:border-color 0.25s;
+      caret-color:var(--gold);
+    }
+    .verify-input:focus { border-color:rgba(249,178,51,0.4) !important; }
+    .verify-input::placeholder { color:rgba(244,241,236,0.25); }
+    .verify-input:-webkit-autofill { -webkit-box-shadow:0 0 0 1000px #002030 inset !important; -webkit-text-fill-color:#F4F1EC !important; }
+
+    /* ── FORM SUCCESS ── */
+    #form-success {
+      display:none; position:absolute; inset:0; z-index:50;
+      flex-direction:column; align-items:center; justify-content:center;
+      background:#001820;
+      border-radius: inherit;
+      padding:3rem; text-align:center;
+    }
+    #form-success.active { display:flex; }
+
+    /* ── MOBILE MENU ── */
+    #mobile-menu {
+      display:none; position:fixed; inset:0;
+      background:rgba(0,18,24,0.98); backdrop-filter:blur(20px);
+      z-index:200; flex-direction:column; align-items:center; justify-content:center; gap:2.5rem;
+    }
+    #mobile-menu.open { display:flex; }
+    #mobile-menu a {
+      font-family:'Cormorant Garamond',serif; font-size:2.6rem; font-weight:300;
+      color:var(--titanium); text-decoration:none; transition:color 0.2s; letter-spacing:-0.01em;
+    }
+    #mobile-menu a:hover { color:var(--gold); }
+
+    /* ── SCROLL INDICATOR — desktop only ── */
+    .scroll-indicator { display:flex; }
+    @media (max-width: 1023px) { .scroll-indicator { display:none !important; } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width:768px) {
+      .hide-mobile { display:none !important; }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Reading Progress -->
+<div id="progress-bar"></div>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu">
+  <button id="mobile-close" style="position:absolute;top:2rem;right:1.5rem;" class="text-titanium/50 hover:text-gold transition-colors">
+    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M6 18L18 6M6 6l12 12"/></svg>
+  </button>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#engage" onclick="closeMobile()">When to Engage</a>
+  <a href="#insights" onclick="closeMobile()">Insights</a>
+  <a href="#contact" onclick="closeMobile()" style="color:var(--gold);font-style:italic;">Enquire</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar" class="fixed w-full z-50 px-5 py-5 transition-all duration-500">
+  <div class="max-w-7xl mx-auto flex items-center justify-between bg-obsidian/80 backdrop-blur-xl border border-white/5 rounded-full px-7 py-3.5 shadow-2xl transition-all duration-500">
+    <a href="#home" class="flex items-center gap-3.5 group">
+      <img src="assets/images/helion_logo_transparent.webp" alt="Helion Advisory Group Logo" width="40" height="40" class="transition-transform duration-300 group-hover:scale-110">
+      <div class="leading-none">
+        <div class="font-sans font-medium text-[0.8rem] tracking-[0.12em] uppercase text-titanium">Helion</div>
+        <div class="font-mono text-[0.58rem] tracking-[0.3em] uppercase text-gold mt-0.5">Advisory Group</div>
+      </div>
+    </a>
+    <div class="hidden lg:flex items-center gap-10">
+      <a href="#about" class="font-mono text-[0.65rem] tracking-[0.14em] uppercase text-titanium/50 hover:text-gold transition-colors">About</a>
+      <a href="#services" class="font-mono text-[0.65rem] tracking-[0.14em] uppercase text-titanium/50 hover:text-gold transition-colors">Services</a>
+      <a href="#engage" class="font-mono text-[0.65rem] tracking-[0.14em] uppercase text-titanium/50 hover:text-gold transition-colors">When to Engage</a>
+      <a href="#insights" class="font-mono text-[0.65rem] tracking-[0.14em] uppercase text-titanium/50 hover:text-gold transition-colors">Insights</a>
+      <div class="flex items-center gap-2 px-4 border-l border-white/10">
+        <span class="pulse-dot"></span>
+        <span class="font-mono text-[0.6rem] uppercase tracking-widest text-titanium/35">Available</span>
+      </div>
+      <a href="#contact" class="font-mono text-[0.65rem] tracking-[0.14em] uppercase bg-gold text-obsidian px-5 py-2.5 rounded-full hover:bg-titanium transition-all hover:scale-105">Enquire</a>
+    </div>
+    <button class="lg:hidden text-titanium/60 hover:text-gold transition-colors" onclick="openMobile()">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="relative min-h-screen flex flex-col justify-end pb-24 px-6 overflow-hidden">
+  <canvas id="hero-canvas" class="absolute inset-0 z-0" style="opacity:0.22;"></canvas>
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-obsidian/40 to-obsidian z-0"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-obsidian/60 via-transparent to-transparent z-0"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto w-full">
+    <div class="mb-6 reveal">
+      <div class="section-label">Independent Technical Advisory · Pharmaceutical &amp; Biotech</div>
+    </div>
+    <h1 class="font-serif font-light mb-8" style="font-size:clamp(3.4rem,8vw,8rem);line-height:0.95;letter-spacing:-0.02em;">
+      <div class="hero-word"><span style="animation-delay:0.1s">Where</span></div>
+      <div class="hero-word"><span style="animation-delay:0.22s">&nbsp;decisions</span></div><br>
+      <div class="hero-word"><span style="animation-delay:0.38s">become&nbsp;</span></div>
+      <div class="hero-word"><span style="animation-delay:0.54s;font-style:italic;color:#F9B233;">irreversible.</span></div>
+    </h1>
+    <p class="font-sans font-light text-titanium/55 mb-10 reveal" style="font-size:clamp(0.95rem,1.8vw,1.15rem);max-width:560px;line-height:1.85;animation-delay:0.3s;">
+      Supporting pharmaceutical and biotechnology teams at early development and CMC decision points — where choices are visible to regulators and expensive to reverse.
+    </p>
+    <div class="flex flex-wrap items-center gap-6 reveal" style="animation-delay:0.45s;">
+      <a href="#services" class="inline-block font-mono text-[0.72rem] tracking-[0.14em] uppercase bg-gold text-obsidian px-7 py-3.5 rounded-sm hover:bg-titanium transition-all hover:-translate-y-0.5 shadow-lg">Advisory Services</a>
+      <a href="#engage" class="group inline-flex items-center gap-3 font-mono text-[0.7rem] tracking-[0.12em] uppercase text-titanium/55 hover:text-titanium transition-all">
+        When to Engage<span class="w-8 h-px bg-gold group-hover:w-14 transition-all duration-500"></span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator — HIDDEN on mobile/tablet -->
+  <div class="scroll-indicator absolute bottom-10 right-8 z-10 flex-col items-center gap-3" style="display:flex;">
+    <span class="font-mono text-[0.55rem] tracking-[0.28em] uppercase text-titanium/22 mb-1" style="writing-mode:vertical-rl;">Scroll</span>
+    <div class="w-px h-16 bg-gradient-to-b from-gold/40 to-transparent"></div>
+  </div>
+</section>
+
+<!-- WHAT WE DO STRIP -->
+<div class="diagonal-rule"></div>
+<section class="py-20 px-6 bg-obsidian">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5 border border-white/5 rounded-sm overflow-hidden reveal">
+      <div class="bg-obsidian p-8 text-center hover:bg-teal/10 transition-colors group">
+        <div class="stat-num group-hover:text-gold transition-colors duration-300">01</div>
+        <div class="font-mono text-[0.58rem] tracking-widest uppercase text-titanium/30 mt-2">Early Dev</div>
+      </div>
+      <div class="bg-obsidian p-8 text-center hover:bg-teal/10 transition-colors group">
+        <div class="stat-num group-hover:text-gold transition-colors duration-300">02</div>
+        <div class="font-mono text-[0.58rem] tracking-widest uppercase text-titanium/30 mt-2">Formulation</div>
+      </div>
+      <div class="bg-obsidian p-8 text-center hover:bg-teal/10 transition-colors group">
+        <div class="stat-num group-hover:text-gold transition-colors duration-300">03</div>
+        <div class="font-mono text-[0.58rem] tracking-widest uppercase text-titanium/30 mt-2">CMC Strategy</div>
+      </div>
+      <div class="bg-obsidian p-8 text-center hover:bg-teal/10 transition-colors group">
+        <div class="stat-num group-hover:text-gold transition-colors duration-300">04</div>
+        <div class="font-mono text-[0.58rem] tracking-widest uppercase text-titanium/30 mt-2">Novel Delivery</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="py-40 px-6 bg-obsidian">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-24 items-start">
+      <!-- Founder Photo -->
+      <div class="reveal relative order-2 lg:order-1">
+        <div class="absolute -inset-3 border border-gold/10 rounded-sm translate-x-6 translate-y-6 -z-10"></div>
+        <div class="glass rounded-sm overflow-hidden p-1">
