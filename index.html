@@ -254,12 +254,35 @@
       border-radius:3px; padding:0.5rem 0.75rem;
       text-align:center; color:var(--titanium) !important;
       font-family:'DM Mono',monospace; font-size:0.85rem;
-      outline:none; transition:border-color 0.25s;
+      outline:none; transition:border-color 0.3s, box-shadow 0.3s;
       caret-color:var(--gold);
+      -moz-appearance:textfield;
+      appearance:textfield;
     }
+    .verify-input::-webkit-outer-spin-button,
+    .verify-input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
     .verify-input:focus { border-color:rgba(249,178,51,0.4) !important; }
     .verify-input::placeholder { color:rgba(244,241,236,0.25); }
     .verify-input:-webkit-autofill { -webkit-box-shadow:0 0 0 1000px #002030 inset !important; -webkit-text-fill-color:#F4F1EC !important; }
+    .verify-input.error {
+      border-color:rgba(239,68,68,0.6) !important;
+      box-shadow:0 0 0 3px rgba(239,68,68,0.15);
+      animation:shake 0.4s ease;
+    }
+    .verify-error-msg {
+      display:none; font-family:'DM Mono',monospace;
+      font-size:0.6rem; letter-spacing:0.1em;
+      text-transform:uppercase; color:rgba(239,68,68,0.75);
+      margin-top:0.4rem; text-align:right;
+    }
+    .verify-error-msg.show { display:block; }
+    @keyframes shake {
+      0%, 100% { transform:translateX(0); }
+      20%      { transform:translateX(-5px); }
+      40%      { transform:translateX(5px); }
+      60%      { transform:translateX(-4px); }
+      80%      { transform:translateX(3px); }
+    }
 
     /* ── FORM SUCCESS ── */
     #form-success {
@@ -665,15 +688,21 @@
           Strategic engagements are managed with strict discretion. Reach out directly for technical briefing or program-level requirements.
         </p>
         <div class="space-y-0">
-          <div class="py-6 border-b border-white/5">
+          <div class="py-6 border-b border-white/5 flex flex-col items-center text-center lg:items-start lg:text-left">
             <div class="section-label mb-3">Primary Correspondence</div>
-            <a href="mailto:senthil@helionadvisory.net" class="font-serif font-light text-titanium hover:text-gold transition-colors break-all" style="font-size:clamp(1.1rem,2.5vw,1.5rem);">senthil@helionadvisory.net</a>
+            <a href="mailto:senthil@helionadvisory.net" class="font-serif font-light text-titanium hover:text-gold transition-colors break-all inline-flex items-center gap-2" style="font-size:clamp(1.1rem,2.5vw,1.5rem);">
+              <svg class="w-4 h-4 text-gold/50 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+              senthil@helionadvisory.net
+            </a>
           </div>
-          <div class="py-6 border-b border-white/5">
+          <div class="py-6 border-b border-white/5 flex flex-col items-center text-center lg:items-start lg:text-left">
             <div class="section-label mb-3">Office Location</div>
-            <span class="font-serif font-light text-titanium/55" style="font-size:clamp(1.1rem,2.5vw,1.5rem);">Brisbane, Australia — Serving Global Clients</span>
+            <span class="font-serif font-light text-titanium/55 inline-flex items-center gap-2" style="font-size:clamp(1.1rem,2.5vw,1.5rem);">
+              <svg class="w-4 h-4 text-gold/50 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+              Brisbane, Australia — Serving Global Clients
+            </span>
           </div>
-          <div class="py-6 flex items-center gap-3">
+          <div class="py-6 flex items-center justify-center lg:justify-start gap-3">
             <span class="pulse-dot"></span>
             <span class="font-mono text-[0.65rem] uppercase tracking-widest text-titanium/40">Currently available for advisory engagements</span>
           </div>
@@ -730,9 +759,15 @@
             </div>
 
             <!-- RANDOM MATH VERIFICATION -->
-            <div class="flex items-center justify-between rounded-sm px-5 py-4 mb-8" style="background:rgba(0,45,60,0.6);border:1px solid rgba(249,178,51,0.10);">
-              <span id="verify-label" class="font-mono text-[0.65rem] uppercase tracking-widest text-titanium/40"></span>
-              <input type="number" id="math-verify" class="verify-input" placeholder="—" inputmode="numeric" autocomplete="off">
+            <div class="mb-8">
+              <div class="flex items-center justify-between rounded-sm px-5 py-4" style="background:rgba(0,45,60,0.6);border:1px solid rgba(249,178,51,0.10);">
+                <div class="flex items-center gap-3">
+                  <svg class="w-4 h-4 text-gold/50 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+                  <span id="verify-label" class="font-mono text-[0.65rem] uppercase tracking-widest text-titanium/40"></span>
+                </div>
+                <input type="text" id="math-verify" class="verify-input" placeholder="?" inputmode="numeric" pattern="[0-9]*" autocomplete="off">
+              </div>
+              <div id="verify-error" class="verify-error-msg">Incorrect — try again</div>
             </div>
 
             <button type="submit" class="w-full py-4 bg-gold text-obsidian font-mono text-[0.72rem] font-medium uppercase tracking-[0.3em] rounded-sm hover:bg-titanium transition-all hover:-translate-y-0.5 shadow-xl">
@@ -885,14 +920,16 @@ function handleContactSubmit(e) {
   // Honeypot check
   if (document.getElementById('honeypot').value !== '') return;
   // Math check
-  const ans = parseInt(document.getElementById('math-verify').value);
-  if (ans !== currentProblem.a) {
-    const vi = document.getElementById('math-verify');
-    vi.style.borderColor = 'rgba(239,68,68,0.6)';
+  const vi = document.getElementById('math-verify');
+  const errMsg = document.getElementById('verify-error');
+  const ans = parseInt(vi.value);
+  if (isNaN(ans) || ans !== currentProblem.a) {
+    vi.classList.add('error');
+    errMsg.classList.add('show');
     vi.value = '';
-    vi.placeholder = 'Try again';
-    loadMathProblem(); // refresh question on failure
-    setTimeout(() => { vi.style.borderColor = ''; vi.placeholder = '—'; }, 2500);
+    vi.placeholder = '?';
+    loadMathProblem();
+    setTimeout(() => { vi.classList.remove('error'); errMsg.classList.remove('show'); }, 3000);
     return;
   }
   document.getElementById('form-success').classList.add('active');
