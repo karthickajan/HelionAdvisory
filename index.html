@@ -801,7 +801,7 @@
   </div>
 </footer>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="config.js"></script>
 
 <script>
@@ -919,7 +919,11 @@ loadMathProblem();
 
 // ── EMAILJS INITIALIZATION ──
 (function() {
-  emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
+  } else {
+    console.warn('EmailJS SDK failed to load. Contact form will not send emails.');
+  }
 })();
 
 // ── CONTACT FORM ──
@@ -961,6 +965,17 @@ async function handleContactSubmit(e) {
   // Format email body: name from Organisation + Area of Interest + Message
   const emailBody = `${name} from ${org}\n\nArea of Interest: ${interestMap[interest]}\n\n${message}`;
   
+  if (typeof emailjs === 'undefined') {
+    alert('Email service is temporarily unavailable. Please email us directly at ' + EMAIL_CONFIG.TO_EMAIL);
+    return;
+  }
+  
+  // Disable button while sending
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending...';
+  
   try {
     await emailjs.send(
       EMAIL_CONFIG.SERVICE_ID,
@@ -981,7 +996,10 @@ async function handleContactSubmit(e) {
     loadMathProblem();
   } catch (error) {
     console.error('EmailJS Error:', error);
-    alert('Failed to send enquiry. Please try again.');
+    alert('Failed to send enquiry. Please try again or email us directly at ' + EMAIL_CONFIG.TO_EMAIL);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
   }
 }
 function resetContactForm() {
