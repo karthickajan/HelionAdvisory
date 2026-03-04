@@ -13,6 +13,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"></script>
+  <script src="config.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -914,8 +916,13 @@ function loadMathProblem() {
 }
 loadMathProblem();
 
+// ── EMAILJS INITIALIZATION ──
+(function() {
+  emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
+})();
+
 // ── CONTACT FORM ──
-function handleContactSubmit(e) {
+async function handleContactSubmit(e) {
   e.preventDefault();
   // Honeypot check
   if (document.getElementById('honeypot').value !== '') return;
@@ -932,7 +939,49 @@ function handleContactSubmit(e) {
     setTimeout(() => { vi.classList.remove('error'); errMsg.classList.remove('show'); }, 3000);
     return;
   }
-  document.getElementById('form-success').classList.add('active');
+  
+  // Get form data
+  const form = document.getElementById('contact-form');
+  const name = form.elements['name'].value;
+  const org = form.elements['org'].value;
+  const email = form.elements['email'].value;
+  const interest = form.elements['interest'].value;
+  const message = form.elements['message'].value;
+  
+  // Format email subject as "Area of Interest"
+  const interestMap = {
+    'early': 'Early Development & Regulatory Readiness',
+    'form': 'Formulation & Stabilisation Strategy',
+    'cmc': 'CMC Strategy & Technical Due Diligence',
+    'novel': 'Novel Delivery & Platform Evaluation',
+    'general': 'General Enquiry'
+  };
+  
+  // Format email body: name from Organisation + Area of Interest + Message
+  const emailBody = `${name} from ${org}\n\nArea of Interest: ${interestMap[interest]}\n\n${message}`;
+  
+  try {
+    await emailjs.send(
+      EMAIL_CONFIG.SERVICE_ID,
+      EMAIL_CONFIG.TEMPLATE_ID,
+      {
+        from_name: name,
+        from_email: email,
+        reply_to: email,
+        to_email: EMAIL_CONFIG.TO_EMAIL,
+        subject: interestMap[interest],
+        message: emailBody
+      }
+    );
+    
+    // Show success state
+    document.getElementById('form-success').classList.add('active');
+    form.reset();
+    loadMathProblem();
+  } catch (error) {
+    console.error('EmailJS Error:', error);
+    alert('Failed to send enquiry. Please try again.');
+  }
 }
 function resetContactForm() {
   document.getElementById('contact-form').reset();
