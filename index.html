@@ -283,28 +283,150 @@
     }
     #form-success.active { display:flex; }
 
-    /* ── MOBILE MENU ── */
-    #mobile-menu {
+    /* ── FLOATING PILL NAVBAR ── */
+    #pill-nav {
+      position:fixed; top:60px; left:50%; transform:translateX(-50%);
+      z-index:1000;
+      background:rgba(0,24,32,0.85);
+      backdrop-filter:blur(20px) saturate(180%);
+      -webkit-backdrop-filter:blur(20px) saturate(180%);
+      border:1px solid rgba(249,178,51,0.15);
+      border-radius:9999px;
+      padding:8px 8px 8px 20px;
+      box-shadow:0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(249,178,51,0.05);
+      display:flex; align-items:center; gap:0;
+      transition:background 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+      white-space:nowrap;
+    }
+    #pill-nav.scrolled {
+      background:rgba(0,24,32,0.95);
+      box-shadow:0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(249,178,51,0.08);
+    }
+
+    /* Logo area */
+    #pill-nav .pill-logo {
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none; margin-right:24px; flex-shrink:0;
+    }
+    #pill-nav .pill-logo img {
+      height:28px; width:auto; object-fit:contain;
+      transition:transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    #pill-nav .pill-logo:hover img { transform:scale(1.08); }
+    #pill-nav .pill-logo-text {
+      font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500;
+      letter-spacing:0.08em; text-transform:uppercase; color:var(--titanium);
+    }
+
+    /* Nav links wrapper (desktop) */
+    #pill-nav .pill-links {
+      display:flex; align-items:center; gap:0; position:relative;
+      margin-right:16px;
+    }
+
+    /* Active bubble (sliding highlight) */
+    #pill-nav .pill-bubble {
+      position:absolute; top:0; left:0;
+      height:100%; border-radius:9999px;
+      background:rgba(249,178,51,0.12);
+      pointer-events:none;
+      transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), width 0.4s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.3s;
+      opacity:0;
+    }
+    #pill-nav .pill-bubble.active { opacity:1; }
+
+    /* Individual nav links */
+    #pill-nav .pill-link {
+      font-family:'DM Sans',sans-serif; font-size:13px; font-weight:400;
+      color:#8A9EA0; text-decoration:none;
+      padding:8px 16px; border-radius:9999px;
+      position:relative; z-index:1;
+      transition:color 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    #pill-nav .pill-link:hover { color:var(--titanium); }
+    #pill-nav .pill-link.active { color:var(--gold); }
+
+    /* Enquire CTA button */
+    #pill-nav .pill-cta {
+      font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500;
+      color:var(--obsidian); background:var(--gold);
+      text-decoration:none; border-radius:9999px;
+      padding:8px 20px; flex-shrink:0;
+      transition:background 0.3s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    #pill-nav .pill-cta:hover { background:var(--titanium); transform:scale(1.05); }
+
+    /* Hamburger (mobile only) */
+    #pill-hamburger {
+      display:none; background:none; border:none; padding:8px;
+      color:#8A9EA0; flex-shrink:0;
+      transition:color 0.3s;
+    }
+    #pill-hamburger:hover { color:var(--gold); }
+
+    /* ── MOBILE OVERLAY ── */
+    #mobile-overlay {
       position:fixed; inset:0;
-      background:rgba(0,18,24,0.98); backdrop-filter:blur(20px);
-      z-index:200; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2.5rem;
+      background:rgba(0,18,24,0.98); backdrop-filter:blur(24px);
+      -webkit-backdrop-filter:blur(24px);
+      z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem;
       opacity:0; visibility:hidden;
-      transition: opacity 0.45s cubic-bezier(0.25,0.46,0.45,0.94), visibility 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
+      transition:opacity 0.45s cubic-bezier(0.25,0.46,0.45,0.94), visibility 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
     }
-    #mobile-menu.open { opacity:1; visibility:visible; }
-    #mobile-menu a {
-      font-family:'Cormorant Garamond',serif; font-size:2.6rem; font-weight:300;
-      color:var(--titanium); text-decoration:none; transition:color 0.3s cubic-bezier(0.25,0.46,0.45,0.94); letter-spacing:-0.01em;
+    #mobile-overlay.open { opacity:1; visibility:visible; }
+
+    #mobile-overlay-close {
+      position:absolute; top:2rem; right:1.5rem; background:none; border:none;
+      color:rgba(244,241,236,0.5); transition:color 0.3s;
+    }
+    #mobile-overlay-close:hover { color:var(--gold); }
+
+    /* Mobile overlay links */
+    #mobile-overlay .mob-links {
+      display:flex; flex-direction:column; align-items:center; gap:0.75rem;
+      position:relative;
+    }
+    #mobile-overlay .mob-bubble {
+      position:absolute; left:50%; transform:translateX(-50%);
+      border-radius:9999px;
+      background:rgba(249,178,51,0.08);
+      border:1px solid rgba(249,178,51,0.12);
+      pointer-events:none;
+      transition:top 0.4s cubic-bezier(0.25,0.46,0.45,0.94), width 0.4s cubic-bezier(0.25,0.46,0.45,0.94), height 0.4s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.3s;
+      opacity:0; top:0;
+    }
+    #mobile-overlay .mob-bubble.active { opacity:1; }
+
+    #mobile-overlay .mob-link {
+      font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300;
+      color:var(--titanium); text-decoration:none; letter-spacing:-0.01em;
+      padding:10px 32px; border-radius:9999px; position:relative; z-index:1;
       opacity:0; transform:translateY(20px);
-      transition: color 0.3s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+      transition:color 0.3s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
     }
-    #mobile-menu.open a { opacity:1; transform:translateY(0); }
-    #mobile-menu.open a:nth-child(2) { transition-delay:0.05s; }
-    #mobile-menu.open a:nth-child(3) { transition-delay:0.10s; }
-    #mobile-menu.open a:nth-child(4) { transition-delay:0.15s; }
-    #mobile-menu.open a:nth-child(5) { transition-delay:0.20s; }
-    #mobile-menu.open a:nth-child(6) { transition-delay:0.25s; }
-    #mobile-menu a:hover { color:var(--gold); }
+    #mobile-overlay.open .mob-link { opacity:1; transform:translateY(0); }
+    #mobile-overlay.open .mob-link:nth-child(2) { transition-delay:0.04s; }
+    #mobile-overlay.open .mob-link:nth-child(3) { transition-delay:0.08s; }
+    #mobile-overlay.open .mob-link:nth-child(4) { transition-delay:0.12s; }
+    #mobile-overlay.open .mob-link:nth-child(5) { transition-delay:0.16s; }
+    #mobile-overlay.open .mob-link:nth-child(6) { transition-delay:0.20s; }
+    #mobile-overlay.open .mob-link:nth-child(7) { transition-delay:0.24s; }
+    #mobile-overlay.open .mob-link:nth-child(8) { transition-delay:0.28s; }
+    #mobile-overlay .mob-link:hover { color:var(--gold); }
+    #mobile-overlay .mob-link.active { color:var(--gold); }
+
+    /* ── PILL NAV RESPONSIVE ── */
+    @media (max-width:1023px) {
+      #pill-nav {
+        top:16px; left:16px; right:16px;
+        transform:none; width:auto;
+        border-radius:9999px; padding:10px 20px;
+        justify-content:space-between;
+      }
+      #pill-nav .pill-links { display:none; }
+      #pill-nav .pill-cta { display:none; }
+      #pill-hamburger { display:block; }
+    }
 
     /* ── SCROLL INDICATOR — desktop only ── */
     .scroll-indicator { display:flex; }
@@ -445,45 +567,41 @@
 <!-- Reading Progress -->
 <div id="progress-bar"></div>
 
-<!-- Mobile Menu -->
-<div id="mobile-menu">
-  <button id="mobile-close" aria-label="Close navigation menu" style="position:absolute;top:2rem;right:1.5rem;" class="text-titanium/50 hover:text-gold transition-colors">
+<!-- Mobile Overlay -->
+<div id="mobile-overlay">
+  <button id="mobile-overlay-close" aria-label="Close navigation menu">
     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M6 18L18 6M6 6l12 12"/></svg>
   </button>
-  <a href="#about" onclick="closeMobile()">About</a>
-  <a href="#services" onclick="closeMobile()">Services</a>
-  <a href="#engage" onclick="closeMobile()">When to Engage</a>
-  <a href="#insights" onclick="closeMobile()">Insights</a>
-  <a href="#blog" onclick="closeMobile()">Blog</a>
-  <a href="#contact" onclick="closeMobile()" style="color:var(--gold);font-style:italic;">Enquire</a>
+  <div class="mob-links">
+    <div class="mob-bubble"></div>
+    <a href="#home" class="mob-link" data-section="home" onclick="closeMobileOverlay()">Home</a>
+    <a href="#about" class="mob-link" data-section="about" onclick="closeMobileOverlay()">About</a>
+    <a href="#services" class="mob-link" data-section="services" onclick="closeMobileOverlay()">Services</a>
+    <a href="#engage" class="mob-link" data-section="engage" onclick="closeMobileOverlay()">When to Engage</a>
+    <a href="#insights" class="mob-link" data-section="insights" onclick="closeMobileOverlay()">Insights</a>
+    <a href="#blog" class="mob-link" data-section="blog" onclick="closeMobileOverlay()">Blog</a>
+    <a href="#contact" class="mob-link" data-section="contact" onclick="closeMobileOverlay()" style="color:var(--gold);font-style:italic;">Enquire</a>
+  </div>
 </div>
 
-<!-- NAV -->
-<nav id="navbar" class="fixed w-full z-50 px-5 py-6 transition-all duration-500">
-  <div class="max-w-7xl mx-auto flex items-center justify-between bg-obsidian/80 backdrop-blur-xl border border-white/5 rounded-full px-9 py-4 shadow-2xl transition-all duration-500">
-    <a href="#home" class="flex items-center gap-3.5 group">
-      <img src="assets/images/symbol_white.png" alt="Helion Advisory Group Logo" width="27" height="32" class="h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-110">
-      <div class="leading-none">
-        <div class="font-sans font-medium text-[0.8rem] tracking-[0.12em] uppercase text-titanium">Helion</div>
-        <div class="font-mono text-[0.58rem] tracking-[0.3em] uppercase text-gold mt-0.5">Advisory Group</div>
-      </div>
-    </a>
-    <div class="hidden lg:flex items-center gap-10">
-      <a href="#about" class="font-mono text-[0.65rem] tracking-[0.14em] uppercase text-titanium/50 hover:text-gold transition-colors">About</a>
-      <a href="#services" class="font-mono text-[0.65rem] tracking-[0.14em] uppercase text-titanium/50 hover:text-gold transition-colors">Services</a>
-      <a href="#engage" class="font-mono text-[0.65rem] tracking-[0.14em] uppercase text-titanium/50 hover:text-gold transition-colors">When to Engage</a>
-      <a href="#insights" class="font-mono text-[0.65rem] tracking-[0.14em] uppercase text-titanium/50 hover:text-gold transition-colors">Insights</a>
-      <a href="#blog" class="font-mono text-[0.65rem] tracking-[0.14em] uppercase text-titanium/50 hover:text-gold transition-colors">Blog</a>
-      <div class="flex items-center gap-2 px-4 border-l border-white/10">
-        <span class="pulse-dot"></span>
-        <span class="font-mono text-[0.6rem] uppercase tracking-widest text-titanium/35">Available</span>
-      </div>
-      <a href="#contact" class="font-mono text-[0.65rem] tracking-[0.14em] uppercase bg-gold text-obsidian px-5 py-2.5 rounded-full hover:bg-titanium transition-all hover:scale-105">Enquire</a>
-    </div>
-    <button class="lg:hidden text-titanium/60 hover:text-gold transition-colors" onclick="openMobile()" aria-label="Open navigation menu">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
-    </button>
+<!-- FLOATING PILL NAV -->
+<nav id="pill-nav">
+  <a href="#home" class="pill-logo">
+    <img src="assets/images/symbol_white.webp" alt="Helion Advisory Group Logo" width="28" height="33">
+    <span class="pill-logo-text">Helion</span>
+  </a>
+  <div class="pill-links">
+    <div class="pill-bubble"></div>
+    <a href="#about" class="pill-link" data-section="about">About</a>
+    <a href="#services" class="pill-link" data-section="services">Services</a>
+    <a href="#engage" class="pill-link" data-section="engage">Engage</a>
+    <a href="#insights" class="pill-link" data-section="insights">Insights</a>
+    <a href="#blog" class="pill-link" data-section="blog">Blog</a>
   </div>
+  <a href="#contact" class="pill-cta" data-section="contact">Enquire</a>
+  <button id="pill-hamburger" aria-label="Open navigation menu">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -1095,10 +1213,148 @@ function animateMolecule() {
 }
 animateMolecule();
 
-// ── MOBILE MENU ──
-function openMobile()  { document.getElementById('mobile-menu').classList.add('open');    document.body.style.overflow='hidden'; }
-function closeMobile() { document.getElementById('mobile-menu').classList.remove('open'); document.body.style.overflow=''; }
-document.getElementById('mobile-close').addEventListener('click', closeMobile);
+// ── FLOATING PILL NAV ──
+(function() {
+  const pillNav = document.getElementById('pill-nav');
+  const heroSection = document.getElementById('home');
+  const pillLinks = document.querySelectorAll('#pill-nav .pill-link');
+  const pillBubble = document.querySelector('#pill-nav .pill-bubble');
+  const mobOverlay = document.getElementById('mobile-overlay');
+  const mobLinks = document.querySelectorAll('#mobile-overlay .mob-link[data-section]');
+  const mobBubble = document.querySelector('#mobile-overlay .mob-bubble');
+  const hamburger = document.getElementById('pill-hamburger');
+  const overlayClose = document.getElementById('mobile-overlay-close');
+
+  // Sections to observe
+  const sectionIds = ['home','about','services','engage','insights','blog','contact'];
+  let currentSection = 'home';
+
+  // ── Scroll behavior: darken past hero ──
+  function onScroll() {
+    if (!heroSection) return;
+    const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+    if (window.scrollY > heroBottom - 100) {
+      pillNav.classList.add('scrolled');
+    } else {
+      pillNav.classList.remove('scrolled');
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // ── Active bubble positioning (desktop) ──
+  function moveBubble(link) {
+    if (!link || !pillBubble) return;
+    const parentRect = link.parentElement.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+    const offsetLeft = linkRect.left - parentRect.left;
+    pillBubble.style.width = linkRect.width + 'px';
+    pillBubble.style.transform = 'translateX(' + offsetLeft + 'px)';
+    pillBubble.classList.add('active');
+  }
+
+  function clearBubble() {
+    if (pillBubble) pillBubble.classList.remove('active');
+  }
+
+  // ── Active bubble positioning (mobile) ──
+  function moveMobBubble(link) {
+    if (!link || !mobBubble) return;
+    const parentRect = link.parentElement.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+    mobBubble.style.top = (linkRect.top - parentRect.top) + 'px';
+    mobBubble.style.width = linkRect.width + 'px';
+    mobBubble.style.height = linkRect.height + 'px';
+    mobBubble.classList.add('active');
+  }
+
+  // ── Update active states ──
+  function setActive(sectionId) {
+    currentSection = sectionId;
+
+    // Desktop links
+    pillLinks.forEach(l => l.classList.remove('active'));
+    const activeDesktop = document.querySelector('#pill-nav .pill-link[data-section="' + sectionId + '"]');
+    if (activeDesktop) {
+      activeDesktop.classList.add('active');
+      moveBubble(activeDesktop);
+    } else if (sectionId === 'home' || sectionId === 'contact') {
+      clearBubble();
+    }
+
+    // Mobile links
+    mobLinks.forEach(l => l.classList.remove('active'));
+    const activeMob = document.querySelector('#mobile-overlay .mob-link[data-section="' + sectionId + '"]');
+    if (activeMob) {
+      activeMob.classList.add('active');
+      if (mobOverlay.classList.contains('open')) {
+        moveMobBubble(activeMob);
+      }
+    }
+  }
+
+  // ── IntersectionObserver — threshold 0.4 ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setActive(entry.target.id);
+      }
+    });
+  }, { threshold: 0.4, rootMargin: '-10% 0px -10% 0px' });
+
+  // Fallback observer with lower threshold for tall sections
+  const fallbackObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.target.id) {
+        // Only update if this section is more visible (use intersectionRatio)
+        setActive(entry.target.id);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  sectionIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      observer.observe(el);
+      fallbackObserver.observe(el);
+    }
+  });
+
+  // ── Mobile overlay open/close ──
+  function openMobileOverlay() {
+    mobOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // Position mob bubble after links have animated into place
+    setTimeout(() => {
+      const activeMob = document.querySelector('#mobile-overlay .mob-link.active');
+      if (activeMob) moveMobBubble(activeMob);
+    }, 350);
+  }
+  function closeMobileOverlay() {
+    mobOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  // Expose globally for onclick handlers
+  window.closeMobileOverlay = closeMobileOverlay;
+
+  hamburger.addEventListener('click', openMobileOverlay);
+  overlayClose.addEventListener('click', closeMobileOverlay);
+
+  // Mobile link tap → update active + move bubble before closing
+  mobLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      mobLinks.forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+      moveMobBubble(this);
+    });
+  });
+
+  // Register pill-nav elements for custom cursor hover
+  document.querySelectorAll('#pill-nav a, #pill-nav button, #mobile-overlay a, #mobile-overlay button').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+})();
 
 // ── EMAILJS INITIALIZATION ──
 (function() {
