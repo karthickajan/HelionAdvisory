@@ -101,6 +101,11 @@
     }
     @media (max-width: 768px) {
       .glass { border-left-color: var(--gold); }
+      /* In carousels, normalize the left border */
+      #services-grid > .glass,
+      #blog-grid > .blog-card {
+        border-left:1px solid rgba(249,178,51,0.10);
+      }
     }
 
     /* ── PULSE ── */
@@ -386,23 +391,14 @@
       display:flex; flex-direction:column; align-items:center; gap:0.75rem;
       position:relative;
     }
-    #mobile-overlay .mob-bubble {
-      position:absolute; left:50%; transform:translateX(-50%);
-      border-radius:9999px;
-      background:rgba(249,178,51,0.08);
-      border:1px solid rgba(249,178,51,0.12);
-      pointer-events:none;
-      transition:top 0.4s cubic-bezier(0.25,0.46,0.45,0.94), width 0.4s cubic-bezier(0.25,0.46,0.45,0.94), height 0.4s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.3s;
-      opacity:0; top:0;
-    }
-    #mobile-overlay .mob-bubble.active { opacity:1; }
+    #mobile-overlay .mob-bubble { display:none; }
 
     #mobile-overlay .mob-link {
       font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300;
       color:var(--titanium); text-decoration:none; letter-spacing:-0.01em;
       padding:10px 32px; border-radius:9999px; position:relative; z-index:1;
       opacity:0; transform:translateY(20px);
-      transition:color 0.3s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+      transition:color 0.3s, background 0.3s, opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
     }
     #mobile-overlay.open .mob-link { opacity:1; transform:translateY(0); }
     #mobile-overlay.open .mob-link:nth-child(2) { transition-delay:0.04s; }
@@ -413,7 +409,11 @@
     #mobile-overlay.open .mob-link:nth-child(7) { transition-delay:0.24s; }
     #mobile-overlay.open .mob-link:nth-child(8) { transition-delay:0.28s; }
     #mobile-overlay .mob-link:hover { color:var(--gold); }
-    #mobile-overlay .mob-link.active { color:var(--gold); }
+    #mobile-overlay .mob-link.active {
+      color:var(--gold);
+      background:rgba(249,178,51,0.08);
+      border:1px solid rgba(249,178,51,0.12);
+    }
 
     /* ── PILL NAV RESPONSIVE ── */
     @media (max-width:1023px) {
@@ -457,9 +457,127 @@
       /* Ensure minimum 15px body text on mobile */
       .text-sm, .text-xs { font-size:0.9375rem; /* 15px */ }
     }
+
+    /* ── CONTACT: mobile reorder — form first, details below ── */
+    .contact-details-mobile { display:none; }
+    @media (max-width:768px) {
+      .contact-details-desktop { display:none !important; }
+      .contact-details-mobile {
+        display:block;
+        padding-top:2rem;
+        border-top:1px solid rgba(255,255,255,0.05);
+        margin-top:0.5rem;
+      }
+      #contact-left { order:1; }
+      #contact-right { order:2; }
+      #contact-details-mobile { order:3; width:100%; }
+      #contact-grid { gap:2.5rem; }
+      #contact-left p { margin-bottom:0; }
+    }
+
     /* ── ENGAGE COLUMNS: mobile gold top-border ── */
     @media (max-width:1023px) {
       .engage-col { border-top:1px solid rgba(249,178,51,0.25); padding-top:2rem; }
+    }
+
+    /* ── SERVICES CAROUSEL (mobile only) ── */
+    @media (max-width:768px) {
+      #services-grid {
+        display:flex !important;
+        overflow-x:auto;
+        scroll-snap-type:x mandatory;
+        -webkit-overflow-scrolling:touch;
+        scrollbar-width:none;
+        gap:0;
+        margin-left:-24px;
+        margin-right:-24px;
+        padding-left:0;
+        padding-right:0;
+        padding-bottom:4px;
+      }
+      #services-grid::-webkit-scrollbar { display:none; }
+      #services-grid > .glass {
+        flex:0 0 78vw;
+        min-width:78vw;
+        max-width:78vw;
+        margin-right:12px;
+        scroll-snap-align:center;
+        padding:2rem 1.5rem;
+        transform:none !important;
+        border-left-width:1px;
+      }
+      #services-grid > .glass:first-child { margin-left:calc((100vw - 78vw) / 2); }
+      #services-grid > .glass:last-child { margin-right:calc((100vw - 78vw) / 2); }
+      #services-grid > .glass:hover {
+        transform:none !important;
+        box-shadow:none;
+      }
+    }
+    .services-dots {
+      display:none;
+    }
+    @media (max-width:768px) {
+      .services-dots {
+        display:flex; justify-content:center; align-items:center;
+        gap:6px; margin-top:1.5rem;
+      }
+      .services-dot {
+        width:6px; height:6px; border-radius:9999px;
+        background:rgba(249,178,51,0.25);
+        border:none; padding:0; cursor:pointer;
+        transition:width 0.3s ease, background 0.3s ease;
+      }
+      .services-dot.active {
+        width:20px; background:#F9B233;
+      }
+    }
+
+    /* ── BLOG CAROUSEL (mobile only) ── */
+    @media (max-width:768px) {
+      #blog-grid {
+        display:flex !important;
+        overflow-x:auto;
+        scroll-snap-type:x mandatory;
+        -webkit-overflow-scrolling:touch;
+        scrollbar-width:none;
+        gap:0;
+        margin-left:-24px;
+        margin-right:-24px;
+        padding-left:0;
+        padding-right:0;
+        padding-bottom:4px;
+      }
+      #blog-grid::-webkit-scrollbar { display:none; }
+      #blog-grid > .blog-card {
+        flex:0 0 78vw;
+        min-width:78vw;
+        max-width:78vw;
+        margin-right:12px;
+        scroll-snap-align:center;
+        transform:none !important;
+      }
+      #blog-grid > .blog-card:first-child { margin-left:calc((100vw - 78vw) / 2); }
+      #blog-grid > .blog-card:last-child { margin-right:calc((100vw - 78vw) / 2); }
+      #blog-grid > .blog-card:hover {
+        transform:none !important;
+        box-shadow:none;
+      }
+    }
+    .blog-dots { display:none; }
+    @media (max-width:768px) {
+      .blog-dots {
+        display:flex; justify-content:center; align-items:center;
+        gap:6px; margin-top:1.5rem;
+      }
+      .blog-dot {
+        width:6px; height:6px; border-radius:9999px;
+        background:rgba(249,178,51,0.25);
+        border:none; padding:0; cursor:pointer;
+        transition:width 0.3s ease, background 0.3s ease;
+      }
+      .blog-dot.active {
+        width:20px; background:#F9B233;
+      }
     }
 
     /* ── BLOG CARD ── */
@@ -507,26 +625,34 @@
     #blog-modal {
       position:fixed; inset:0; z-index:300;
       background:rgba(0,10,16,0.95); backdrop-filter:blur(8px);
-      display:flex; align-items:flex-start; justify-content:center;
+      display:flex; flex-direction:column; align-items:center;
       overflow-y:auto; -webkit-overflow-scrolling:touch;
       opacity:0; visibility:hidden;
       transition:opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94), visibility 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
     }
     #blog-modal.open { opacity:1; visibility:visible; }
     #blog-modal-inner {
-      max-width:680px; width:100%; margin:5vh auto;
-      padding:3.5rem 2.5rem 4rem; position:relative;
+      max-width:680px; width:100%; margin:0 auto 5vh;
+      padding:1.5rem 2.5rem 4rem; position:relative;
       opacity:0; transform:translateY(16px);
       transition:opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s, transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s;
     }
     #blog-modal.open #blog-modal-inner { opacity:1; transform:translateY(0); }
     #blog-modal-close {
-      position:fixed; top:2rem; right:2rem;
-      background:none; border:none; color:var(--gold);
-      font-size:1.8rem; line-height:1; z-index:310;
-      transition:color 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+      position:sticky; top:1rem;
+      align-self:flex-end;
+      background:rgba(0,10,16,0.9); border:1px solid rgba(249,178,51,0.25);
+      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+      border-radius:50%; color:var(--gold);
+      width:44px; height:44px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.5rem; line-height:1; z-index:310;
+      margin:1rem 1rem 0 auto;
+      flex-shrink:0;
+      box-shadow:0 4px 20px rgba(0,0,0,0.5);
+      transition:color 0.3s cubic-bezier(0.25,0.46,0.45,0.94), border-color 0.3s, background 0.3s;
     }
-    #blog-modal-close:hover { color:var(--titanium); }
+    #blog-modal-close:hover { color:var(--titanium); border-color:var(--gold); background:rgba(0,77,90,0.4); }
     .modal-title {
       font-family:'Cormorant Garamond',serif; font-size:2.25rem;
       font-weight:300; color:var(--titanium); line-height:1.2;
@@ -552,9 +678,9 @@
       padding-left:1.2rem; margin-top:2rem;
     }
     @media (max-width:768px) {
-      #blog-modal-inner { padding:2.5rem 1.5rem 3rem; margin:3vh auto; }
+      #blog-modal-inner { padding:1rem 1.25rem 3rem; margin:0 auto; }
       .modal-title { font-size:1.75rem; }
-      #blog-modal-close { top:1rem; right:1rem; }
+      #blog-modal-close { margin:0.75rem 0.75rem 0 auto; top:0.75rem; width:40px; height:40px; font-size:1.35rem; }
     }
   </style>
 </head>
@@ -727,7 +853,7 @@
       </div>
       <p class="font-mono text-[0.62rem] uppercase tracking-[0.4em] text-titanium/25 mt-8 md:mt-0 border-b border-white/8 pb-3">Specialised in Complex Programs</p>
     </div>
-    <div class="grid md:grid-cols-2 gap-4">
+    <div id="services-grid" class="grid md:grid-cols-2 gap-4">
       <div class="glass rounded-sm p-12 group reveal">
         <div class="flex justify-between items-start mb-10">
           <span class="font-serif text-6xl text-gold opacity-12 group-hover:opacity-75 transition-opacity duration-500">01</span>
@@ -796,6 +922,13 @@
         </ul>
         <div class="outcome-tag">Evidence-based go/no-go decisions on delivery technologies and platform partnerships</div>
       </div>
+    </div>
+    <!-- Carousel pagination dots (mobile only) -->
+    <div class="services-dots" id="services-dots">
+      <button class="services-dot active" data-index="0" aria-label="Go to service 1"></button>
+      <button class="services-dot" data-index="1" aria-label="Go to service 2"></button>
+      <button class="services-dot" data-index="2" aria-label="Go to service 3"></button>
+      <button class="services-dot" data-index="3" aria-label="Go to service 4"></button>
     </div>
   </div>
 </section>
@@ -912,7 +1045,7 @@
     <h2 class="font-serif font-light leading-tight mb-20 reveal" style="font-size:clamp(2.8rem,6vw,5.5rem);letter-spacing:-0.02em;">
       From the<br><em class="text-gold" style="font-style:italic;">advisory desk</em>
     </h2>
-    <div class="grid md:grid-cols-2 gap-5">
+    <div id="blog-grid" class="grid md:grid-cols-2 gap-5">
 
       <!-- POST 1 -->
       <div class="blog-card reveal" data-post="0">
@@ -967,6 +1100,13 @@
       </div>
 
     </div>
+    <!-- Blog carousel pagination dots (mobile only) -->
+    <div class="blog-dots" id="blog-dots">
+      <button class="blog-dot active" data-index="0" aria-label="Go to post 1"></button>
+      <button class="blog-dot" data-index="1" aria-label="Go to post 2"></button>
+      <button class="blog-dot" data-index="2" aria-label="Go to post 3"></button>
+      <button class="blog-dot" data-index="3" aria-label="Go to post 4"></button>
+    </div>
   </div>
 </section>
 
@@ -994,8 +1134,9 @@
 <!-- CONTACT -->
 <section id="contact" class="py-40 px-6 bg-obsidian">
   <div class="max-w-7xl mx-auto">
-    <div class="grid lg:grid-cols-2 gap-24">
-      <div class="reveal">
+    <div id="contact-grid" class="grid lg:grid-cols-2 gap-24">
+      <!-- LEFT COLUMN: heading + contact details (desktop) -->
+      <div class="reveal" id="contact-left">
         <div class="section-label mb-6">Contact</div>
         <h2 class="font-serif font-light leading-[0.95] mb-10" style="font-size:clamp(3.5rem,7vw,7rem);letter-spacing:-0.02em;">
           Initiate<br><em class="text-gold" style="font-style:italic;">advisory.</em>
@@ -1003,29 +1144,31 @@
         <p class="text-titanium/50 text-[0.95rem] leading-[1.9] mb-14 max-w-md">
           Strategic engagements are managed with strict discretion. Reach out directly for technical briefing or program-level requirements.
         </p>
-        <div class="space-y-0">
-          <div class="py-6 border-b border-white/5 flex flex-col items-center text-center lg:items-start lg:text-left">
+        <!-- Contact details: visible on desktop, hidden on mobile -->
+        <div class="contact-details-desktop space-y-0">
+          <div class="py-6 border-b border-white/5 flex flex-col items-start text-left">
             <div class="section-label mb-3">Primary Correspondence</div>
             <a href="mailto:senthil@helionadvisory.net" class="font-serif font-light text-titanium hover:text-gold transition-colors break-all inline-flex items-center gap-2" style="font-size:clamp(1.1rem,2.5vw,1.5rem);">
               <svg class="w-4 h-4 text-gold/50 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
               senthil@helionadvisory.net
             </a>
           </div>
-          <div class="py-6 border-b border-white/5 flex flex-col items-center text-center lg:items-start lg:text-left">
+          <div class="py-6 border-b border-white/5 flex flex-col items-start text-left">
             <div class="section-label mb-3">Office Location</div>
             <span class="font-serif font-light text-titanium/55 inline-flex items-center gap-2" style="font-size:clamp(1.1rem,2.5vw,1.5rem);">
               <svg class="w-4 h-4 text-gold/50 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
               Brisbane, Australia — Serving Global Clients
             </span>
           </div>
-          <div class="py-6 flex items-center justify-center lg:justify-start gap-3">
+          <div class="py-6 flex items-center gap-3">
             <span class="pulse-dot"></span>
             <span class="font-mono text-[0.65rem] uppercase tracking-widest text-titanium/40">Currently available for advisory engagements</span>
           </div>
         </div>
       </div>
 
-      <div class="reveal">
+      <!-- RIGHT COLUMN: form -->
+      <div class="reveal" id="contact-right">
         <!-- HONEYPOT (invisible to humans, traps bots) -->
         <input type="text" name="website" id="honeypot" style="display:none;" tabindex="-1" autocomplete="off">
 
@@ -1078,6 +1221,30 @@
               Send Enquiry
             </button>
           </form>
+        </div>
+      </div>
+
+      <!-- CONTACT DETAILS: mobile only — shown below the form -->
+      <div class="contact-details-mobile reveal" id="contact-details-mobile">
+        <div class="space-y-0">
+          <div class="py-5 border-b border-white/5 flex flex-col items-center text-center">
+            <div class="section-label mb-3">Primary Correspondence</div>
+            <a href="mailto:senthil@helionadvisory.net" class="font-serif font-light text-titanium hover:text-gold transition-colors break-all inline-flex items-center gap-2" style="font-size:1.1rem;">
+              <svg class="w-4 h-4 text-gold/50 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+              senthil@helionadvisory.net
+            </a>
+          </div>
+          <div class="py-5 border-b border-white/5 flex flex-col items-center text-center">
+            <div class="section-label mb-3">Office Location</div>
+            <span class="font-serif font-light text-titanium/55 inline-flex items-center gap-2" style="font-size:1.1rem;">
+              <svg class="w-4 h-4 text-gold/50 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+              Brisbane, Australia — Serving Global Clients
+            </span>
+          </div>
+          <div class="py-5 flex items-center justify-center gap-3">
+            <span class="pulse-dot"></span>
+            <span class="font-mono text-[0.65rem] uppercase tracking-widest text-titanium/40">Currently available for advisory engagements</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1213,6 +1380,87 @@ function animateMolecule() {
 }
 animateMolecule();
 
+// ── SERVICES CAROUSEL (mobile) ──
+(function() {
+  const grid = document.getElementById('services-grid');
+  const dots = document.querySelectorAll('.services-dot');
+  if (!grid || !dots.length) return;
+
+  function getCards() { return grid.querySelectorAll(':scope > .glass'); }
+
+  function getActiveIndex() {
+    const cards = getCards();
+    if (!cards.length) return 0;
+    const containerCenter = grid.scrollLeft + grid.offsetWidth / 2;
+    let closest = 0, minDist = Infinity;
+    cards.forEach((card, i) => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const dist = Math.abs(containerCenter - cardCenter);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    });
+    return closest;
+  }
+
+  function updateDots() {
+    const idx = getActiveIndex();
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+  }
+
+  grid.addEventListener('scroll', updateDots, { passive: true });
+
+  // Tap dot to scroll to card
+  dots.forEach(dot => {
+    dot.addEventListener('click', function() {
+      const idx = parseInt(this.dataset.index, 10);
+      const cards = getCards();
+      if (!cards[idx]) return;
+      const cardCenter = cards[idx].offsetLeft + cards[idx].offsetWidth / 2;
+      const scrollTarget = cardCenter - grid.offsetWidth / 2;
+      grid.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+    });
+  });
+})();
+
+// ── BLOG CAROUSEL (mobile) ──
+(function() {
+  const grid = document.getElementById('blog-grid');
+  const dots = document.querySelectorAll('.blog-dot');
+  if (!grid || !dots.length) return;
+
+  function getCards() { return grid.querySelectorAll(':scope > .blog-card'); }
+
+  function getActiveIndex() {
+    const cards = getCards();
+    if (!cards.length) return 0;
+    const containerCenter = grid.scrollLeft + grid.offsetWidth / 2;
+    let closest = 0, minDist = Infinity;
+    cards.forEach((card, i) => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const dist = Math.abs(containerCenter - cardCenter);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    });
+    return closest;
+  }
+
+  function updateDots() {
+    const idx = getActiveIndex();
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+  }
+
+  grid.addEventListener('scroll', updateDots, { passive: true });
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', function() {
+      const idx = parseInt(this.dataset.index, 10);
+      const cards = getCards();
+      if (!cards[idx]) return;
+      const cardCenter = cards[idx].offsetLeft + cards[idx].offsetWidth / 2;
+      const scrollTarget = cardCenter - grid.offsetWidth / 2;
+      grid.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+    });
+  });
+})();
+
 // ── FLOATING PILL NAV ──
 (function() {
   const pillNav = document.getElementById('pill-nav');
@@ -1221,7 +1469,6 @@ animateMolecule();
   const pillBubble = document.querySelector('#pill-nav .pill-bubble');
   const mobOverlay = document.getElementById('mobile-overlay');
   const mobLinks = document.querySelectorAll('#mobile-overlay .mob-link[data-section]');
-  const mobBubble = document.querySelector('#mobile-overlay .mob-bubble');
   const hamburger = document.getElementById('pill-hamburger');
   const overlayClose = document.getElementById('mobile-overlay-close');
 
@@ -1257,16 +1504,7 @@ animateMolecule();
     if (pillBubble) pillBubble.classList.remove('active');
   }
 
-  // ── Active bubble positioning (mobile) ──
-  function moveMobBubble(link) {
-    if (!link || !mobBubble) return;
-    const parentRect = link.parentElement.getBoundingClientRect();
-    const linkRect = link.getBoundingClientRect();
-    mobBubble.style.top = (linkRect.top - parentRect.top) + 'px';
-    mobBubble.style.width = linkRect.width + 'px';
-    mobBubble.style.height = linkRect.height + 'px';
-    mobBubble.classList.add('active');
-  }
+  // ── Active bubble positioning (mobile) — handled via CSS .active class ──
 
   // ── Update active states ──
   function setActive(sectionId) {
@@ -1287,9 +1525,6 @@ animateMolecule();
     const activeMob = document.querySelector('#mobile-overlay .mob-link[data-section="' + sectionId + '"]');
     if (activeMob) {
       activeMob.classList.add('active');
-      if (mobOverlay.classList.contains('open')) {
-        moveMobBubble(activeMob);
-      }
     }
   }
 
@@ -1324,11 +1559,6 @@ animateMolecule();
   function openMobileOverlay() {
     mobOverlay.classList.add('open');
     document.body.style.overflow = 'hidden';
-    // Position mob bubble after links have animated into place
-    setTimeout(() => {
-      const activeMob = document.querySelector('#mobile-overlay .mob-link.active');
-      if (activeMob) moveMobBubble(activeMob);
-    }, 350);
   }
   function closeMobileOverlay() {
     mobOverlay.classList.remove('open');
@@ -1340,12 +1570,11 @@ animateMolecule();
   hamburger.addEventListener('click', openMobileOverlay);
   overlayClose.addEventListener('click', closeMobileOverlay);
 
-  // Mobile link tap → update active + move bubble before closing
+  // Mobile link tap → update active before closing
   mobLinks.forEach(link => {
     link.addEventListener('click', function() {
       mobLinks.forEach(l => l.classList.remove('active'));
       this.classList.add('active');
-      moveMobBubble(this);
     });
   });
 
@@ -1488,11 +1717,21 @@ function openBlogModal(idx) {
   blogModal.classList.add('open');
   document.body.style.overflow = 'hidden';
   blogModal.scrollTop = 0;
+  // Hide pill nav and progress bar behind modal
+  var pillNav = document.getElementById('pill-nav');
+  var progressBar = document.getElementById('progress-bar');
+  if (pillNav) pillNav.style.display = 'none';
+  if (progressBar) progressBar.style.display = 'none';
 }
 
 function closeBlogModal() {
   blogModal.classList.remove('open');
   document.body.style.overflow = '';
+  // Restore pill nav and progress bar
+  var pillNav = document.getElementById('pill-nav');
+  var progressBar = document.getElementById('progress-bar');
+  if (pillNav) pillNav.style.display = '';
+  if (progressBar) progressBar.style.display = '';
 }
 
 blogModalClose.addEventListener('click', closeBlogModal);
