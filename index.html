@@ -132,6 +132,16 @@
     }
     @keyframes wordUp { to { opacity:1; transform:translateY(0); } }
 
+    /* ── HERO ITALIC GLOW PULSE ── */
+    .hero-glow-text {
+      text-shadow:0 0 40px rgba(249,178,51,0.15), 0 0 80px rgba(249,178,51,0.06);
+      animation:glowPulse 4s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { text-shadow:0 0 40px rgba(249,178,51,0.12), 0 0 80px rgba(249,178,51,0.04); }
+      50% { text-shadow:0 0 60px rgba(249,178,51,0.25), 0 0 120px rgba(249,178,51,0.1); }
+    }
+
     /* ── SECTION LABEL ── */
     .section-label {
       font-family:'DM Mono',monospace; font-size:0.67rem;
@@ -445,10 +455,15 @@
 
     /* ── HERO RADIAL GLOW ── */
     .hero-glow {
-      position:absolute; top:25%; left:50%; transform:translate(-50%,-50%);
-      width:70vw; height:60vh;
-      background:radial-gradient(ellipse at center, rgba(0,40,50,0.45) 0%, transparent 70%);
+      position:absolute; top:30%; left:45%; transform:translate(-50%,-50%);
+      width:80vw; height:70vh;
+      background:radial-gradient(ellipse at center, rgba(0,50,65,0.5) 0%, rgba(0,30,40,0.2) 40%, transparent 70%);
       pointer-events:none; z-index:0;
+      animation:heroGlowDrift 8s ease-in-out infinite;
+    }
+    @keyframes heroGlowDrift {
+      0%, 100% { opacity:0.8; transform:translate(-50%,-50%) scale(1); }
+      50% { opacity:1; transform:translate(-50%,-50%) scale(1.06); }
     }
 
     /* ── RESPONSIVE ── */
@@ -741,13 +756,13 @@
     <div class="mb-6 reveal">
       <div class="section-label">Independent Technical Advisory · Pharmaceutical &amp; Biotech</div>
     </div>
-    <h1 class="font-serif font-light mb-8" style="font-size:clamp(3.4rem,8vw,8rem);line-height:0.95;letter-spacing:-0.02em;">
+    <h1 class="font-serif font-light mb-8" style="font-size:clamp(4.2rem,9.5vw,9.5rem);line-height:0.98;letter-spacing:-0.025em;">
       <div class="hero-word"><span style="animation-delay:0.1s">Where</span></div>
       <div class="hero-word"><span style="animation-delay:0.22s">&nbsp;decisions</span></div><br>
       <div class="hero-word"><span style="animation-delay:0.38s">become&nbsp;</span></div>
-      <div class="hero-word"><span style="animation-delay:0.54s;font-style:italic;color:#F9B233;">irreversible.</span></div>
+      <div class="hero-word"><span style="animation-delay:0.54s;font-style:italic;color:#F9B233;" class="hero-glow-text">irreversible.</span></div>
     </h1>
-    <p class="font-sans font-light text-titanium/55 mb-10 reveal" style="font-size:clamp(0.95rem,1.8vw,1.15rem);max-width:560px;line-height:1.85;animation-delay:0.3s;">
+    <p class="font-sans font-light text-titanium/55 mb-12 reveal" style="font-size:clamp(0.95rem,1.8vw,1.18rem);max-width:580px;line-height:1.85;animation-delay:0.3s;">
       Supporting pharmaceutical and biotechnology teams at early development and CMC decision points — where choices are visible to regulators and expensive to reverse.
     </p>
     <div class="flex flex-wrap items-center gap-6 reveal" style="animation-delay:0.45s;">
