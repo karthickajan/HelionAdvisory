@@ -466,6 +466,39 @@
       50% { opacity:1; transform:translate(-50%,-50%) scale(1.06); }
     }
 
+    /* ── HERO BULB DECORATIVE ELEMENT ── */
+    .hero-bulb-wrap {
+      position:absolute; right:2%; top:55%; transform:translateY(-50%);
+      width:clamp(320px, 38vw, 600px); height:auto;
+      padding:20px;
+      pointer-events:none; z-index:1;
+    }
+    .hero-bulb-glow {
+      position:absolute; inset:-20%;
+      background:radial-gradient(ellipse 75% 70% at 55% 50%,
+        rgba(249,178,51,0.14) 0%,
+        rgba(249,178,51,0.06) 35%,
+        transparent 70%);
+      filter:blur(30px);
+      animation:bulbGlowPulse 6s ease-in-out infinite;
+    }
+    @keyframes bulbGlowPulse {
+      0%, 100% { opacity:0.7; transform:scale(1); }
+      50%      { opacity:1;   transform:scale(1.08); }
+    }
+    .hero-bulb-img {
+      position:relative; z-index:1;
+      width:100%;
+      object-fit:contain;
+      opacity:0.85;
+      filter:drop-shadow(0 0 40px rgba(249,178,51,0.15));
+    }
+    @media (max-width:768px) {
+      .hero-bulb-wrap {
+        display:none !important;
+      }
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width:768px) {
       .hide-mobile { display:none !important; }
@@ -751,6 +784,12 @@
   <div class="hero-glow"></div>
   <div class="absolute inset-0 bg-gradient-to-b from-transparent via-obsidian/40 to-obsidian z-0"></div>
   <div class="absolute inset-0 bg-gradient-to-r from-obsidian/60 via-transparent to-transparent z-0"></div>
+
+  <!-- Decorative bulb + ambient glow -->
+  <div class="hero-bulb-wrap" aria-hidden="true">
+    <div class="hero-bulb-glow"></div>
+    <img src="assets/images/transparentBulb.png" alt="" class="hero-bulb-img" loading="eager">
+  </div>
 
   <div class="relative z-10 max-w-7xl mx-auto w-full" style="padding-top:160px;padding-bottom:100px;">
     <div class="mb-10 reveal">
