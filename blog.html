@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perspectives — Helion Advisory Group</title>
+  <meta name="description" content="Insights on early development decisions, platform risk, regulatory readiness, and CMC strategy from Helion Advisory Group.">
+  <link rel="icon" type="image/png" href="assets/images/symbol_white.png">
+  <link rel="apple-touch-icon" href="assets/images/symbol_white.png">
+  <meta name="theme-color" content="#001820">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tailwind.min.css">
+  <style>
+    :root { --gold:#F9B233; --teal:#004D5A; --obsidian:#001820; --titanium:#F4F1EC; }
+    *, *::before, *::after { box-sizing:border-box; }
+    body { background:var(--obsidian); color:var(--titanium); font-feature-settings:"kern" 1,"liga" 1; overflow-x:hidden; margin:0; }
+
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content:''; position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity:0.022; pointer-events:none; z-index:1;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:var(--obsidian); }
+    ::-webkit-scrollbar-thumb { background:var(--teal); border-radius:2px; }
+    ::-webkit-scrollbar-thumb:hover { background:var(--gold); }
+
+    /* ── NAV ── */
+    .blog-nav {
+      position:fixed; top:0; left:0; right:0; z-index:50;
+      padding:1.25rem 2rem;
+      background:rgba(0,24,32,0.92);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(255,255,255,0.04);
+    }
+    .blog-nav-inner {
+      max-width:72rem; margin:0 auto;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .nav-logo { display:flex; align-items:center; gap:0.75rem; text-decoration:none; }
+    .nav-logo img { height:1.5rem; width:auto; object-fit:contain; opacity:0.55; }
+    .nav-logo-text { line-height:1; }
+    .nav-logo-top { font-family:'DM Sans',sans-serif; font-weight:500; font-size:0.75rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(244,241,236,0.55); }
+    .nav-logo-bot { font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.3em; text-transform:uppercase; color:rgba(249,178,51,0.7); margin-top:0.15rem; }
+    .nav-back {
+      font-family:'DM Mono',monospace; font-size:0.8125rem;
+      letter-spacing:0.12em; text-transform:uppercase;
+      color:var(--gold); text-decoration:none;
+      transition:color 0.3s; display:inline-flex; align-items:center; gap:0.5rem;
+    }
+    .nav-back:hover { color:var(--titanium); }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family:'DM Mono',monospace; font-size:0.8125rem;
+      letter-spacing:0.22em; text-transform:uppercase; color:var(--gold);
+      display:inline-flex; align-items:center; gap:0.7rem;
+    }
+    .section-label::before {
+      content:''; width:18px; height:1px;
+      background:var(--gold); opacity:0.65;
+    }
+
+    /* ── PAGE HERO — non-overlapping, proper spacing ── */
+    .page-hero {
+      padding-top:7rem;    /* nav height (~4rem) + breathing room */
+      padding-bottom:3rem;
+      padding-left:2rem;
+      padding-right:2rem;
+      background:linear-gradient(180deg, var(--obsidian) 0%, #00161C 100%);
+      border-bottom:1px solid rgba(255,255,255,0.04);
+    }
+    .page-hero-inner { max-width:72rem; margin:0 auto; }
+    .page-hero h1 {
+      font-family:'Cormorant Garamond',serif;
+      font-weight:300; line-height:1.08;
+      font-size:clamp(2.4rem,5vw,4.5rem);
+      letter-spacing:-0.02em; margin:0;
+    }
+    .page-hero-desc {
+      font-family:'DM Sans',sans-serif; font-size:0.9375rem;
+      color:rgba(244,241,236,0.45); line-height:1.9;
+      max-width:36rem; margin-top:1.25rem;
+    }
+
+    /* ── BLOG LIST ── */
+    .blog-section { padding:3rem 2rem 5rem; }
+    .blog-section-inner { max-width:72rem; margin:0 auto; }
+
+    .blog-list-card {
+      display:block;
+      padding:2.25rem 2.5rem 2rem;
+      border:1px solid rgba(249,178,51,0.06);
+      border-radius:4px;
+      background:rgba(0,24,32,0.4);
+      transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+      cursor:pointer; text-decoration:none; color:inherit;
+    }
+    .blog-list-card:hover {
+      border-color:rgba(249,178,51,0.3);
+      transform:translateY(-3px);
+      box-shadow:0 20px 50px rgba(0,0,0,0.35);
+      background:rgba(0,30,40,0.6);
+    }
+    .card-cat {
+      font-family:'DM Mono',monospace; font-size:0.75rem;
+      letter-spacing:0.18em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:0.6rem; opacity:0.8;
+    }
+    .card-title {
+      font-family:'Cormorant Garamond',serif; font-size:1.5rem;
+      font-weight:300; color:var(--titanium); line-height:1.3;
+      margin-bottom:0.6rem;
+    }
+    .card-summary {
+      font-family:'DM Sans',sans-serif; font-size:0.9375rem;
+      color:#8A9EA0; line-height:1.75; margin-bottom:1.25rem;
+    }
+    .card-meta {
+      font-family:'DM Mono',monospace; font-size:0.75rem;
+      letter-spacing:0.1em; text-transform:uppercase;
+      color:rgba(244,241,236,0.22);
+    }
+    .card-read {
+      font-family:'DM Mono',monospace; font-size:0.75rem;
+      letter-spacing:0.12em; text-transform:uppercase;
+      color:var(--gold); transition:color 0.3s;
+    }
+    .blog-list-card:hover .card-read { color:var(--titanium); }
+
+    /* ── POST DETAIL VIEW ── */
+    .detail-hero {
+      padding-top:7rem;
+      padding-bottom:2.5rem;
+      padding-left:2rem;
+      padding-right:2rem;
+      background:linear-gradient(180deg, var(--obsidian) 0%, #00161C 100%);
+      border-bottom:1px solid rgba(255,255,255,0.04);
+    }
+    .detail-hero-inner { max-width:48rem; margin:0 auto; }
+
+    .detail-back {
+      font-family:'DM Mono',monospace; font-size:0.8125rem;
+      letter-spacing:0.12em; text-transform:uppercase;
+      color:var(--gold); text-decoration:none;
+      display:inline-flex; align-items:center; gap:0.5rem;
+      transition:color 0.3s;
+    }
+    .detail-back:hover { color:var(--titanium); }
+
+    .detail-cat {
+      font-family:'DM Mono',monospace; font-size:0.75rem;
+      letter-spacing:0.22em; text-transform:uppercase;
+      color:var(--gold); opacity:0.8; margin-bottom:1rem;
+    }
+    .detail-title {
+      font-family:'Cormorant Garamond',serif;
+      font-weight:300; line-height:1.12;
+      font-size:clamp(2rem,4.5vw,3.5rem);
+      letter-spacing:-0.01em; margin-bottom:1rem;
+    }
+    .detail-meta {
+      font-family:'DM Mono',monospace; font-size:0.75rem;
+      letter-spacing:0.15em; text-transform:uppercase;
+      color:rgba(244,241,236,0.25);
+    }
+
+    .detail-body-section {
+      padding:3rem 2rem 5rem;
+    }
+    .detail-body-inner { max-width:48rem; margin:0 auto; }
+
+    /* ── POST BODY ── */
+    .post-body p {
+      font-family:'DM Sans',sans-serif; font-size:1.0625rem;
+      line-height:1.85; color:#C8C4C0; margin-bottom:1.5rem;
+    }
+    .post-body p:last-child {
+      font-style:italic; color:rgba(249,178,51,0.6);
+      border-left:2px solid rgba(249,178,51,0.25);
+      padding-left:1.25rem; margin-top:2.5rem;
+    }
+    .post-body ul {
+      list-style:none; padding:0; margin:0 0 1.5rem 0;
+    }
+    .post-body ul li {
+      font-family:'DM Sans',sans-serif; font-size:1.0625rem;
+      line-height:1.85; color:#C8C4C0; margin-bottom:0.5rem;
+      padding-left:1rem;
+    }
+
+    /* ── HASHTAGS ── */
+    .hashtag {
+      display:inline-block;
+      font-family:'DM Mono',monospace; font-size:0.7rem;
+      letter-spacing:0.05em;
+      color:var(--gold); opacity:0.4;
+      padding:0.3rem 0.6rem;
+      border:1px solid rgba(249,178,51,0.12);
+      border-radius:2px; margin:0.2rem;
+    }
+
+    /* ── FOOTER ── */
+    .blog-footer {
+      padding:2.5rem 2rem;
+      border-top:1px solid rgba(255,255,255,0.04);
+      background:rgba(0,0,0,0.45);
+    }
+    .blog-footer-inner {
+      max-width:72rem; margin:0 auto;
+      display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;
+    }
+    .blog-footer-loc {
+      font-family:'DM Mono',monospace; font-size:0.75rem;
+      letter-spacing:0.12em; color:rgba(244,241,236,0.35);
+    }
+    .blog-footer-loc a { color:inherit; text-decoration:none; }
+    .blog-footer-loc a:hover { color:var(--gold); }
+    .blog-footer-copy {
+      font-family:'DM Mono',monospace; font-size:0.75rem;
+      letter-spacing:0.12em; color:rgba(244,241,236,0.25);
+    }
+
+    /* ── FADE IN ── */
+    .fade-up {
+      opacity:0; transform:translateY(20px);
+      animation:fadeUp 0.5s ease forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity:1; transform:translateY(0); }
+    }
+    .fade-up:nth-child(2) { animation-delay:0.07s; }
+    .fade-up:nth-child(3) { animation-delay:0.14s; }
+    .fade-up:nth-child(4) { animation-delay:0.21s; }
+
+    /* ── HIDDEN UTIL ── */
+    .is-hidden { display:none !important; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width:640px) {
+      .page-hero { padding-top:6rem; padding-bottom:2rem; padding-left:1.5rem; padding-right:1.5rem; }
+      .blog-section { padding:2rem 1.5rem 4rem; }
+      .blog-list-card { padding:1.75rem 1.5rem 1.5rem; }
+      .detail-hero { padding-top:6rem; padding-bottom:2rem; padding-left:1.5rem; padding-right:1.5rem; }
+      .detail-body-section { padding:2rem 1.5rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <header class="blog-nav">
+    <div class="blog-nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/images/symbol_white.webp" alt="Helion Advisory Group">
+        <div class="nav-logo-text">
+          <div class="nav-logo-top">Helion</div>
+          <div class="nav-logo-bot">Advisory Group</div>
+        </div>
+      </a>
+      <a href="index.html" class="nav-back">← Home</a>
+    </div>
+  </header>
+
+  <!-- ── PAGE HERO (list view only) ── -->
+  <div class="page-hero" id="page-hero">
+    <div class="page-hero-inner">
+      <div class="section-label" style="margin-bottom:1.25rem;">Perspectives</div>
+      <h1>From the <em style="font-style:italic;color:var(--gold);">advisory desk</em></h1>
+      <p class="page-hero-desc">
+        Selected perspectives on early development decisions, platform risk, regulatory readiness, and CMC strategy — written from independent advisory experience.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── BLOG LIST VIEW ── -->
+  <section class="blog-section" id="blog-list-view">
+    <div class="blog-section-inner">
+      <div id="blog-list" class="grid gap-5" style="grid-template-columns:repeat(auto-fill, minmax(min(100%, 460px), 1fr));">
+        <!-- JS renders cards here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ── POST DETAIL VIEW ── -->
+  <div class="is-hidden" id="blog-detail-view">
+    <!-- Detail hero with back link + title -->
+    <div class="detail-hero">
+      <div class="detail-hero-inner">
+        <a href="#" onclick="showList();return false;" class="detail-back" style="margin-bottom:2rem;display:inline-flex;">← All Perspectives</a>
+        <div class="detail-cat" id="detail-cat"></div>
+        <h1 class="detail-title" id="detail-title"></h1>
+        <div class="detail-meta" id="detail-meta"></div>
+      </div>
+    </div>
+    <!-- Detail body -->
+    <div class="detail-body-section">
+      <div class="detail-body-inner">
+        <div class="post-body" id="detail-body"></div>
+        <div style="margin-top:2.5rem;" id="detail-tags"></div>
+        <div style="margin-top:4rem; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.05);">
+          <a href="#" onclick="showList();return false;" class="detail-back">← All Perspectives</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="blog-footer">
+    <div class="blog-footer-inner">
+      <span class="blog-footer-loc">Brisbane, Australia · <a href="mailto:senthil@helionadvisory.net">senthil@helionadvisory.net</a></span>
+      <span class="blog-footer-copy">© 2026 Helion Advisory Group</span>
+    </div>
+  </footer>
+
+<script>
+// ── BLOG POST DATA ──
+const allPosts = [
+  {
+    cat: 'Early Development',
+    title: 'Most \u201CLate\u201D Problems in Biotech Actually Start Early',
+    meta: '4 min read \u00b7 March 2026',
+    summary: 'Not in the lab. In the definition of the product. Teams start generating data before answering a few basic questions.',
+    tags: ['Biotech','DrugDevelopment','CMC','PlatformDevelopment','mRNA','Microneedles','NasalDelivery','RegulatoryScience'],
+    body: '<p>Not in the lab. In the definition of the product.</p><p>Teams start generating data before answering a few basic questions:</p><ul><li>\u2014 What exactly is the product?</li><li>\u2014 How will it be delivered?</li><li>\u2014 What exposure should the body see?</li><li>\u2014 What will regulators actually evaluate?</li></ul><p>If those answers change later, the development path starts to wobble. Formulation changes. Tox assumptions shift. CMC strategies need rewriting.</p><p>Suddenly the program looks inconsistent, even if the science is strong.</p><p>This happens often with newer platforms like RNA therapies, microneedle patches, or nasal delivery systems.</p><p>The lesson is simple: the earlier the product is clearly defined, the fewer surprises show up later.</p><p>Most development delays aren\u2019t caused by bad experiments. They start with a product that was never fully defined.</p>'
+  },
+  {
+    cat: 'Platform Risk',
+    title: 'Platform Products Don\u2019t Fail in the Lab. They Fail at the Interfaces.',
+    meta: '5 min read \u00b7 March 2026',
+    summary: 'Most platform programs don\u2019t collapse because the science is weak. They stall when decisions made in isolation collide later.',
+    tags: ['Biotech','PlatformDevelopment','mRNA','Microneedles','NasalDelivery','CMC','EarlyDevelopment','RegulatoryScience'],
+    body: '<p>Most platform programs don\u2019t collapse because the science is weak. They stall when decisions made in isolation collide later.</p><p>Common pattern seen with RNA, microneedle, and nasal platforms:</p><ul><li>\u2022 Delivery is optimised without formulation lock</li><li>\u2022 Formulation evolves independently of tox assumptions</li><li>\u2022 Tox is designed before exposure and route logic stabilises</li><li>\u2022 CMC is treated as downstream execution, not upstream strategy</li></ul><p>Individually, each decision looks reasonable. Collectively, the development story fractures.</p><p>That\u2019s when regulators start asking questions no dataset can easily answer.</p><p>Platform development isn\u2019t about excelling in one function. It\u2019s about alignment across interfaces \u2014 delivery \u2194 formulation \u2194 tox \u2194 CMC.</p><p>Most delays aren\u2019t scientific failures. They\u2019re integration failures that show up too late to fix cleanly.</p>'
+  },
+  {
+    cat: 'Regulatory Strategy',
+    title: 'Why Strong Data Doesn\u2019t Save a Weak Development Narrative',
+    meta: '5 min read \u00b7 February 2026',
+    summary: 'Programs built on innovative platforms often generate strong early data. And yet, regulatory friction still appears.',
+    tags: ['RNA','Biotech','DrugDevelopment','CMC','RegulatoryStrategy','DrugDelivery'],
+    body: '<p>Programs built on innovative platforms often generate strong early data \u2014 clean toxicology, encouraging early clinical signals, solid stability or performance datasets.</p><p>And yet, regulatory friction still appears.</p><p>Not because the data is weak \u2014 but because the development narrative isn\u2019t coherent across the platform.</p><p>In RNA, microneedle, and nasal programs, this usually shows up when:</p><ul><li>\u2014 Product definition evolves without a clear control strategy</li><li>\u2014 Exposure logic differs by route or formulation iteration</li><li>\u2014 Platform assumptions are carried forward without being re-justified</li></ul><p>Regulators don\u2019t review RNA, device-assisted, or mucosal datasets in isolation. They assess whether the story connecting formulation, delivery, exposure, and safety is internally consistent.</p><p>When that story is assembled after data exists, even strong results become difficult to defend.</p><p>Platform-based programs don\u2019t just need good data. They need a clear, early development narrative that the data continuously reinforces.</p><p>Strong data supports a strong story. It does not replace one.</p>'
+  },
+  {
+    cat: 'CMC Strategy',
+    title: 'The Most Dangerous Words in Drug Development: \u201CWe\u2019ll Fix It Later.\u201D',
+    meta: '4 min read \u00b7 February 2026',
+    summary: 'This is one of the most common root causes behind \u201Cunexpected\u201D regulatory setbacks.',
+    tags: ['Biotech','DrugDevelopment','CMC','RegulatoryStrategy','ClinicalTrials'],
+    body: '<p>This is one of the most common root causes behind \u201Cunexpected\u201D regulatory setbacks.</p><p>It usually shows up when teams are under pressure and decisions feel uncomfortable:</p><ul><li>\u2014 Formulation isn\u2019t final \u2192 \u201Cwe\u2019ll lock it later\u201D</li><li>\u2014 Analytical method isn\u2019t robust \u2192 \u201Cwe\u2019ll improve it in Phase II\u201D</li><li>\u2014 CMC story isn\u2019t consistent \u2192 \u201Cwe\u2019ll tighten it after the submission\u201D</li></ul><p>The issue is that regulators don\u2019t just assess data. They assess whether your development logic holds together.</p><p>And the moment tox and early clinical data are generated, \u201Clater\u201D becomes expensive:</p><ul><li>\u2014 Changes trigger comparability work</li><li>\u2014 Bridging packages appear</li><li>\u2014 Timelines slip quietly</li></ul><p>Good programs don\u2019t avoid problems. They avoid deferring decisions that create fragile narratives.</p>'
+  }
+];
+
+// ── RENDER BLOG LIST ──
+function renderList() {
+  const grid = document.getElementById('blog-list');
+  grid.innerHTML = allPosts.map((post, i) =>
+    '<div class="blog-list-card fade-up" onclick="showPost(' + i + ')" role="article" tabindex="0" onkeydown="if(event.key===\'Enter\')showPost(' + i + ')">' +
+      '<div class="card-cat">' + post.cat + '</div>' +
+      '<div class="card-title">' + post.title + '</div>' +
+      '<div class="card-summary">' + post.summary + '</div>' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;">' +
+        '<span class="card-meta">' + post.meta + '</span>' +
+        '<span class="card-read">Read \u2192</span>' +
+      '</div>' +
+    '</div>'
+  ).join('');
+}
+
+// ── SHOW POST DETAIL ──
+function showPost(idx) {
+  var post = allPosts[idx];
+  if (!post) return;
+
+  document.getElementById('detail-cat').textContent = post.cat;
+  document.getElementById('detail-title').textContent = post.title;
+  document.getElementById('detail-meta').textContent = post.meta;
+  document.getElementById('detail-body').innerHTML = post.body;
+  document.getElementById('detail-tags').innerHTML = post.tags
+    .map(function(t){ return '<span class="hashtag">#' + t + '</span>'; }).join('');
+
+  document.getElementById('page-hero').classList.add('is-hidden');
+  document.getElementById('blog-list-view').classList.add('is-hidden');
+  document.getElementById('blog-detail-view').classList.remove('is-hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  history.pushState({ post: idx }, '', 'blog.html?post=' + idx);
+}
+
+// ── SHOW LIST ──
+function showList() {
+  document.getElementById('blog-detail-view').classList.add('is-hidden');
+  document.getElementById('page-hero').classList.remove('is-hidden');
+  document.getElementById('blog-list-view').classList.remove('is-hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  history.pushState({}, '', 'blog.html');
+}
+
+// ── HANDLE BACK / FORWARD ──
+window.addEventListener('popstate', function(e) {
+  if (e.state && typeof e.state.post === 'number') {
+    showPost(e.state.post);
+  } else {
+    showList();
+  }
+});
+
+// ── INIT ──
+renderList();
+
+// Deep-link support: ?post=N
+var params = new URLSearchParams(window.location.search);
+var postParam = params.get('post');
+if (postParam !== null && allPosts[+postParam]) {
+  showPost(+postParam);
+}
+</script>
+</body>
+</html>

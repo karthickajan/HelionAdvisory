@@ -6,6 +6,7 @@
   <title>Helion Advisory Group — Independent Technical Advisory</title>
   <meta name="description" content="Independent technical advisory for pharmaceutical and biotechnology development. Senior-level judgement at early development, formulation, and CMC decision points.">
   <meta name="author" content="Helion Advisory Group">
+  <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://helionadvisory.in/">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -30,6 +31,10 @@
   <style>
     :root { --gold:#F9B233; --teal:#004D5A; --obsidian:#001820; --titanium:#F4F1EC; }
     *, *::before, *::after { box-sizing: border-box; }
+
+    /* ── GLOBAL FONT-SIZE OVERRIDES (per design review) ── */
+    .text-sm  { font-size:0.9375rem !important; /* 15px */ }
+    .text-xs  { font-size:0.8125rem !important; /* 13px */ }
 
     body {
       background: var(--obsidian);
@@ -84,6 +89,9 @@
       background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
       opacity:0.022; pointer-events:none; z-index:1;
     }
+    @media (max-width:768px) {
+      body::before { display:none; }
+    }
 
     /* ── GLASS ── */
     .glass {
@@ -100,10 +108,11 @@
       box-shadow: 0 32px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(249,178,51,0.06);
     }
     @media (max-width: 768px) {
-      .glass { border-left-color: var(--gold); }
-      /* In carousels, normalize the left border */
+      .glass { border-left-color: var(--gold); backdrop-filter: blur(8px); }
+      /* In carousels and contact form, normalize the left border */
       #services-grid > .glass,
-      #blog-grid > .blog-card {
+      #blog-grid > .blog-card,
+      #contact-form-wrap {
         border-left:1px solid rgba(249,178,51,0.10);
       }
     }
@@ -144,7 +153,7 @@
 
     /* ── SECTION LABEL ── */
     .section-label {
-      font-family:'DM Mono',monospace; font-size:0.67rem;
+      font-family:'DM Mono',monospace; font-size:0.8125rem;
       letter-spacing:0.22em; text-transform:uppercase; color:var(--gold);
       display:inline-flex; align-items:center; gap:0.7rem;
     }
@@ -155,7 +164,7 @@
 
     /* ── OUTCOME TAG ── */
     .outcome-tag {
-      font-family:'DM Mono',monospace; font-size:0.66rem;
+      font-family:'DM Mono',monospace; font-size:0.8125rem;
       letter-spacing:0.08em; color:var(--gold);
       border-top:1px solid rgba(249,178,51,0.15);
       padding-top:1rem; margin-top:1.5rem;
@@ -175,7 +184,7 @@
     /* ── NOT TAGS ── */
     .not-tag {
       display:inline-flex; align-items:center; gap:0.4rem;
-      font-family:'DM Mono',monospace; font-size:0.65rem;
+      font-family:'DM Mono',monospace; font-size:0.8125rem;
       letter-spacing:0.1em; text-transform:uppercase;
       padding:0.35rem 0.85rem;
       border:1px solid rgba(139,0,0,0.2); border-radius:2px;
@@ -236,11 +245,11 @@
       border-bottom:1px solid rgba(244,241,236,0.08);
       padding-bottom:1.2rem; margin-bottom:1.4rem;
     }
-    .form-line label { display:block; font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(244,241,236,0.3); margin-bottom:0.5rem; }
+    .form-line label { display:block; font-family:'DM Mono',monospace; font-size:0.8125rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(244,241,236,0.3); margin-bottom:0.5rem; }
     .form-line input, .form-line select {
       width:100%; background:transparent; border:none; outline:none;
       color:var(--titanium); font-family:'DM Sans',sans-serif;
-      font-size:0.95rem; font-weight:300; padding:0.4rem 0;
+      font-size:0.9375rem; font-weight:300; padding:0.4rem 0;
     }
     .form-line input::placeholder { color:rgba(244,241,236,0.22); }
     .form-line select { color:rgba(244,241,236,0.4); }
@@ -266,7 +275,7 @@
       border:1px solid rgba(249,178,51,0.12) !important;
       border-radius:4px; padding:1rem 1.2rem;
       color:var(--titanium) !important; font-family:'DM Sans',sans-serif;
-      font-size:0.92rem; font-weight:300; line-height:1.75;
+      font-size:0.9375rem; font-weight:300; line-height:1.75;
       outline:none; resize:vertical; min-height:100px;
       transition:border-color 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
       caret-color: var(--gold);
@@ -466,10 +475,19 @@
       50% { opacity:1; transform:translate(-50%,-50%) scale(1.06); }
     }
 
-    /* ── HERO BULB DECORATIVE ELEMENT ── */
+    /* ── HERO BULB DECORATIVE ELEMENT ──
+       To adjust bulb position:
+       • right  → increase to push further right, decrease to pull left  (currently -4%)
+       • top    → increase to push down, decrease to push up            (currently 55%)
+       • width  → clamp(min, preferred, max) controls bulb size         (currently 320px–600px)
+    */
     .hero-bulb-wrap {
-      position:absolute; right:2%; top:55%; transform:translateY(-50%);
-      width:clamp(320px, 38vw, 600px); height:auto;
+      position:absolute;
+      right:-5%;   /* ← ADJUST: negative = further right, positive = further left */
+      top:55%;     /* ← ADJUST: vertical centre offset */
+      transform:translateY(-50%);
+      width:clamp(320px, 38vw, 600px); /* ← ADJUST: bulb size */
+      height:auto;
       padding:20px;
       pointer-events:none; z-index:1;
     }
@@ -498,12 +516,29 @@
         display:none !important;
       }
     }
+    /* Ultra-wide screens: push bulb further right to avoid text overlap */
+    @media (min-width:1500px) {
+      .hero-bulb-wrap { right:-14%; }
+    }
 
     /* ── RESPONSIVE ── */
     @media (max-width:768px) {
       .hide-mobile { display:none !important; }
       /* Ensure minimum 15px body text on mobile */
       .text-sm, .text-xs { font-size:0.9375rem; /* 15px */ }
+      /* Shrink hero CTA buttons on mobile */
+      .hero-cta-primary { font-size:0.7rem !important; padding:0.7rem 1.4rem !important; letter-spacing:0.1em !important; }
+      .hero-cta-secondary { font-size:0.7rem !important; letter-spacing:0.1em !important; }
+      /* Shrink "View All" link on mobile */
+      .view-all-link { font-size:0.7rem !important; letter-spacing:0.1em !important; }
+      /* Contact mobile cards: tighter padding */
+      .contact-details-mobile .contact-mob-card { padding-top:0.85rem !important; padding-bottom:0.85rem !important; }
+    }
+
+    /* ── CONTENT VISIBILITY: skip rendering off-screen sections for faster LCP ── */
+    #services, #engage, #how, #insights, #blog, #contact {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 800px;
     }
 
     /* ── CONTACT: mobile reorder — form first, details below ── */
@@ -567,13 +602,20 @@
     @media (max-width:768px) {
       .services-dots {
         display:flex; justify-content:center; align-items:center;
-        gap:6px; margin-top:1.5rem;
+        gap:14px; margin-top:1.5rem;
       }
       .services-dot {
         width:6px; height:6px; border-radius:9999px;
         background:rgba(249,178,51,0.25);
         border:none; padding:0; cursor:pointer;
         transition:width 0.3s ease, background 0.3s ease;
+        /* Expand touch target to 44px without changing visual size */
+        position:relative;
+      }
+      .services-dot::before {
+        content:''; position:absolute;
+        top:50%; left:50%; transform:translate(-50%,-50%);
+        width:44px; height:44px;
       }
       .services-dot.active {
         width:20px; background:#F9B233;
@@ -615,13 +657,20 @@
     @media (max-width:768px) {
       .blog-dots {
         display:flex; justify-content:center; align-items:center;
-        gap:6px; margin-top:1.5rem;
+        gap:14px; margin-top:1.5rem;
       }
       .blog-dot {
         width:6px; height:6px; border-radius:9999px;
         background:rgba(249,178,51,0.25);
         border:none; padding:0; cursor:pointer;
         transition:width 0.3s ease, background 0.3s ease;
+        /* Expand touch target to 44px without changing visual size */
+        position:relative;
+      }
+      .blog-dot::before {
+        content:''; position:absolute;
+        top:50%; left:50%; transform:translate(-50%,-50%);
+        width:44px; height:44px;
       }
       .blog-dot.active {
         width:20px; background:#F9B233;
@@ -642,7 +691,7 @@
       box-shadow:0 24px 48px rgba(0,0,0,0.3);
     }
     .blog-card-cat {
-      font-family:'DM Mono',monospace; font-size:0.62rem;
+      font-family:'DM Mono',monospace; font-size:0.8125rem;
       letter-spacing:0.18em; text-transform:uppercase;
       color:var(--gold); margin-bottom:1rem;
     }
@@ -652,22 +701,27 @@
       margin-bottom:0.75rem;
     }
     .blog-card-summary {
-      font-family:'DM Sans',sans-serif; font-size:0.875rem;
+      font-family:'DM Sans',sans-serif; font-size:0.9375rem;
       color:#8A9EA0; line-height:1.65; margin-bottom:1.5rem;
     }
     .blog-card-meta {
       display:flex; align-items:center; justify-content:space-between;
-      font-family:'DM Mono',monospace; font-size:0.6rem;
+      font-family:'DM Mono',monospace; font-size:0.8125rem;
       letter-spacing:0.1em; text-transform:uppercase; color:rgba(244,241,236,0.25);
       padding-top:1rem; border-top:1px solid rgba(249,178,51,0.08);
     }
     .blog-card-read {
-      font-family:'DM Mono',monospace; font-size:0.65rem;
+      font-family:'DM Mono',monospace; font-size:0.8125rem;
       letter-spacing:0.12em; text-transform:uppercase;
       color:var(--gold); text-decoration:none;
       transition:color 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
     }
     .blog-card-read:hover { color:var(--titanium); }
+    /* Mobile: shrink blog meta text so "Read →" fits beside date */
+    @media (max-width:768px) {
+      .blog-card-meta { font-size:0.62rem; letter-spacing:0.06em; }
+      .blog-card-read { font-size:0.62rem; letter-spacing:0.08em; }
+    }
 
     /* ── BLOG MODAL ── */
     #blog-modal {
@@ -707,7 +761,7 @@
       margin-bottom:1rem;
     }
     .modal-meta {
-      font-family:'DM Mono',monospace; font-size:0.6rem;
+      font-family:'DM Mono',monospace; font-size:0.8125rem;
       letter-spacing:0.15em; text-transform:uppercase;
       color:rgba(244,241,236,0.3); margin-bottom:1.5rem;
     }
@@ -733,6 +787,9 @@
   </style>
 </head>
 <body class="font-sans antialiased">
+
+<!-- Skip to main content (accessibility) -->
+<a href="#home" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[99999] focus:bg-gold focus:text-obsidian focus:px-4 focus:py-2 focus:rounded-sm" style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);border:0;">Skip to main content</a>
 
 <!-- Custom Cursor -->
 <div id="cursor"></div>
@@ -761,7 +818,7 @@
 <!-- FLOATING PILL NAV -->
 <nav id="pill-nav">
   <a href="#home" class="pill-logo">
-    <img src="assets/images/symbol_white.webp" alt="Helion Advisory Group Logo" width="28" height="33">
+    <img src="assets/images/symbol_white.webp" alt="Helion Advisory Group Logo" width="28" height="33" fetchpriority="high">
     <span class="pill-logo-text">Helion</span>
   </a>
   <div class="pill-links">
@@ -785,13 +842,17 @@
   <div class="absolute inset-0 bg-gradient-to-b from-transparent via-obsidian/40 to-obsidian z-0"></div>
   <div class="absolute inset-0 bg-gradient-to-r from-obsidian/60 via-transparent to-transparent z-0"></div>
 
-  <!-- Decorative bulb + ambient glow -->
-  <div class="hero-bulb-wrap" aria-hidden="true">
-    <div class="hero-bulb-glow"></div>
-    <img src="assets/images/transparentBulb.png" alt="" class="hero-bulb-img" loading="eager">
-  </div>
-
   <div class="relative z-10 max-w-7xl mx-auto w-full" style="padding-top:160px;padding-bottom:100px;">
+    <!-- Decorative bulb + ambient glow -->
+    <div class="hero-bulb-wrap" aria-hidden="true">
+      <div class="hero-bulb-glow"></div>
+      <picture>
+        <source srcset="assets/images/transparentBulb.webp" type="image/webp" media="(min-width:769px)">
+        <source srcset="assets/images/transparentBulb.png" type="image/png" media="(min-width:769px)">
+        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" class="hero-bulb-img" width="1238" height="1238" loading="lazy" decoding="async">
+      </picture>
+    </div>
+
     <div class="mb-10 reveal">
       <div class="section-label">Independent Technical Advisory · Pharmaceutical &amp; Biotech</div>
     </div>
@@ -801,12 +862,12 @@
       <div class="hero-word"><span style="animation-delay:0.38s">become&nbsp;</span></div>
       <div class="hero-word"><span style="animation-delay:0.54s;font-style:italic;color:#F9B233;" class="hero-glow-text">irreversible.</span></div>
     </h1>
-    <p class="font-sans font-light text-titanium/55 mb-10 reveal" style="font-size:clamp(0.95rem,1.6vw,1.1rem);max-width:540px;line-height:1.9;animation-delay:0.3s;">
+    <p class="font-sans font-light text-titanium/55 mb-10 reveal" style="font-size:clamp(1rem,1.6vw,1.0625rem);max-width:540px;line-height:1.9;animation-delay:0.3s;">
       Supporting pharmaceutical and biotechnology teams at early development and CMC decision points — where choices are visible to regulators and expensive to reverse.
     </p>
     <div class="flex flex-wrap items-center gap-6 reveal" style="animation-delay:0.45s;">
-      <a href="#services" class="inline-block font-mono text-[0.72rem] tracking-[0.14em] uppercase bg-gold text-obsidian px-7 py-3.5 rounded-sm hover:bg-titanium transition-all hover:-translate-y-0.5 shadow-lg">Advisory Services</a>
-      <a href="#engage" class="group inline-flex items-center gap-3 font-mono text-[0.7rem] tracking-[0.12em] uppercase text-titanium/55 hover:text-titanium transition-all">
+      <a href="#services" class="hero-cta-primary inline-block font-mono text-[0.8125rem] tracking-[0.14em] uppercase bg-gold text-obsidian px-7 py-3.5 rounded-sm hover:bg-titanium transition-all hover:-translate-y-0.5 shadow-lg">Advisory Services</a>
+      <a href="#engage" class="hero-cta-secondary group inline-flex items-center gap-3 font-mono text-[0.8125rem] tracking-[0.12em] uppercase text-titanium/55 hover:text-titanium transition-all">
         When to Engage <span class="text-gold transition-transform duration-300 group-hover:translate-x-1">→</span>
       </a>
     </div>
@@ -826,19 +887,19 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5 border border-white/5 rounded-sm overflow-hidden">
       <div class="stat-tag bg-obsidian p-8 text-center hover:bg-teal/10 transition-colors group">
         <div class="stat-num group-hover:text-gold transition-colors duration-300">01</div>
-        <div class="font-mono text-[0.58rem] tracking-widest uppercase text-titanium/30 mt-2">Early Dev</div>
+        <div class="font-mono text-[0.8125rem] tracking-widest uppercase text-titanium/30 mt-2">Early Dev</div>
       </div>
       <div class="stat-tag bg-obsidian p-8 text-center hover:bg-teal/10 transition-colors group" style="transition-delay:0.1s">
         <div class="stat-num group-hover:text-gold transition-colors duration-300">02</div>
-        <div class="font-mono text-[0.58rem] tracking-widest uppercase text-titanium/30 mt-2">Formulation</div>
+        <div class="font-mono text-[0.8125rem] tracking-widest uppercase text-titanium/30 mt-2">Formulation</div>
       </div>
       <div class="stat-tag bg-obsidian p-8 text-center hover:bg-teal/10 transition-colors group" style="transition-delay:0.2s">
         <div class="stat-num group-hover:text-gold transition-colors duration-300">03</div>
-        <div class="font-mono text-[0.58rem] tracking-widest uppercase text-titanium/30 mt-2">CMC Strategy</div>
+        <div class="font-mono text-[0.8125rem] tracking-widest uppercase text-titanium/30 mt-2">CMC Strategy</div>
       </div>
       <div class="stat-tag bg-obsidian p-8 text-center hover:bg-teal/10 transition-colors group" style="transition-delay:0.3s">
         <div class="stat-num group-hover:text-gold transition-colors duration-300">04</div>
-        <div class="font-mono text-[0.58rem] tracking-widest uppercase text-titanium/30 mt-2">Novel Delivery</div>
+        <div class="font-mono text-[0.8125rem] tracking-widest uppercase text-titanium/30 mt-2">Novel Delivery</div>
       </div>
     </div>
   </div>
@@ -852,10 +913,17 @@
   <div class="reveal relative order-2 lg:order-1 founder-wrap">
         <div class="absolute -inset-3 border border-gold/10 rounded-sm translate-x-6 translate-y-6 -z-10"></div>
         <div class="glass rounded-sm overflow-hidden p-1">
-          <img src="assets/images/founder_optimised.webp" alt="Senthil Murugappan — Founder, Helion Advisory Group" class="founder-img rounded-sm" width="800" height="999" loading="lazy">
+          <img src="assets/images/founder_optimised.webp" alt="Senthil Murugappan — Founder, Helion Advisory Group" class="founder-img rounded-sm" width="800" height="999" loading="lazy" decoding="async">
           <div class="px-7 py-6 bg-obsidian/90 text-center">
-            <p class="font-serif text-2xl font-light text-titanium mb-1.5">Senthil Murugappan</p>
+            <p class="font-serif text-2xl font-light text-white mb-1.5">Senthil Murugappan</p>
             <div class="section-label justify-center">Founder · Principal Advisor</div>
+          </div>
+          <!-- LinkedIn — separate row below the card for clean spacing -->
+          <div class="flex justify-center py-3 bg-obsidian/70 border-t border-white/5">
+            <a href="https://www.linkedin.com/in/senthil-murugappan-phd-503670a" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-titanium/45 hover:text-gold transition-colors">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              <span class="font-mono text-[0.7rem] tracking-wider uppercase">LinkedIn</span>
+            </a>
           </div>
         </div>
       </div>
@@ -865,13 +933,13 @@
         <h2 class="font-serif font-light leading-[1.05] mb-8 reveal" style="font-size:clamp(2.4rem,5vw,4.2rem);letter-spacing:-0.01em;">
           Improving decision quality at <em class="text-gold" style="font-style:italic;">inflection points</em>
         </h2>
-        <p class="font-serif text-xl font-light text-titanium/75 leading-relaxed mb-6 reveal" style="font-style:italic;">
+        <p class="font-serif text-[1.0625rem] font-light text-titanium/75 leading-relaxed mb-6 reveal" style="font-style:italic;">
           Many development delays are not caused by poor science, but by early decisions that were never fully stress-tested.
         </p>
-        <p class="text-titanium/55 text-[0.95rem] leading-[1.9] mb-5 reveal">
+        <p class="text-titanium/55 text-[1.0625rem] leading-[1.9] mb-5 reveal">
           Helion exists to improve decision quality at development inflection points — where small compromises can later create disproportionate regulatory and CMC risk. We operate at the interface of science, safety, formulation, and strategy.
         </p>
-        <p class="text-titanium/55 text-[0.95rem] leading-[1.9] mb-10 reveal">
+        <p class="text-titanium/55 text-[0.9375rem] leading-[1.9] mb-10 reveal">
           Helion is led by Senthil Murugappan, a senior development and CMC professional with deep experience across vaccines, biologics, mRNA, and novel delivery platforms. His work focuses on early technical judgement, risk identification, and decision clarity at points where development pathways become difficult to change.
         </p>
         <div class="mb-10 reveal">
@@ -885,7 +953,7 @@
           </div>
         </div>
         <div class="reveal p-6 border-l-2 border-gold/40 bg-teal/5 rounded-sm">
-          <p class="font-mono text-[0.65rem] uppercase tracking-widest text-gold/60 mb-2">Advisory Boundary</p>
+          <p class="font-mono text-[0.8125rem] uppercase tracking-widest text-gold/60 mb-2">Advisory Boundary</p>
           <p class="text-titanium/50 text-sm leading-relaxed">
             All implementation and final regulatory responsibility remains with the client. Helion provides independent judgement and decision support, not implementation.
           </p>
@@ -905,7 +973,7 @@
           Four domains of<br><em class="text-gold" style="font-style:italic;">independent advisory</em>
         </h2>
       </div>
-      <p class="font-mono text-[0.62rem] uppercase tracking-[0.4em] text-titanium/25 mt-8 md:mt-0 border-b border-white/8 pb-3">Specialised in Complex Programs</p>
+      <p class="font-mono text-[0.8125rem] uppercase tracking-[0.4em] text-titanium/25 mt-8 md:mt-0 border-b border-white/8 pb-3">Specialised in Complex Programs</p>
     </div>
     <div id="services-grid" class="grid md:grid-cols-2 gap-4">
       <div class="glass rounded-sm p-12 group reveal">
@@ -918,9 +986,9 @@
         <h3 class="font-serif text-2xl font-light text-titanium mb-4 group-hover:text-gold transition-colors duration-300 leading-tight">Early Development &<br>Regulatory Readiness</h3>
         <p class="text-titanium/45 text-sm leading-relaxed mb-6">Supporting early-stage programs in translating discovery assets into credible, regulator-ready development strategies for first-in-human programs.</p>
         <ul class="space-y-2 mb-2">
-          <li class="font-mono text-[0.65rem] tracking-wider uppercase text-titanium/30">— Preclinical &amp; FiH development logic</li>
-          <li class="font-mono text-[0.65rem] tracking-wider uppercase text-titanium/30">— Translational risk — safety, exposure, relevance</li>
-          <li class="font-mono text-[0.65rem] tracking-wider uppercase text-titanium/30">— Formulation, dose rationale &amp; early clinical alignment</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Preclinical &amp; FiH development logic</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Translational risk — safety, exposure, relevance</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Formulation, dose rationale &amp; early clinical alignment</li>
         </ul>
         <div class="outcome-tag">Clear, defensible development pathways that reduce regulatory and clinical risk</div>
       </div>
@@ -935,9 +1003,9 @@
         <h3 class="font-serif text-2xl font-light text-titanium mb-4 group-hover:text-gold transition-colors duration-300 leading-tight">Formulation &<br>Stabilisation Strategy</h3>
         <p class="text-titanium/45 text-sm leading-relaxed mb-6">Stability-led formulation strategy aligned with delivery route, scale-up, and regulatory expectations.</p>
         <ul class="space-y-2 mb-2">
-          <li class="font-mono text-[0.65rem] tracking-wider uppercase text-titanium/30">— Product definition for early clinical use</li>
-          <li class="font-mono text-[0.65rem] tracking-wider uppercase text-titanium/30">— Route-appropriate formulation decisions</li>
-          <li class="font-mono text-[0.65rem] tracking-wider uppercase text-titanium/30">— Managing evolution without undermining narratives</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Product definition for early clinical use</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Route-appropriate formulation decisions</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Managing evolution without undermining narratives</li>
         </ul>
         <div class="outcome-tag">Formulation strategies that are scientifically sound, manufacturable, and regulator-credible</div>
       </div>
@@ -952,10 +1020,10 @@
         <h3 class="font-serif text-2xl font-light text-titanium mb-4 group-hover:text-gold transition-colors duration-300 leading-tight">CMC Strategy &<br>Technical Due Diligence</h3>
         <p class="text-titanium/45 text-sm leading-relaxed mb-6">Independent CMC judgement to support internal decisions, investor confidence, and business development activity.</p>
         <ul class="space-y-2 mb-2">
-          <li class="font-mono text-[0.65rem] tracking-wider uppercase text-titanium/30">— Early CMC strategy — preclinical through Phase I/II</li>
-          <li class="font-mono text-[0.65rem] tracking-wider uppercase text-titanium/30">— Control strategy and risk identification</li>
-          <li class="font-mono text-[0.65rem] tracking-wider uppercase text-titanium/30">— Manufacturability, scale-up &amp; transfer readiness</li>
-          <li class="font-mono text-[0.65rem] tracking-wider uppercase text-titanium/30">— Technical due diligence for licensing or acquisition</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Early CMC strategy — preclinical through Phase I/II</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Control strategy and risk identification</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Manufacturability, scale-up &amp; transfer readiness</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Technical due diligence for licensing or acquisition</li>
         </ul>
         <div class="outcome-tag">Early identification of hidden CMC liabilities before they become program-limiting</div>
       </div>
@@ -970,9 +1038,9 @@
         <h3 class="font-serif text-2xl font-light text-titanium mb-4 group-hover:text-gold transition-colors duration-300 leading-tight">Novel Delivery &<br>Platform Evaluation</h3>
         <p class="text-titanium/45 text-sm leading-relaxed mb-6">Advising on emerging and advanced delivery platforms — separating technical reality from marketing claims. Experience includes microneedle systems, nasal and pulmonary delivery, and biologic/device combination products.</p>
         <ul class="space-y-2 mb-2">
-          <li class="font-mono text-[0.65rem] tracking-wider uppercase text-titanium/30">— Microneedle systems</li>
-          <li class="font-mono text-[0.65rem] tracking-wider uppercase text-titanium/30">— Nasal &amp; pulmonary delivery</li>
-          <li class="font-mono text-[0.65rem] tracking-wider uppercase text-titanium/30">— Biologic/device combination products</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Microneedle systems</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Nasal &amp; pulmonary delivery</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Biologic/device combination products</li>
         </ul>
         <div class="outcome-tag">Evidence-based go/no-go decisions on delivery technologies and platform partnerships</div>
       </div>
@@ -1041,7 +1109,7 @@
         <h2 class="font-serif font-light leading-tight mb-8" style="font-size:clamp(2.5rem,5vw,4.5rem);letter-spacing:-0.01em;">
           Fixed-scope.<br><em class="text-gold" style="font-style:italic;">Defined outcomes.</em>
         </h2>
-        <p class="text-titanium/55 text-[0.95rem] leading-[1.9] mb-10">
+        <p class="text-titanium/55 text-[1.0625rem] leading-[1.9] mb-10">
           Helion works through clearly defined, fixed-scope advisory engagements designed to support specific decisions — no open-ended hourly consulting, no ambiguous mandates. Confidential and independent.
         </p>
         <div class="space-y-3">
@@ -1104,12 +1172,12 @@
       <!-- POST 1 -->
       <div class="blog-card reveal" data-post="0">
         <div>
-          <div class="blog-card-cat">CMC Strategy</div>
-          <div class="blog-card-title">The Hidden Cost of Deferred CMC Decisions</div>
-          <div class="blog-card-summary">Why choices made quietly in early development become expensive corrections in Phase II.</div>
+          <div class="blog-card-cat">Early Development</div>
+          <div class="blog-card-title">Most "Late" Problems in Biotech Actually Start Early</div>
+          <div class="blog-card-summary">Not in the lab. In the definition of the product. Teams start generating data before answering a few basic questions.</div>
         </div>
         <div class="blog-card-meta">
-          <span>7 min read · February 2026</span>
+          <span>4 min read · March 2026</span>
           <a href="#" class="blog-card-read" onclick="openBlogModal(0);return false;">Read →</a>
         </div>
       </div>
@@ -1117,12 +1185,12 @@
       <!-- POST 2 -->
       <div class="blog-card reveal" data-post="1">
         <div>
-          <div class="blog-card-cat">Formulation</div>
-          <div class="blog-card-title">Formulation Decisions You Cannot Undo</div>
-          <div class="blog-card-summary">The formulation choices that lock in clinical and regulatory risk before you realise they have.</div>
+          <div class="blog-card-cat">Platform Risk</div>
+          <div class="blog-card-title">Platform Products Don't Fail in the Lab. They Fail at the Interfaces.</div>
+          <div class="blog-card-summary">Most platform programs don't collapse because the science is weak. They stall when decisions made in isolation collide later.</div>
         </div>
         <div class="blog-card-meta">
-          <span>5 min read · January 2026</span>
+          <span>5 min read · March 2026</span>
           <a href="#" class="blog-card-read" onclick="openBlogModal(1);return false;">Read →</a>
         </div>
       </div>
@@ -1130,12 +1198,12 @@
       <!-- POST 3 -->
       <div class="blog-card reveal" data-post="2">
         <div>
-          <div class="blog-card-cat">Platform Risk</div>
-          <div class="blog-card-title">What Novel Delivery Platform Claims Actually Mean</div>
-          <div class="blog-card-summary">Separating commercial narrative from technical reality in platform selection.</div>
+          <div class="blog-card-cat">Regulatory Strategy</div>
+          <div class="blog-card-title">Why Strong Data Doesn't Save a Weak Development Narrative</div>
+          <div class="blog-card-summary">Programs built on innovative platforms often generate strong early data. And yet, regulatory friction still appears.</div>
         </div>
         <div class="blog-card-meta">
-          <span>8 min read · December 2025</span>
+          <span>5 min read · February 2026</span>
           <a href="#" class="blog-card-read" onclick="openBlogModal(2);return false;">Read →</a>
         </div>
       </div>
@@ -1143,12 +1211,12 @@
       <!-- POST 4 -->
       <div class="blog-card reveal" data-post="3">
         <div>
-          <div class="blog-card-cat">Regulatory Readiness</div>
-          <div class="blog-card-title">First-in-Human Is Not a Finish Line</div>
-          <div class="blog-card-summary">The regulatory logic behind FiH strategy that most development teams only learn retrospectively.</div>
+          <div class="blog-card-cat">CMC Strategy</div>
+          <div class="blog-card-title">The Most Dangerous Words in Drug Development: "We'll Fix It Later."</div>
+          <div class="blog-card-summary">This is one of the most common root causes behind "unexpected" regulatory setbacks.</div>
         </div>
         <div class="blog-card-meta">
-          <span>6 min read · November 2025</span>
+          <span>4 min read · February 2026</span>
           <a href="#" class="blog-card-read" onclick="openBlogModal(3);return false;">Read →</a>
         </div>
       </div>
@@ -1160,6 +1228,12 @@
       <button class="blog-dot" data-index="1" aria-label="Go to post 2"></button>
       <button class="blog-dot" data-index="2" aria-label="Go to post 3"></button>
       <button class="blog-dot" data-index="3" aria-label="Go to post 4"></button>
+    </div>
+    <!-- View all link -->
+    <div class="flex justify-end reveal" style="padding-top:2rem;">
+      <a href="blog.html" class="view-all-link group inline-flex items-center gap-3 font-mono text-[0.8125rem] tracking-[0.12em] uppercase text-gold hover:text-titanium transition-all">
+        View All <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+      </a>
     </div>
   </div>
 </section>
@@ -1178,7 +1252,7 @@
 <!-- INDEPENDENCE STRIP -->
 <div class="py-14 px-6" style="background:rgba(0,0,0,0.5);border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);">
   <div class="max-w-4xl mx-auto text-center reveal">
-    <div class="font-mono text-[0.56rem] uppercase tracking-[0.55em] text-titanium/20 mb-4">Independence Protocol</div>
+    <div class="font-mono text-[0.8125rem] uppercase tracking-[0.55em] text-titanium/20 mb-4">Independence Protocol</div>
     <p class="font-serif text-sm italic text-titanium/30 leading-relaxed">
       Helion Advisory Group provides independent technical judgement and advisory services only. Helion does not provide regulatory sign-off, execution services, or manufacturing activities. All development, regulatory, and implementation decisions remain the responsibility of the client.
     </p>
@@ -1195,28 +1269,35 @@
         <h2 class="font-serif font-light leading-[0.95] mb-10" style="font-size:clamp(3.5rem,7vw,7rem);letter-spacing:-0.02em;">
           Initiate<br><em class="text-gold" style="font-style:italic;">advisory.</em>
         </h2>
-        <p class="text-titanium/50 text-[0.95rem] leading-[1.9] mb-14 max-w-md">
+        <p class="text-titanium/50 text-[1.0625rem] leading-[1.9] mb-14 max-w-md">
           Strategic engagements are managed with strict discretion. Reach out directly for technical briefing or program-level requirements.
         </p>
         <!-- Contact details: visible on desktop, hidden on mobile -->
         <div class="contact-details-desktop space-y-0">
           <div class="py-6 border-b border-white/5 flex flex-col items-start text-left">
             <div class="section-label mb-3">Primary Correspondence</div>
-            <a href="mailto:senthil@helionadvisory.net" class="font-serif font-light text-titanium hover:text-gold transition-colors break-all inline-flex items-center gap-2" style="font-size:clamp(1.1rem,2.5vw,1.5rem);">
-              <svg class="w-4 h-4 text-gold/50 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+            <a href="mailto:senthil@helionadvisory.net" class="font-serif font-light text-titanium hover:text-gold transition-colors break-all" style="font-size:clamp(1.1rem,2.5vw,1.5rem);display:inline-flex;align-items:center;gap:0.75rem;">
+              <svg class="text-gold/50 shrink-0" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
               senthil@helionadvisory.net
             </a>
           </div>
           <div class="py-6 border-b border-white/5 flex flex-col items-start text-left">
             <div class="section-label mb-3">Office Location</div>
-            <span class="font-serif font-light text-titanium/55 inline-flex items-center gap-2" style="font-size:clamp(1.1rem,2.5vw,1.5rem);">
-              <svg class="w-4 h-4 text-gold/50 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+            <span class="font-serif font-light text-titanium/55" style="font-size:clamp(1.1rem,2.5vw,1.5rem);display:inline-flex;align-items:center;gap:0.75rem;">
+              <svg class="text-gold/50 shrink-0" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
               Brisbane, Australia — Serving Global Clients
             </span>
           </div>
+          <div class="py-6 border-b border-white/5 flex flex-col items-start text-left">
+            <div class="section-label mb-3">Connect</div>
+            <a href="https://www.linkedin.com/in/senthil-murugappan-phd-503670a" target="_blank" rel="noopener noreferrer" class="font-serif font-light text-titanium hover:text-gold transition-colors" style="font-size:clamp(1.1rem,2.5vw,1.5rem);display:inline-flex;align-items:center;gap:0.75rem;">
+              <svg class="text-gold/50 shrink-0" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              LinkedIn — Senthil Murugappan
+            </a>
+          </div>
           <div class="py-6 flex items-center gap-3">
             <span class="pulse-dot"></span>
-            <span class="font-mono text-[0.65rem] uppercase tracking-widest text-titanium/40">Currently available for advisory engagements</span>
+            <span class="font-mono text-[0.8125rem] uppercase tracking-widest text-titanium/40">Currently available for advisory engagements</span>
           </div>
         </div>
       </div>
@@ -1234,11 +1315,11 @@
             </div>
             <h3 class="font-serif text-3xl font-light text-titanium mb-3">Enquiry Received</h3>
             <p class="text-titanium/55 text-sm mb-8 leading-relaxed max-w-xs">We will respond within 24 business hours.</p>
-            <button onclick="resetContactForm()" class="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-gold border border-gold/25 px-6 py-3 rounded-sm hover:border-gold/60 hover:text-titanium transition-all">Send Another</button>
+            <button onclick="resetContactForm()" class="font-mono text-[0.8125rem] uppercase tracking-[0.2em] text-gold border border-gold/25 px-6 py-3 rounded-sm hover:border-gold/60 hover:text-titanium transition-all">Send Another</button>
           </div>
 
           <form id="contact-form" class="p-10" onsubmit="handleContactSubmit(event)">
-            <div class="font-mono text-[0.62rem] uppercase tracking-[0.3em] text-gold/55 mb-8">New Enquiry</div>
+            <div class="font-mono text-[0.8125rem] uppercase tracking-[0.3em] text-gold/55 mb-8">New Enquiry</div>
 
             <div class="form-line">
               <label for="contact-name">Name</label>
@@ -1265,7 +1346,7 @@
             </div>
 
             <div class="mb-8">
-              <label for="contact-message" class="font-mono text-[0.6rem] uppercase tracking-widest text-titanium/30 block mb-3">Context of Enquiry</label>
+              <label for="contact-message" class="font-mono text-[0.8125rem] uppercase tracking-widest text-titanium/30 block mb-3">Context of Enquiry</label>
               <textarea name="message" id="contact-message" rows="4"
                 placeholder="Briefly describe your program and the decision support you need..."
                 required class="styled-textarea"></textarea>
@@ -1280,24 +1361,28 @@
 
       <!-- CONTACT DETAILS: mobile only — shown below the form -->
       <div class="contact-details-mobile reveal" id="contact-details-mobile">
-        <div class="space-y-0">
-          <div class="py-5 border-b border-white/5 flex flex-col items-center text-center">
-            <div class="section-label mb-3">Primary Correspondence</div>
-            <a href="mailto:senthil@helionadvisory.net" class="font-serif font-light text-titanium hover:text-gold transition-colors break-all inline-flex items-center gap-2" style="font-size:1.1rem;">
-              <svg class="w-4 h-4 text-gold/50 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
-              senthil@helionadvisory.net
+        <div class="space-y-2 mt-8">
+          <div class="contact-mob-card py-6 px-4 bg-white/[0.02] rounded-sm text-center">
+            <div class="section-label justify-center mb-3">Primary Correspondence</div>
+            <a href="mailto:senthil@helionadvisory.net" class="font-serif font-light text-titanium hover:text-gold transition-colors break-all" style="font-size:1rem;display:block;">
+              senthil@helionadvisory.net <span class="text-gold/60" style="font-size:0.75rem;vertical-align:middle;">→</span>
             </a>
           </div>
-          <div class="py-5 border-b border-white/5 flex flex-col items-center text-center">
-            <div class="section-label mb-3">Office Location</div>
-            <span class="font-serif font-light text-titanium/55 inline-flex items-center gap-2" style="font-size:1.1rem;">
-              <svg class="w-4 h-4 text-gold/50 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
-              Brisbane, Australia — Serving Global Clients
+          <div class="contact-mob-card py-6 px-4 bg-white/[0.02] rounded-sm text-center">
+            <div class="section-label justify-center mb-3">Office Location</div>
+            <span class="font-serif font-light text-titanium/55" style="font-size:1rem;display:block;">
+              Brisbane, Australia
             </span>
+          </div>
+          <div class="contact-mob-card py-6 px-4 bg-white/[0.02] rounded-sm text-center">
+            <div class="section-label justify-center mb-3">Connect</div>
+            <a href="https://www.linkedin.com/in/senthil-murugappan-phd-503670a" target="_blank" rel="noopener noreferrer" class="font-serif font-light text-titanium hover:text-gold transition-colors" style="font-size:1rem;display:block;">
+              LinkedIn <span class="text-gold/60" style="font-size:0.75rem;vertical-align:middle;">→</span>
+            </a>
           </div>
           <div class="py-5 flex items-center justify-center gap-3">
             <span class="pulse-dot"></span>
-            <span class="font-mono text-[0.65rem] uppercase tracking-widest text-titanium/40">Currently available for advisory engagements</span>
+            <span class="font-mono text-[0.75rem] uppercase tracking-widest text-titanium/40">Available for advisory engagements</span>
           </div>
         </div>
       </div>
@@ -1309,7 +1394,7 @@
 <footer class="pt-16 pb-10 px-6 bg-black" style="padding-top:60px;">
   <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
     <a href="#home" class="flex items-center gap-3">
-      <img src="assets/images/symbol_white.png" alt="Helion Advisory Group" width="22" height="26" class="h-6 w-auto object-contain opacity-55">
+      <img src="assets/images/symbol_white.png" alt="" width="22" height="26" class="h-6 w-auto object-contain opacity-55">
       <div class="leading-none">
         <div class="font-sans font-medium text-[0.75rem] tracking-[0.12em] uppercase text-titanium/55">Helion</div>
         <div class="font-mono text-[0.55rem] tracking-[0.3em] uppercase text-gold/70 mt-0.5">Advisory Group</div>
@@ -1334,8 +1419,8 @@
   </div>
 </footer>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script src="config.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
+<script src="config.js" defer></script>
 
 <script>
 // ── CUSTOM CURSOR ──
@@ -1409,7 +1494,9 @@ class Particle {
   }
 }
 
-for (let i = 0; i < 32; i++) particles.push(new Particle());
+const isMobile = window.innerWidth < 769;
+const particleCount = isMobile ? 10 : 32;
+for (let i = 0; i < particleCount; i++) particles.push(new Particle());
 
 function animateMolecule() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1718,44 +1805,77 @@ function resetContactForm() {
 // ── BLOG POSTS DATA ──
 const blogPosts = [
   {
-    cat: 'CMC Strategy',
-    title: 'The Hidden Cost of Deferred CMC Decisions',
-    meta: '7 min read · February 2026',
-    body: `<p>There is a pattern in early-stage pharmaceutical development that repeats with uncomfortable regularity. A team makes a series of CMC decisions — process parameters, analytical methods, starting material specifications — that are individually reasonable, collectively undocumented in any strategic sense, and only interrogated when a regulator asks a question the team cannot answer cleanly. By then, the cost of correction is no longer technical. It is structural.</p>
-<p>The root issue is not incompetence. It is timing. CMC decisions made during IND-enabling studies are often treated as provisional — as though they carry no forward weight. But a control strategy is not something you define retrospectively. The choices made in early process development become the foundation on which comparability arguments, specification justifications, and eventually commercial filings are built. Deferring those choices does not eliminate them. It compounds them.</p>
-<p>What I see most often in independent review is not an absence of data, but an absence of decision logic. Teams have done the work. They have generated the characterisation data, run the stability studies, and selected their analytical panel. What they have not done — and what becomes painfully visible during a regulatory interaction — is articulate why those choices were made and what alternatives were considered. Regulators do not penalise early-stage programs for having limited data. They penalise programs that cannot explain the rationale behind what they chose to do with the data they had.</p>
-<p>The programs that navigate this well tend to share one characteristic: someone asked the difficult CMC questions early, before the team had committed to a path that could not be unwound without triggering a comparability exercise they were not prepared for.</p>
-<p>Development programs do not fail because of what teams do not know. They stall because of what was known, decided quietly, and never stress-tested until it was too late to change without consequence.</p>`
-  },
-  {
-    cat: 'Formulation',
-    title: 'Formulation Decisions You Cannot Undo',
-    meta: '5 min read · January 2026',
-    body: `<p>Excipient selection at early clinical stage is one of the most consequential decisions a development team will make — and one of the least scrutinised at the time it is made. The reasoning is understandable: the molecule is still being characterised, stability data is limited, and the immediate pressure is on getting material into the clinic. So a formulation is chosen based on what works now, with an implicit assumption that optimisation will come later.</p>
-<p>That assumption is the problem. "We'll optimise later" is not a formulation strategy. It is the absence of one. The excipients you select, the buffer system you choose, the pH you target, the fill volume and container closure — these are not variables you can freely change between Phase I and Phase II without creating a comparability question. And comparability questions, once triggered, have a way of consuming timelines and regulatory goodwill in equal measure.</p>
-<p>The most dangerous formulation decisions are the ones that feel reversible. A surfactant concentration chosen for convenience. A lyophilisation cycle designed around equipment availability rather than product stability. A container closure system selected because it was already qualified at the CDMO. Each of these creates a dependency that becomes visible only when you attempt to change it — and by then, your clinical data is tied to a product that may not be the product you want to commercialise.</p>
-<p>What independent review often reveals is not a flawed formulation, but a formulation that was never evaluated as a strategic decision. The science may be sound. The question is whether anyone asked what happens when this formulation meets a scale-up challenge, a different fill line, or a comparability assessment against a process change the team has not yet anticipated.</p>
-<p>Formulation is not a problem to be solved during scale-up. It is a decision to be made — deliberately, with full awareness of what it commits the program to — before the clinical data makes that decision irreversible.</p>`
+    cat: 'Early Development',
+    title: 'Most "Late" Problems in Biotech Actually Start Early',
+    meta: '4 min read · March 2026',
+    body: `<p>Not in the lab. In the definition of the product.</p>
+<p>Teams start generating data before answering a few basic questions:</p>
+<ul style="list-style:none;padding:0;margin:0 0 1.5rem 0;">
+<li style="margin-bottom:0.5rem;">— What exactly is the product?</li>
+<li style="margin-bottom:0.5rem;">— How will it be delivered?</li>
+<li style="margin-bottom:0.5rem;">— What exposure should the body see?</li>
+<li style="margin-bottom:0.5rem;">— What will regulators actually evaluate?</li>
+</ul>
+<p>If those answers change later, the development path starts to wobble. Formulation changes. Tox assumptions shift. CMC strategies need rewriting.</p>
+<p>Suddenly the program looks inconsistent, even if the science is strong.</p>
+<p>This happens often with newer platforms like RNA therapies, microneedle patches, or nasal delivery systems.</p>
+<p>The lesson is simple: the earlier the product is clearly defined, the fewer surprises show up later.</p>
+<p>Most development delays aren't caused by bad experiments. They start with a product that was never fully defined.</p>`
   },
   {
     cat: 'Platform Risk',
-    title: 'What Novel Delivery Platform Claims Actually Mean',
-    meta: '8 min read · December 2025',
-    body: `<p>Every novel delivery platform arrives with a narrative. Thermostability. Dose sparing. Needle-free administration. Patient compliance. The claims are consistent, polished, and — in most cases — supported by data that is carefully selected to demonstrate potential rather than proven performance. The distinction matters more than it should need to.</p>
-<p>When development teams evaluate a delivery platform, they are typically presented with preclinical immunogenicity data, bench-scale manufacturing feasibility, and a regulatory pathway that is described as "well understood" or "analogous to" an approved product. What they are less often shown is the full picture: the gap between what has been demonstrated at bench scale and what has been demonstrated at clinical scale, the specific device-related failure modes that emerge during human factors testing, and the manufacturing constraints that only become apparent when you move beyond a controlled research environment.</p>
-<p>The risk in biologic/device combination products is particularly acute. The regulatory framework requires that both the biologic and the device meet their respective standards — and that the combination does not introduce risks that neither component would present alone. This is not a theoretical concern. I have reviewed programs where the platform performed well in isolation, but where the interaction between the biologic formulation and the delivery mechanism created stability, dose accuracy, or extractable/leachable issues that were not anticipated and were expensive to resolve.</p>
-<p>Independent technical review in this space is not about dismissing novel platforms. Many of these technologies have genuine potential. The review is about separating what has been demonstrated from what has been projected, identifying the specific technical risks that will need to be resolved before regulatory submission, and ensuring that the development team has a clear-eyed view of what they are committing to when they select a platform partner.</p>
-<p>The most expensive platform decision is not choosing the wrong technology. It is choosing the right technology based on the wrong evidence — and discovering the gap between commercial narrative and technical reality only after the program has committed resources it cannot recover.</p>`
+    title: "Platform Products Don't Fail in the Lab. They Fail at the Interfaces.",
+    meta: '5 min read · March 2026',
+    body: `<p>Most platform programs don't collapse because the science is weak. They stall when decisions made in isolation collide later.</p>
+<p>Common pattern seen with RNA, microneedle, and nasal platforms:</p>
+<ul style="list-style:none;padding:0;margin:0 0 1.5rem 0;">
+<li style="margin-bottom:0.5rem;">• Delivery is optimised without formulation lock</li>
+<li style="margin-bottom:0.5rem;">• Formulation evolves independently of tox assumptions</li>
+<li style="margin-bottom:0.5rem;">• Tox is designed before exposure and route logic stabilises</li>
+<li style="margin-bottom:0.5rem;">• CMC is treated as downstream execution, not upstream strategy</li>
+</ul>
+<p>Individually, each decision looks reasonable. Collectively, the development story fractures.</p>
+<p>That's when regulators start asking questions no dataset can easily answer.</p>
+<p>Platform development isn't about excelling in one function. It's about alignment across interfaces — delivery ↔ formulation ↔ tox ↔ CMC.</p>
+<p>Most delays aren't scientific failures. They're integration failures that show up too late to fix cleanly.</p>`
   },
   {
-    cat: 'Regulatory Readiness',
-    title: 'First-in-Human Is Not a Finish Line',
-    meta: '6 min read · November 2025',
-    body: `<p>There is a particular moment in early development where the entire organisation converges on a single objective: IND clearance and first-in-human dosing. The intensity is justified. It is a legitimate milestone. But the focus it demands creates a blind spot that most teams only recognise in retrospect — the decisions made to enable FiH are also the decisions that define what Phase II will look like, and they are rarely evaluated in that light.</p>
-<p>What regulators are evaluating in an early IND is not whether your product works. They are evaluating whether your development logic is credible — whether the choices you have made in preclinical, manufacturing, and analytical are internally consistent and whether they support the safety argument you are presenting. A well-constructed IND tells a story: here is what we know, here is what we do not yet know, and here is how we intend to address the gaps. The programs that struggle are the ones where the story has been assembled retrospectively, where the development logic has been fitted around existing data rather than designed to generate the data that matters.</p>
-<p>The disconnect between preclinical and clinical teams is one of the most common gaps I encounter in independent review. Preclinical teams make choices — animal model selection, dose rationale, toxicology study design — that carry implicit assumptions about the clinical program. Clinical teams inherit those assumptions without always interrogating them. The result is a clinical plan that is technically defensible but strategically fragile, because the foundation it rests on was built for a different purpose.</p>
-<p>The specific decisions that become visible in Phase II — the ones that create regulatory questions, comparability challenges, or clinical holds — were almost always set in preclinical. The analytical methods that cannot support a specification change. The manufacturing process that was optimised for speed rather than robustness. The formulation that was selected for first-in-human convenience rather than commercial viability.</p>
-<p>First-in-human is not a validation that your development strategy is sound. It is the point after which the cost of discovering it was not becomes significantly higher.</p>`
+    cat: 'Regulatory Strategy',
+    title: "Why Strong Data Doesn't Save a Weak Development Narrative",
+    meta: '5 min read · February 2026',
+    body: `<p>Programs built on innovative platforms often generate strong early data — clean toxicology, encouraging early clinical signals, solid stability or performance datasets.</p>
+<p>And yet, regulatory friction still appears.</p>
+<p>Not because the data is weak — but because the development narrative isn't coherent across the platform.</p>
+<p>In RNA, microneedle, and nasal programs, this usually shows up when:</p>
+<ul style="list-style:none;padding:0;margin:0 0 1.5rem 0;">
+<li style="margin-bottom:0.5rem;">— Product definition evolves without a clear control strategy</li>
+<li style="margin-bottom:0.5rem;">— Exposure logic differs by route or formulation iteration</li>
+<li style="margin-bottom:0.5rem;">— Platform assumptions are carried forward without being re-justified</li>
+</ul>
+<p>Regulators don't review RNA, device-assisted, or mucosal datasets in isolation. They assess whether the story connecting formulation, delivery, exposure, and safety is internally consistent.</p>
+<p>When that story is assembled after data exists, even strong results become difficult to defend.</p>
+<p>Platform-based programs don't just need good data. They need a clear, early development narrative that the data continuously reinforces.</p>
+<p>Strong data supports a strong story. It does not replace one.</p>`
+  },
+  {
+    cat: 'CMC Strategy',
+    title: `The Most Dangerous Words in Drug Development: "We'll Fix It Later."`,
+    meta: '4 min read · February 2026',
+    body: `<p>This is one of the most common root causes behind "unexpected" regulatory setbacks.</p>
+<p>It usually shows up when teams are under pressure and decisions feel uncomfortable:</p>
+<ul style="list-style:none;padding:0;margin:0 0 1.5rem 0;">
+<li style="margin-bottom:0.5rem;">— Formulation isn't final → "we'll lock it later"</li>
+<li style="margin-bottom:0.5rem;">— Analytical method isn't robust → "we'll improve it in Phase II"</li>
+<li style="margin-bottom:0.5rem;">— CMC story isn't consistent → "we'll tighten it after the submission"</li>
+</ul>
+<p>The issue is that regulators don't just assess data. They assess whether your development logic holds together.</p>
+<p>And the moment tox and early clinical data are generated, "later" becomes expensive:</p>
+<ul style="list-style:none;padding:0;margin:0 0 1.5rem 0;">
+<li style="margin-bottom:0.5rem;">— Changes trigger comparability work</li>
+<li style="margin-bottom:0.5rem;">— Bridging packages appear</li>
+<li style="margin-bottom:0.5rem;">— Timelines slip quietly</li>
+</ul>
+<p>Good programs don't avoid problems. They avoid deferring decisions that create fragile narratives.</p>`
   }
 ];
 
