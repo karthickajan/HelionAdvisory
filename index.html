@@ -229,10 +229,16 @@
 
     /* ── INSIGHT CARD ── */
     .insight-card {
-      padding:2.5rem 2.2rem;
-      border:1px solid rgba(249,178,51,0.08);
+      padding:0; border:1px solid rgba(249,178,51,0.08);
       background:rgba(0,45,53,0.22); border-radius:4px;
       transition:all 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+      overflow:hidden; display:flex; flex-direction:column;
+    }
+    .insight-card-img {
+      width:100%; height:220px; object-fit:cover; object-position:center;
+    }
+    .insight-card-content {
+      padding:2.5rem 2.2rem;
     }
     .insight-card:hover {
       border-color:rgba(249,178,51,0.28);
@@ -1141,19 +1147,28 @@
     </h2>
     <div class="grid md:grid-cols-3 gap-4 reveal">
       <div class="insight-card">
-        <div class="section-label mb-5">CMC Strategy</div>
-        <h3 class="font-serif text-xl font-light text-titanium leading-snug mb-4">Why CMC Liabilities Are Invisible Until They Are Not</h3>
-        <p class="text-titanium/40 text-sm leading-relaxed">The most damaging CMC issues rarely announce themselves at preclinical stage. They accumulate quietly in decisions that seem rational in isolation but create compound risk over time.</p>
+        <img src="assets/images/insight-cmc.jpg" alt="CMC Laboratory scene" class="insight-card-img" width="394" height="220" loading="lazy" decoding="async">
+        <div class="insight-card-content">
+          <div class="section-label mb-5">CMC Strategy</div>
+          <h3 class="font-serif text-xl font-light text-titanium leading-snug mb-4">Why CMC Liabilities Are Invisible Until They Are Not</h3>
+          <p class="text-titanium/40 text-sm leading-relaxed">The most damaging CMC issues rarely announce themselves at preclinical stage. They accumulate quietly in decisions that seem rational in isolation but create compound risk over time.</p>
+        </div>
       </div>
       <div class="insight-card">
-        <div class="section-label mb-5">Formulation</div>
-        <h3 class="font-serif text-xl font-light text-titanium leading-snug mb-4">Formulation Is a Decision, Not a Process</h3>
-        <p class="text-titanium/40 text-sm leading-relaxed">Too many early-stage programs treat formulation as something resolved by the CRO during scale-up. By then, the decisions have already been made — just not by you.</p>
+        <img src="assets/images/insight-formulation.jpg" alt="Formulation with scientist holding vial" class="insight-card-img" width="394" height="220" loading="lazy" decoding="async">
+        <div class="insight-card-content">
+          <div class="section-label mb-5">Formulation</div>
+          <h3 class="font-serif text-xl font-light text-titanium leading-snug mb-4">Formulation Is a Decision, Not a Process</h3>
+          <p class="text-titanium/40 text-sm leading-relaxed">Too many early-stage programs treat formulation as something resolved by the CRO during scale-up. By then, the decisions have already been made — just not by you.</p>
+        </div>
       </div>
       <div class="insight-card">
-        <div class="section-label mb-5">Platform Risk</div>
-        <h3 class="font-serif text-xl font-light text-titanium leading-snug mb-4">Novel Platforms and the Credibility Gap</h3>
-        <p class="text-titanium/40 text-sm leading-relaxed">Delivery platform selection often happens under commercial pressure with limited independent technical scrutiny. The gap between what platforms claim and what they can demonstrably deliver remains significant.</p>
+        <img src="assets/images/insight-platforms.jpg" alt="Novel platform nanoparticle network" class="insight-card-img" width="394" height="220" loading="lazy" decoding="async">
+        <div class="insight-card-content">
+          <div class="section-label mb-5">Platform Risk</div>
+          <h3 class="font-serif text-xl font-light text-titanium leading-snug mb-4">Novel Platforms and the Credibility Gap</h3>
+          <p class="text-titanium/40 text-sm leading-relaxed">Delivery platform selection often happens under commercial pressure with limited independent technical scrutiny. The gap between what platforms claim and what they can demonstrably deliver remains significant.</p>
+        </div>
       </div>
     </div>
     <p class="font-serif text-sm italic text-titanium/25 mt-8 reveal">Insights are published selectively and are not intended as regulatory or legal advice.</p>
