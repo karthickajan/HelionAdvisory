@@ -206,6 +206,39 @@
       background: rgba(0,77,90,0.3);
     }
 
+    /* ── HOW WE WORK SECTION ── */
+    #how {
+      position:relative;
+      background-image:url('assets/images/engagement-bg.webp'), url('assets/images/engagement-bg.jpg');
+      background-size:cover;
+      background-position:center;
+      background-attachment:fixed;
+    }
+    #how::before {
+      content:''; position:absolute; inset:0;
+      background:rgba(0,24,32,0.78);
+      z-index:0;
+    }
+    #how > .max-w-7xl {
+      position:relative; z-index:1;
+    }
+
+    /* ── SERVICES SECTION ── */
+    #services {
+      position:relative;
+      background-image:url('assets/images/engagement-bg.jpg');
+      background-size:cover;
+      background-position:center top;
+    }
+    #services::before {
+      content:''; position:absolute; inset:0;
+      background:rgba(0,24,32,0.91);
+      z-index:0;
+    }
+    #services > .max-w-7xl {
+      position:relative; z-index:1;
+    }
+
     /* ── STAT NUM ── */
     .stat-num { font-family:'Cormorant Garamond',serif; font-size:clamp(2.6rem,4.5vw,4rem); font-weight:300; color:var(--titanium); line-height:1; }
 
@@ -970,7 +1003,7 @@
 </section>
 
 <!-- SERVICES -->
-<section id="services" class="py-40 px-6" style="background:#00161C;">
+<section id="services" class="py-40 px-6">
   <div class="max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row md:items-end justify-between mb-20 reveal">
       <div>
@@ -1107,7 +1140,7 @@
 </section>
 
 <!-- HOW WE WORK -->
-<section id="how" class="py-40 px-6" style="background:#00161C;">
+<section id="how" class="py-40 px-6">
   <div class="max-w-7xl mx-auto">
     <div class="grid lg:grid-cols-2 gap-24 items-start">
       <div class="reveal">
