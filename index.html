@@ -211,7 +211,7 @@
       position:relative;
       background-image:url('assets/images/engagement-bg.webp'), url('assets/images/engagement-bg.jpg');
       background-size:cover;
-      background-position:center;
+      background-position:center center;
       background-attachment:fixed;
     }
     #how::before {
@@ -221,6 +221,12 @@
     }
     #how > .max-w-7xl {
       position:relative; z-index:1;
+    }
+    @media (max-width:768px) {
+      #how {
+        background-size:200%;
+        background-position:center top;
+      }
     }
 
     /* ── SERVICES SECTION ── */
