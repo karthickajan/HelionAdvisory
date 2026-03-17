@@ -175,11 +175,11 @@
     .et-row {
       display:flex; align-items:center; gap:1rem;
       padding:1.1rem 1.4rem;
-      background:rgba(0,24,32,0.5);
-      border:1px solid rgba(249,178,51,0.07); border-radius:3px;
+      background:rgba(0,45,53,0.4);
+      border:1px solid rgba(249,178,51,0.14); border-radius:3px;
       transition:border-color 0.3s cubic-bezier(0.25,0.46,0.45,0.94), background 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
     }
-    .et-row:hover { border-color:rgba(249,178,51,0.22); background:rgba(0,61,72,0.45); }
+    .et-row:hover { border-color:rgba(249,178,51,0.32); background:rgba(0,61,72,0.55); }
 
     /* ── NOT TAGS ── */
     .not-tag {
@@ -198,12 +198,205 @@
     /* ── DIAGONAL RULE ── */
     .diagonal-rule { height:1px; background:linear-gradient(90deg,transparent 0%,rgba(249,178,51,0.2) 30%,rgba(249,178,51,0.2) 70%,transparent 100%); }
 
+    /* ── SHARED POPUP OVERLAY LAYOUT ── */
+    #engage-popup, #service-popup, #engage-when-popup, #insight-popup, #blog-modal {
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+    }
+    #engage-popup-inner, #service-popup-inner, #engage-when-popup-inner, #insight-popup-inner, #blog-modal-inner {
+      max-height:85vh; overflow-y:auto; -webkit-overflow-scrolling:touch;
+      border:1px solid rgba(249,178,51,0.08);
+      border-radius:6px;
+      background:rgba(0,18,24,0.65);
+      backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    }
+    /* Reposition close button inside the centered container */
+    #engage-popup #engage-popup-close,
+    #service-popup #service-popup-close,
+    #engage-when-popup #engage-when-popup-close,
+    #insight-popup #insight-popup-close,
+    #blog-modal #blog-modal-close {
+      position:absolute; top:1rem; right:1rem;
+      align-self:auto; margin:0;
+    }
+
     /* ── PRINCIPLE CARD HOVER ── */
     .principle-card {
-      transition: background 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+      transition: background 0.35s cubic-bezier(0.25,0.46,0.45,0.94), border-color 0.35s;
+      border:1px solid rgba(249,178,51,0.1);
     }
     .principle-card:hover {
-      background: rgba(0,77,90,0.3);
+      background: rgba(0,77,90,0.38);
+      border-color:rgba(249,178,51,0.25);
+    }
+
+    /* ── CLICKABLE ET-ROW & PRINCIPLE CARD POPUP STYLES ── */
+    .et-row-popup { cursor:pointer; }
+    .et-row-popup .et-row-arrow {
+      opacity:0.45; transition:opacity 0.3s, transform 0.3s;
+    }
+    .et-row-popup:hover .et-row-arrow,
+    .et-row-popup:focus .et-row-arrow {
+      opacity:1; transform:translateX(3px);
+    }
+    .principle-card-popup { cursor:pointer; }
+    .principle-card-popup .principle-more {
+      font-family:'DM Mono',monospace;
+      opacity:0.4; transition:opacity 0.3s;
+    }
+    .principle-card-popup:hover .principle-more,
+    .principle-card-popup:focus .principle-more {
+      opacity:1;
+    }
+
+    /* ── BOTTOM-PINNED LEARN MORE / READ MORE LINKS ── */
+    .svc-card-popup {
+      display:flex; flex-direction:column;
+    }
+    .svc-card-popup .svc-learn {
+      margin-top:auto; padding-top:1.5rem;
+    }
+    .engage-when-popup {
+      display:flex; flex-direction:column;
+    }
+    .engage-when-popup .engage-when-more {
+      margin-top:auto; padding-top:1.5rem;
+    }
+    .insight-card {
+      display:flex; flex-direction:column;
+    }
+    .insight-card-content {
+      display:flex; flex-direction:column; flex:1;
+    }
+    .insight-card-content .insight-read {
+      margin-top:auto; padding-top:0.75rem;
+    }
+
+    /* ── ENGAGE DETAIL POPUP ── */
+    #engage-popup {
+      position:fixed; inset:0; z-index:300;
+      background:rgba(0,10,16,0.95); backdrop-filter:blur(8px);
+      display:flex; flex-direction:column; align-items:center;
+      overflow-y:auto; -webkit-overflow-scrolling:touch;
+      opacity:0; visibility:hidden;
+      transition:opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94), visibility 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    #engage-popup.open { opacity:1; visibility:visible; }
+    #engage-popup-inner {
+      max-width:560px; width:100%; margin:0 auto;
+      padding:2.5rem 2.5rem 3rem; position:relative;
+      opacity:0; transform:translateY(16px);
+      transition:opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s, transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s;
+    }
+    #engage-popup.open #engage-popup-inner { opacity:1; transform:translateY(0); }
+    #engage-popup-close {
+      position:sticky; top:1rem;
+      align-self:flex-end;
+      background:rgba(0,10,16,0.9); border:1px solid rgba(249,178,51,0.25);
+      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+      border-radius:50%; color:var(--gold);
+      width:44px; height:44px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.5rem; line-height:1; z-index:310;
+      margin:1rem 1rem 0 auto;
+      flex-shrink:0;
+      box-shadow:0 4px 20px rgba(0,0,0,0.5);
+      transition:color 0.3s cubic-bezier(0.25,0.46,0.45,0.94), border-color 0.3s, background 0.3s;
+      cursor:pointer;
+    }
+    #engage-popup-close:hover { color:var(--titanium); border-color:var(--gold); background:rgba(0,77,90,0.4); }
+    #engage-popup .modal-body p {
+      font-family:'DM Sans',sans-serif; font-size:1rem;
+      line-height:1.85; color:#D0CECA; margin-bottom:1.5rem;
+    }
+    @media (max-width:768px) {
+      #engage-popup-inner { padding:1rem 1.25rem 3rem; margin:0 auto; }
+      #engage-popup-close { margin:0.75rem 0.75rem 0 auto; top:0.75rem; width:40px; height:40px; font-size:1.35rem; }
+    }
+
+    /* ── SERVICE CARD POPUP STYLES ── */
+    .svc-card-popup { cursor:pointer; }
+    .svc-card-popup .svc-learn { transition:opacity 0.3s, color 0.3s; }
+    .svc-card-popup:hover .svc-learn { color:rgba(249,178,51,0.85); }
+
+    /* ── SERVICE DETAIL POPUP ── */
+    #service-popup {
+      position:fixed; inset:0; z-index:300;
+      background:rgba(0,10,16,0.95); backdrop-filter:blur(8px);
+      display:flex; flex-direction:column; align-items:center;
+      overflow-y:auto; -webkit-overflow-scrolling:touch;
+      opacity:0; visibility:hidden;
+      transition:opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94), visibility 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    #service-popup.open { opacity:1; visibility:visible; }
+    #service-popup-inner {
+      max-width:640px; width:100%; margin:0 auto;
+      padding:2.5rem 2.5rem 3rem; position:relative;
+      opacity:0; transform:translateY(16px);
+      transition:opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s, transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s;
+    }
+    #service-popup.open #service-popup-inner { opacity:1; transform:translateY(0); }
+    #service-popup-close {
+      position:sticky; top:1rem; align-self:flex-end;
+      background:rgba(0,10,16,0.9); border:1px solid rgba(249,178,51,0.25);
+      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+      border-radius:50%; color:var(--gold);
+      width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+      font-size:1.5rem; line-height:1; z-index:310;
+      margin:1rem 1rem 0 auto; flex-shrink:0;
+      box-shadow:0 4px 20px rgba(0,0,0,0.5);
+      transition:color 0.3s, border-color 0.3s, background 0.3s; cursor:pointer;
+    }
+    #service-popup-close:hover { color:var(--titanium); border-color:var(--gold); background:rgba(0,77,90,0.4); }
+    #service-popup .modal-body p { font-family:'DM Sans',sans-serif; font-size:1rem; line-height:1.85; color:#D0CECA; margin-bottom:1.5rem; }
+    #service-popup .modal-body h3 { font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-weight:300; color:var(--titanium); margin:2rem 0 0.75rem; }
+    #service-popup .modal-body ul { list-style:none; padding:0; margin:0 0 1.5rem 0; }
+    #service-popup .modal-body ul li { margin-bottom:0.6rem; padding-left:1.2rem; position:relative; font-size:0.9375rem; line-height:1.7; color:#D0CECA; }
+    #service-popup .modal-body ul li::before { content:''; position:absolute; left:0; top:0.6rem; width:6px; height:6px; background:var(--gold); border-radius:50%; opacity:0.5; }
+    @media (max-width:768px) {
+      #service-popup-inner { padding:1rem 1.25rem 3rem; margin:0 auto; }
+      #service-popup-close { margin:0.75rem 0.75rem 0 auto; top:0.75rem; width:40px; height:40px; font-size:1.35rem; }
+    }
+
+    /* ── ENGAGE-WHEN CARD POPUP STYLES ── */
+    .engage-when-popup { cursor:pointer; }
+    .engage-when-popup .engage-when-more { transition:opacity 0.3s, color 0.3s; }
+    .engage-when-popup:hover .engage-when-more { color:rgba(249,178,51,0.85); }
+
+    /* ── ENGAGE-WHEN DETAIL POPUP ── */
+    #engage-when-popup {
+      position:fixed; inset:0; z-index:300;
+      background:rgba(0,10,16,0.95); backdrop-filter:blur(8px);
+      display:flex; flex-direction:column; align-items:center;
+      overflow-y:auto; -webkit-overflow-scrolling:touch;
+      opacity:0; visibility:hidden;
+      transition:opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94), visibility 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    #engage-when-popup.open { opacity:1; visibility:visible; }
+    #engage-when-popup-inner {
+      max-width:620px; width:100%; margin:0 auto;
+      padding:2.5rem 2.5rem 3rem; position:relative;
+      opacity:0; transform:translateY(16px);
+      transition:opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s, transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s;
+    }
+    #engage-when-popup.open #engage-when-popup-inner { opacity:1; transform:translateY(0); }
+    #engage-when-popup-close {
+      position:sticky; top:1rem; align-self:flex-end;
+      background:rgba(0,10,16,0.9); border:1px solid rgba(249,178,51,0.25);
+      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+      border-radius:50%; color:var(--gold);
+      width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+      font-size:1.5rem; line-height:1; z-index:310;
+      margin:1rem 1rem 0 auto; flex-shrink:0;
+      box-shadow:0 4px 20px rgba(0,0,0,0.5);
+      transition:color 0.3s, border-color 0.3s, background 0.3s; cursor:pointer;
+    }
+    #engage-when-popup-close:hover { color:var(--titanium); border-color:var(--gold); background:rgba(0,77,90,0.4); }
+    #engage-when-popup .modal-body p { font-family:'DM Sans',sans-serif; font-size:1rem; line-height:1.85; color:#D0CECA; margin-bottom:1.5rem; }
+    #engage-when-popup .modal-body h3 { font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:400; color:var(--titanium); margin:1.5rem 0 0.5rem; }
+    #engage-when-popup .modal-body h3 + p { margin-top:0.25rem; }
+    @media (max-width:768px) {
+      #engage-when-popup-inner { padding:1rem 1.25rem 3rem; margin:0 auto; }
+      #engage-when-popup-close { margin:0.75rem 0.75rem 0 auto; top:0.75rem; width:40px; height:40px; font-size:1.35rem; }
     }
 
     /* ── HOW WE WORK SECTION ── */
@@ -255,27 +448,13 @@
       mix-blend-mode:multiply; filter:brightness(0.85) saturate(0.7);
     }
     .svc-corner-icon {
-      position:absolute; top:24px; right:24px;
-      width:76px; height:56px;
-      display:flex; align-items:center; justify-content:center;
-      background:white;
-      border-radius:8px;
-      overflow:hidden;
-      border:1px solid rgba(249,178,51,0.25);
+      position:absolute; top:20px; right:20px;
+      width:52px; height:52px;
+      object-fit:contain;
       z-index:1;
     }
-    .svc-corner-icon img {
-      width:100%; height:auto; display:block;
-      object-fit:contain;
-      background:white;
-      border-radius:8px;
-    }
-    .group:hover .svc-corner-icon {
-      border-color:rgba(249,178,51,0.25);
-    }
     @media (max-width:768px) {
-      .svc-corner-icon { width:44px; height:32px; top:16px; right:16px; }
-      .svc-corner-icon img { width:100%; height:auto; }
+      .svc-corner-icon { width:36px; height:36px; top:14px; right:14px; }
     }
 
     /* ── STAT NUM ── */
@@ -298,18 +477,12 @@
     .founder-caption p { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:300; color:#F4F1EC; margin-bottom:0.375rem; }
     .founder-caption .section-label { justify-content:center; }
     .founder-linkedin { display:flex; justify-content:center; margin-top:0.75rem; }
-    /* Advisory Boundary — desktop only under founder */
-    .founder-boundary { margin-top:40px; border-top:1px solid rgba(255,255,255,0.08); padding-top:32px; }
     @media (max-width:768px) {
       .founder-wrap { width:100%; }
       .founder-img { width:200px; height:200px; }
-      /* Mobile order: founder first, text second, boundary last */
+      /* Mobile order: founder first, text second */
       .about-founder-col { order:1 !important; }
       .about-text-col { order:2 !important; }
-      .about-boundary-col { order:3 !important; }
-      /* Hide boundary from founder column on mobile, show standalone */
-      .founder-boundary { display:none; }
-      .about-boundary-col { display:block !important; margin-top:1.5rem; }
     }
 
     /* ── INSIGHT CARD ── */
@@ -329,6 +502,55 @@
       border-color:rgba(249,178,51,0.28);
       background:rgba(0,61,72,0.38);
       transform:translateY(-3px);
+    }
+    .insight-card-popup { cursor:pointer; }
+    .insight-card-popup .insight-read {
+      transition:opacity 0.3s, color 0.3s;
+    }
+    .insight-card-popup:hover .insight-read {
+      opacity:1; color:rgba(249,178,51,0.85);
+    }
+
+    /* ── INSIGHT DETAIL POPUP ── */
+    #insight-popup {
+      position:fixed; inset:0; z-index:300;
+      background:rgba(0,10,16,0.95); backdrop-filter:blur(8px);
+      display:flex; flex-direction:column; align-items:center;
+      overflow-y:auto; -webkit-overflow-scrolling:touch;
+      opacity:0; visibility:hidden;
+      transition:opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94), visibility 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    #insight-popup.open { opacity:1; visibility:visible; }
+    #insight-popup-inner {
+      max-width:600px; width:100%; margin:0 auto;
+      padding:2.5rem 2.5rem 3rem; position:relative;
+      opacity:0; transform:translateY(16px);
+      transition:opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s, transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s;
+    }
+    #insight-popup.open #insight-popup-inner { opacity:1; transform:translateY(0); }
+    #insight-popup-close {
+      position:sticky; top:1rem;
+      align-self:flex-end;
+      background:rgba(0,10,16,0.9); border:1px solid rgba(249,178,51,0.25);
+      backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+      border-radius:50%; color:var(--gold);
+      width:44px; height:44px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.5rem; line-height:1; z-index:310;
+      margin:1rem 1rem 0 auto;
+      flex-shrink:0;
+      box-shadow:0 4px 20px rgba(0,0,0,0.5);
+      transition:color 0.3s cubic-bezier(0.25,0.46,0.45,0.94), border-color 0.3s, background 0.3s;
+      cursor:pointer;
+    }
+    #insight-popup-close:hover { color:var(--titanium); border-color:var(--gold); background:rgba(0,77,90,0.4); }
+    #insight-popup .modal-body p {
+      font-family:'DM Sans',sans-serif; font-size:1rem;
+      line-height:1.85; color:#D0CECA; margin-bottom:1.5rem;
+    }
+    @media (max-width:768px) {
+      #insight-popup-inner { padding:1rem 1.25rem 3rem; margin:0 auto; }
+      #insight-popup-close { margin:0.75rem 0.75rem 0 auto; top:0.75rem; width:40px; height:40px; font-size:1.35rem; }
     }
 
     /* ── FORM INPUTS ── */
@@ -584,12 +806,12 @@
     }
     .hero-bulb-glow {
       position:absolute; inset:-20%;
-      background:radial-gradient(ellipse 75% 70% at 55% 50%,
+      /*background:radial-gradient(ellipse 75% 70% at 55% 50%,
         rgba(249,178,51,0.14) 0%,
         rgba(249,178,51,0.06) 35%,
         transparent 70%);
       filter:blur(30px);
-      animation:bulbGlowPulse 6s ease-in-out infinite;
+      animation:bulbGlowPulse 6s ease-in-out infinite;*/
     }
     @keyframes bulbGlowPulse {
       0%, 100% { opacity:0.7; transform:scale(1); }
@@ -658,12 +880,12 @@
 
     /* ── ENGAGE SECTION: font sizes & bullets ── */
     #engage h2 { font-size:clamp(2.8rem,6vw,5.5rem); }
-    #engage h3 { font-size:0.9375rem; /* 15px */ }
-    #engage p, #engage .text-sm { font-size:0.8125rem !important; /* 13px */ }
+    #engage h3 { font-size:1.0625rem; /* 17px */ }
+    #engage p, #engage .text-sm { font-size:0.9375rem !important; /* 15px */ }
     #engage .w-1\.5 { width:0.5rem; height:0.5rem; }
     @media (max-width:768px) {
-      #engage h3 { font-size:0.9375rem; }
-      #engage p, #engage .text-sm { font-size:0.8125rem !important; }
+      #engage h3 { font-size:1rem; }
+      #engage p, #engage .text-sm { font-size:0.9375rem !important; }
       #engage .w-1\.5 { width:0.5rem; height:0.5rem; }
     }
 
@@ -843,8 +1065,8 @@
     }
     #blog-modal.open { opacity:1; visibility:visible; }
     #blog-modal-inner {
-      max-width:680px; width:100%; margin:0 auto 5vh;
-      padding:1.5rem 2.5rem 4rem; position:relative;
+      max-width:640px; width:100%; margin:0 auto;
+      padding:2.5rem 2.5rem 3rem; position:relative;
       opacity:0; transform:translateY(16px);
       transition:opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s, transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s;
     }
@@ -956,9 +1178,12 @@
     <div class="hero-bulb-wrap" aria-hidden="true">
       <div class="hero-bulb-glow"></div>
       <picture>
-        <source srcset="assets/images/transparentBulb.webp" type="image/webp" media="(min-width:769px)">
-        <source srcset="assets/images/transparentBulb.png" type="image/png" media="(min-width:769px)">
-        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" class="hero-bulb-img" width="1238" height="1238" loading="lazy" decoding="async">
+        <!-- Uncomment hero-bulb-glow for reverting back to transparentBulb-->
+        <!-- <source srcset="assets/images/transparentBulb.webp" type="image/webp" media="(min-width:769px)">
+        <source srcset="assets/images/transparentBulb.png" type="image/png" media="(min-width:769px)"> -->
+        <source srcset="assets/images/decision_tree.png" type="image/png" media="(min-width:769px)">
+        <!-- <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" class="hero-bulb-img" width="1238" height="1238" loading="lazy" decoding="async"> -->
+         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" class="hero-bulb-img" width="1238" height="1238" loading="lazy" decoding="async">
       </picture>
     </div>
 
@@ -1014,7 +1239,7 @@
 <section id="about" class="py-40 px-6 bg-obsidian">
   <div class="max-w-7xl mx-auto">
     <div class="grid lg:grid-cols-2 gap-24 items-start">
-      <!-- Founder Photo — always first -->
+      <!-- Founder Photo + About Senthil — always first -->
       <div class="reveal about-founder-col founder-wrap" style="order:1;">
         <img src="assets/images/founder_optimised.webp" alt="Senthil Murugappan — Founder, Helion Advisory Group" class="founder-img" width="800" height="999" loading="lazy" decoding="async">
         <div class="founder-caption">
@@ -1027,14 +1252,15 @@
             <span class="font-mono text-[0.7rem] tracking-wider uppercase">LinkedIn</span>
           </a>
         </div>
-        <!-- Advisory Boundary — desktop only (hidden on mobile via CSS) -->
-        <div class="founder-boundary">
-          <div class="reveal p-6 border-l-2 border-gold/40 bg-teal/5 rounded-sm">
-            <p class="font-mono text-[0.8125rem] uppercase tracking-widest text-gold/60 mb-2">Advisory Boundary</p>
-            <p class="text-titanium/50 text-sm leading-relaxed">
-              All implementation and final regulatory responsibility remains with the client. Helion provides independent judgement and decision support, not implementation.
-            </p>
-          </div>
+        <!-- About Senthil — below photo -->
+        <div class="mt-8 reveal">
+          <div class="section-label mb-4">About Senthil</div>
+          <p class="text-titanium/55 text-[1.0625rem] leading-[1.9]">
+            Helion is led by Senthil Murugappan, PhD, a senior development and CMC professional with 10+ years of hands‑on experience across vaccines, biologics, mRNA, and novel delivery platforms. He has led formulation, stabilisation, and CMC strategy from preclinical through early clinical and platform programs, including microneedle‑based vaccine delivery.
+          </p>
+          <p class="text-titanium/55 text-[1.0625rem] leading-[1.9] mt-5">
+            His work centres on early technical judgement, risk identification, and decision clarity at the points where development pathways become hard and expensive to change—helping biotech leaders make confident calls on CMC, formulation, and platform choices when it matters most.
+          </p>
         </div>
       </div>
       <!-- About Text — second -->
@@ -1043,14 +1269,14 @@
         <h2 class="font-serif font-light leading-[1.05] mb-8 reveal" style="font-size:clamp(2.4rem,5vw,4.2rem);letter-spacing:-0.01em;">
           Improving decision quality at <em class="text-gold" style="font-style:italic;">inflection points</em>
         </h2>
-        <p class="font-serif text-[1.0625rem] font-light text-titanium/75 leading-relaxed mb-6 reveal" style="font-style:italic;">
-          Many development delays are not caused by poor science, but by early decisions that were never fully stress-tested.
+        <p class="font-serif text-[1.1875rem] font-light text-titanium/75 leading-relaxed mb-6 reveal" style="font-style:italic;">
+          Most programs don't fail because the science is weak; they run into trouble because early CMC, formulation, or platform decisions were never fully stress‑tested—and only show up as problems when timelines, capital, and reputation are already on the line.
         </p>
         <p class="text-titanium/55 text-[1.0625rem] leading-[1.9] mb-5 reveal">
-          Helion exists to improve decision quality at development inflection points — where small compromises can later create disproportionate regulatory and CMC risk. We operate at the interface of science, safety, formulation, and strategy.
+          Helion exists to improve decision quality at development inflection points: preparing for first‑in‑human, choosing or locking into a delivery platform, committing to a formulation, or stepping into a major BD or financing process. These are the moments where "small" compromises quietly compound into disproportionate regulatory and CMC risk later.
         </p>
         <p class="text-titanium/55 text-[0.9375rem] leading-[1.9] mb-10 reveal">
-          Helion is led by Senthil Murugappan, a senior development and CMC professional with deep experience across vaccines, biologics, mRNA, and novel delivery platforms. His work focuses on early technical judgement, risk identification, and decision clarity at points where development pathways become difficult to change.
+          In practice, that means taking complex detail at the interface of science, safety, formulation, and strategy and turning it into clear options and trade‑offs that CEOs, boards, and investors can confidently stand behind.
         </p>
         <div class="mb-10 reveal">
           <div class="section-label mb-4">What Helion Is Not</div>
@@ -1062,19 +1288,20 @@
             <span class="not-tag">Regulatory Sign-off</span>
           </div>
         </div>
-        <!-- Advisory Boundary — mobile only (shown at bottom on mobile) -->
-        <div class="about-boundary-col" style="display:none;">
-          <div class="reveal p-6 border-l-2 border-gold/40 bg-teal/5 rounded-sm">
-            <p class="font-mono text-[0.8125rem] uppercase tracking-widest text-gold/60 mb-2">Advisory Boundary</p>
-            <p class="text-titanium/50 text-sm leading-relaxed">
-              All implementation and final regulatory responsibility remains with the client. Helion provides independent judgement and decision support, not implementation.
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ADVISORY BOUNDARY STRIP -->
+<div class="py-14 px-6" style="background:rgba(0,0,0,0.5);border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);">
+  <div class="max-w-4xl mx-auto text-center reveal">
+    <div class="font-mono text-[0.8125rem] uppercase tracking-[0.55em] text-titanium/20 mb-4">Advisory Boundary</div>
+    <p class="font-serif text-sm italic text-titanium/30 leading-relaxed">
+      All implementation and final regulatory responsibility remains with the client. Helion provides independent judgement and decision support, not implementation.
+    </p>
+  </div>
+</div>
 
 <!-- SERVICES -->
 <section id="services" class="py-40 px-6">
@@ -1089,9 +1316,8 @@
       <p class="font-mono text-[0.8125rem] uppercase tracking-[0.4em] text-titanium/25 mt-8 md:mt-0 border-b border-white/8 pb-3">Specialised in Complex Programs</p>
     </div>
     <div id="services-grid" class="grid md:grid-cols-2 gap-4">
-      <div class="glass rounded-sm p-12 group reveal" style="position:relative;">
-        <img src="assets/images/2-icon.webp" alt="" class="svc-corner-icon" width="76" height="56" loading="lazy" decoding="async">
-        <!-- <div class="svc-img-wrap"><img src="assets/images/1.png" alt="Early Development" loading="lazy" decoding="async"></div> -->
+      <div class="glass rounded-sm p-12 group reveal svc-card-popup" style="position:relative;" onclick="openServicePopup(0)" role="button" tabindex="0" aria-label="Learn more about Early Development & Regulatory Readiness">
+        <img src="assets/images/2-icon.png" alt="" class="svc-corner-icon" width="52" height="52" loading="lazy" decoding="async">
         <h3 class="font-serif text-2xl font-light text-titanium mb-4 group-hover:text-gold transition-colors duration-300 leading-tight">Early Development &<br>Regulatory Readiness</h3>
         <p class="text-titanium/45 text-sm leading-relaxed mb-6">Supporting early-stage programs in translating discovery assets into credible, regulator-ready development strategies for first-in-human programs.</p>
         <ul class="space-y-2 mb-2">
@@ -1100,11 +1326,11 @@
           <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Formulation, dose rationale &amp; early clinical alignment</li>
         </ul>
         <div class="outcome-tag">Clear, defensible development pathways that reduce regulatory and clinical risk</div>
+        <span class="svc-learn font-mono text-[0.68rem] tracking-widest uppercase text-gold/45 mt-4 inline-block">Learn more →</span>
       </div>
 
-      <div class="glass rounded-sm p-12 group reveal" style="position:relative;transition-delay:0.1s">
-        <img src="assets/images/3-icon.webp" alt="" class="svc-corner-icon" width="76" height="56" loading="lazy" decoding="async">
-        <!-- <div class="svc-img-wrap"><img src="assets/images/2.png" alt="Formulation Strategy" loading="lazy" decoding="async"></div> -->
+      <div class="glass rounded-sm p-12 group reveal svc-card-popup" style="position:relative;transition-delay:0.1s" onclick="openServicePopup(1)" role="button" tabindex="0" aria-label="Learn more about Formulation & Stabilisation Strategy">
+        <img src="assets/images/3-icon.png" alt="" class="svc-corner-icon" width="52" height="52" loading="lazy" decoding="async">
         <h3 class="font-serif text-2xl font-light text-titanium mb-4 group-hover:text-gold transition-colors duration-300 leading-tight">Formulation &<br>Stabilisation Strategy</h3>
         <p class="text-titanium/45 text-sm leading-relaxed mb-6">Stability-led formulation strategy aligned with delivery route, scale-up, and regulatory expectations.</p>
         <ul class="space-y-2 mb-2">
@@ -1113,25 +1339,25 @@
           <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Managing evolution without undermining narratives</li>
         </ul>
         <div class="outcome-tag">Formulation strategies that are scientifically sound, manufacturable, and regulator-credible</div>
+        <span class="svc-learn font-mono text-[0.68rem] tracking-widest uppercase text-gold/45 mt-4 inline-block">Learn more →</span>
       </div>
 
-      <div class="glass rounded-sm p-12 group reveal" style="position:relative;transition-delay:0.2s">
-        <img src="assets/images/1-icon.webp" alt="" class="svc-corner-icon" width="76" height="56" loading="lazy" decoding="async">
-        <!-- <div class="svc-img-wrap"><img src="assets/images/3.png" alt="CMC Strategy" loading="lazy" decoding="async"></div> -->
+      <div class="glass rounded-sm p-12 group reveal svc-card-popup" style="position:relative;transition-delay:0.2s" onclick="openServicePopup(2)" role="button" tabindex="0" aria-label="Learn more about CMC Strategy & Technical Due Diligence">
+        <img src="assets/images/1-icon.png" alt="" class="svc-corner-icon" width="52" height="52" loading="lazy" decoding="async">
         <h3 class="font-serif text-2xl font-light text-titanium mb-4 group-hover:text-gold transition-colors duration-300 leading-tight">CMC Strategy &<br>Technical Due Diligence</h3>
         <p class="text-titanium/45 text-sm leading-relaxed mb-6">Independent CMC judgement to support internal decisions, investor confidence, and business development activity.</p>
         <ul class="space-y-2 mb-2">
           <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Early CMC strategy — preclinical through Phase I/II</li>
-                   <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Control strategy and risk identification</li>
+          <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Control strategy and risk identification</li>
           <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Manufacturability, scale-up &amp; transfer readiness</li>
           <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Technical due diligence for licensing or acquisition</li>
         </ul>
         <div class="outcome-tag">Early identification of hidden CMC liabilities before they become program-limiting</div>
+        <span class="svc-learn font-mono text-[0.68rem] tracking-widest uppercase text-gold/45 mt-4 inline-block">Learn more →</span>
       </div>
 
-      <div class="glass rounded-sm p-12 group reveal" style="position:relative;transition-delay:0.3s">
-        <img src="assets/images/4-icon.webp" alt="" class="svc-corner-icon" width="76" height="56" loading="lazy" decoding="async">
-        <!-- <div class="svc-img-wrap"><img src="assets/images/4.png" alt="Novel Delivery" loading="lazy" decoding="async"></div> -->
+      <div class="glass rounded-sm p-12 group reveal svc-card-popup" style="position:relative;transition-delay:0.3s" onclick="openServicePopup(3)" role="button" tabindex="0" aria-label="Learn more about Novel Delivery & Platform Evaluation">
+        <img src="assets/images/4-icon.png" alt="" class="svc-corner-icon" width="52" height="52" loading="lazy" decoding="async">
         <h3 class="font-serif text-2xl font-light text-titanium mb-4 group-hover:text-gold transition-colors duration-300 leading-tight">Novel Delivery &<br>Platform Evaluation</h3>
         <p class="text-titanium/45 text-sm leading-relaxed mb-6">Advising on emerging and advanced delivery platforms — separating technical reality from marketing claims. Experience includes microneedle systems, nasal and pulmonary delivery, and biologic/device combination products.</p>
         <ul class="space-y-2 mb-2">
@@ -1140,6 +1366,7 @@
           <li class="font-mono text-[0.75rem] tracking-wide uppercase text-titanium/30">— Biologic/device combination products</li>
         </ul>
         <div class="outcome-tag">Evidence-based go/no-go decisions on delivery technologies and platform partnerships</div>
+        <span class="svc-learn font-mono text-[0.68rem] tracking-widest uppercase text-gold/45 mt-4 inline-block">Learn more →</span>
       </div>
     </div>
     <!-- Carousel pagination dots (mobile only) -->
@@ -1152,6 +1379,17 @@
   </div>
 </section>
 
+<!-- SERVICE DETAIL POPUP -->
+<div id="service-popup" role="dialog" aria-modal="true" aria-label="Service detail">
+  <button id="service-popup-close" aria-label="Close detail">×</button>
+  <div id="service-popup-inner">
+    <div class="modal-meta" id="service-popup-meta"></div>
+    <h2 class="modal-title" id="service-popup-title"></h2>
+    <div class="modal-divider"></div>
+    <div class="modal-body" id="service-popup-body"></div>
+  </div>
+</div>
+
 <!-- WHEN TO ENGAGE -->
 <section id="engage" class="py-40 px-6 bg-obsidian">
   <div class="max-w-7xl mx-auto">
@@ -1160,7 +1398,7 @@
       Recognising the<br><em class="text-gold" style="font-style:italic;">critical moment</em>
     </h2>
     <div class="grid lg:grid-cols-3 gap-4">
-      <div class="engage-col glass rounded-sm p-10 reveal">
+      <div class="engage-col glass rounded-sm p-10 reveal engage-when-popup" onclick="openEngageWhenPopup(0)" role="button" tabindex="0" aria-label="Read more about Typical Inflection Points">
         <h3 class="font-serif text-2xl font-light text-titanium mb-8 pb-6 border-b border-white/6">Typical Inflection Points</h3>
         <div class="space-y-5">
           <div class="flex items-start gap-3"><div class="w-1.5 h-1.5 bg-gold rotate-45 mt-2 flex-shrink-0"></div><p class="text-titanium/55 text-sm leading-relaxed">Preparing for first-in-human studies</p></div>
@@ -1169,9 +1407,10 @@
           <div class="flex items-start gap-3"><div class="w-1.5 h-1.5 bg-gold rotate-45 mt-2 flex-shrink-0"></div><p class="text-titanium/55 text-sm leading-relaxed">Facing formulation or comparability uncertainty</p></div>
           <div class="flex items-start gap-3"><div class="w-1.5 h-1.5 bg-gold rotate-45 mt-2 flex-shrink-0"></div><p class="text-titanium/55 text-sm leading-relaxed">Supporting BD or investment decisions</p></div>
         </div>
+        <span class="engage-when-more font-mono text-[0.68rem] tracking-widest uppercase text-gold/45 mt-6 inline-block">Read more →</span>
       </div>
 
-      <div class="engage-col rounded-sm p-10 reveal" style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.12);">
+      <div class="engage-col rounded-sm p-10 reveal engage-when-popup" style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.12);" onclick="openEngageWhenPopup(1)" role="button" tabindex="0" aria-label="Read more about Warning Signs">
         <h3 class="font-serif text-2xl font-light italic mb-8 pb-6 border-b border-red-500/10" style="color:rgba(252,165,165,0.7);">Warning Signs</h3>
         <div class="space-y-6">
           <p class="font-serif text-lg font-light text-titanium/60 italic">"We'll fix it in the next phase..."</p>
@@ -1179,23 +1418,32 @@
           <p class="text-titanium/45 text-sm leading-relaxed">Development logic being retrofitted to existing data.</p>
           <p class="text-titanium/45 text-sm leading-relaxed">Regulatory questions focusing on consistency rather than gaps.</p>
         </div>
-        <a href="#contact" class="group inline-flex items-center gap-2 mt-8 font-mono text-[0.68rem] tracking-widest uppercase text-gold hover:text-titanium transition-colors">
-          Start Review <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
-        </a>
+        <span class="engage-when-more font-mono text-[0.68rem] tracking-widest uppercase text-gold/45 mt-6 inline-block">Read more →</span>
       </div>
 
-      <div class="engage-col glass rounded-sm p-10 reveal">
-        <h3 class="font-serif text-2xl font-light text-titanium mb-8 pb-6 border-b border-white/6">What Helion Does</h3>
+      <div class="engage-col glass rounded-sm p-10 reveal engage-when-popup" onclick="openEngageWhenPopup(2)" role="button" tabindex="0" aria-label="Read more about What Helion Delivers">
+        <h3 class="font-serif text-2xl font-light text-titanium mb-8 pb-6 border-b border-white/6">What Helion Delivers</h3>
         <div class="space-y-3">
           <div class="et-row"><div class="w-1.5 h-1.5 bg-gold/60 rounded-full flex-shrink-0"></div><span class="text-titanium/55 text-sm">Independent review and risk framing</span></div>
           <div class="et-row"><div class="w-1.5 h-1.5 bg-gold/60 rounded-full flex-shrink-0"></div><span class="text-titanium/55 text-sm">Decision support before further commitments</span></div>
           <div class="et-row"><div class="w-1.5 h-1.5 bg-gold/60 rounded-full flex-shrink-0"></div><span class="text-titanium/55 text-sm">Stabilising development logic under uncertainty</span></div>
           <div class="et-row"><div class="w-1.5 h-1.5 bg-gold/60 rounded-full flex-shrink-0"></div><span class="text-titanium/55 text-sm">Identifying hidden liabilities before they become program-limiting</span></div>
         </div>
+        <span class="engage-when-more font-mono text-[0.68rem] tracking-widest uppercase text-gold/45 mt-6 inline-block">Read more →</span>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ENGAGE WHEN DETAIL POPUP -->
+<div id="engage-when-popup" role="dialog" aria-modal="true" aria-label="Engagement detail">
+  <button id="engage-when-popup-close" aria-label="Close detail">×</button>
+  <div id="engage-when-popup-inner">
+    <h2 class="modal-title" id="engage-when-popup-title"></h2>
+    <div class="modal-divider"></div>
+    <div class="modal-body" id="engage-when-popup-body"></div>
+  </div>
+</div>
 
 <!-- HOW WE WORK -->
 <section id="how" class="py-40 px-6">
@@ -1204,30 +1452,80 @@
       <div class="reveal">
         <div class="section-label mb-6">Engagement Model</div>
         <h2 class="font-serif font-light leading-tight mb-8" style="font-size:clamp(2.5rem,5vw,4.5rem);letter-spacing:-0.01em;">
-          Fixed-scope.<br><em class="text-gold" style="font-style:italic;">Defined outcomes.</em>
+          Fixed‑scope.<br>Defined outcomes.<br><em class="text-gold" style="font-style:italic;">No surprises.</em>
         </h2>
         <p class="text-titanium/55 text-[1.0625rem] leading-[1.9] mb-10">
-          Helion works through clearly defined, fixed-scope advisory engagements designed to support specific decisions — no open-ended hourly consulting, no ambiguous mandates. Confidential and independent.
+          Helion works through clearly framed, fixed‑scope advisory projects built around specific decisions—no open‑ended hourly billing, no vague mandates. You know in advance what we will do, what you will receive, how long it will take, and what it will cost.
         </p>
+
+        <h3 class="font-serif text-xl font-light text-titanium mb-5">Fixed‑fee technical assessments <span class="text-titanium/40">(4–6 weeks)</span></h3>
+        <p class="text-titanium/45 text-sm leading-relaxed mb-6">Typical engagements include:</p>
+
         <div class="space-y-3">
-          <div class="et-row"><div class="w-1.5 h-1.5 bg-gold/60 rounded-full flex-shrink-0"></div><span class="text-titanium/55 text-sm">Fixed-fee technical assessments (4–6 weeks)</span></div>
-          <div class="et-row"><div class="w-1.5 h-1.5 bg-gold/60 rounded-full flex-shrink-0"></div><span class="text-titanium/55 text-sm">Regulatory and CMC readiness reviews</span></div>
-          <div class="et-row"><div class="w-1.5 h-1.5 bg-gold/60 rounded-full flex-shrink-0"></div><span class="text-titanium/55 text-sm">Delivery platform feasibility evaluations</span></div>
-          <div class="et-row"><div class="w-1.5 h-1.5 bg-gold/60 rounded-full flex-shrink-0"></div><span class="text-titanium/55 text-sm">Technical due diligence packages</span></div>
+          <div class="et-row et-row-popup" onclick="openEngagePopup(0)" role="button" tabindex="0" aria-label="Read more about Regulatory and CMC readiness reviews">
+            <div class="w-1.5 h-1.5 bg-gold/60 rounded-full flex-shrink-0"></div>
+            <span class="text-titanium/55 text-sm flex-1">Regulatory and CMC readiness reviews</span>
+            <span class="et-row-arrow text-gold/40 text-xs">→</span>
+          </div>
+          <div class="et-row et-row-popup" onclick="openEngagePopup(1)" role="button" tabindex="0" aria-label="Read more about Delivery platform feasibility evaluations">
+            <div class="w-1.5 h-1.5 bg-gold/60 rounded-full flex-shrink-0"></div>
+            <span class="text-titanium/55 text-sm flex-1">Delivery platform feasibility evaluations</span>
+            <span class="et-row-arrow text-gold/40 text-xs">→</span>
+          </div>
+          <div class="et-row et-row-popup" onclick="openEngagePopup(2)" role="button" tabindex="0" aria-label="Read more about Technical due diligence packages">
+            <div class="w-1.5 h-1.5 bg-gold/60 rounded-full flex-shrink-0"></div>
+            <span class="text-titanium/55 text-sm flex-1">Technical due diligence packages</span>
+            <span class="et-row-arrow text-gold/40 text-xs">→</span>
+          </div>
         </div>
+
+        <p class="text-titanium/40 text-sm leading-relaxed mt-8" style="border-left:2px solid rgba(249,178,51,0.2);padding-left:1rem;">
+          Each assessment is time‑boxed (usually 4–6 weeks) and anchored on a clear decision you need to make.
+        </p>
       </div>
+
       <div class="reveal">
         <div class="section-label mb-6">Our Principles</div>
         <div class="grid grid-cols-2 gap-3">
-          <div class="glass principle-card rounded-sm p-7"><svg class="mb-4" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 0L12 6L6 12L0 6Z" fill="#F9B233"/></svg><h3 class="font-serif text-lg font-light text-titanium mb-2">Advisory-Only</h3><p class="text-titanium/40 text-xs leading-relaxed">Independent judgement. No execution, no laboratory, no conflict of interest.</p></div>
-          <div class="glass principle-card rounded-sm p-7"><svg class="mb-4" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 0L12 6L6 12L0 6Z" fill="#F9B233"/></svg><h3 class="font-serif text-lg font-light text-titanium mb-2">Defined Scope</h3><p class="text-titanium/40 text-xs leading-relaxed">Clear objectives and outcomes established before every engagement begins.</p></div>
-          <div class="glass principle-card rounded-sm p-7"><svg class="mb-4" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 0L12 6L6 12L0 6Z" fill="#F9B233"/></svg><h3 class="font-serif text-lg font-light text-titanium mb-2">Confidential</h3><p class="text-titanium/40 text-xs leading-relaxed">Complete discretion. Sensitive information handled with absolute professionalism.</p></div>
-          <div class="glass principle-card rounded-sm p-7"><svg class="mb-4" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 0L12 6L6 12L0 6Z" fill="#F9B233"/></svg><h3 class="font-serif text-lg font-light text-titanium mb-2">Client-Led</h3><p class="text-titanium/40 text-xs leading-relaxed">Execution, regulatory submissions, and final decisions remain with the client.</p></div>
+          <div class="glass principle-card principle-card-popup rounded-sm p-7" onclick="openPrinciplePopup(0)" role="button" tabindex="0" aria-label="Read more about Advisory-Only principle">
+            <svg class="mb-4" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 0L12 6L6 12L0 6Z" fill="#F9B233"/></svg>
+            <h3 class="font-serif text-lg font-light text-titanium mb-2">Advisory‑Only</h3>
+            <p class="text-titanium/40 text-xs leading-relaxed">Independent judgement only. No execution services, no labs, no manufacturing.</p>
+            <span class="principle-more text-gold/40 text-[0.65rem] tracking-widest uppercase mt-3 inline-block">Details →</span>
+          </div>
+          <div class="glass principle-card principle-card-popup rounded-sm p-7" onclick="openPrinciplePopup(1)" role="button" tabindex="0" aria-label="Read more about Defined Scope principle">
+            <svg class="mb-4" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 0L12 6L6 12L0 6Z" fill="#F9B233"/></svg>
+            <h3 class="font-serif text-lg font-light text-titanium mb-2">Defined Scope</h3>
+            <p class="text-titanium/40 text-xs leading-relaxed">Clear objectives, questions, and deliverables agreed before we start.</p>
+            <span class="principle-more text-gold/40 text-[0.65rem] tracking-widest uppercase mt-3 inline-block">Details →</span>
+          </div>
+          <div class="glass principle-card principle-card-popup rounded-sm p-7" onclick="openPrinciplePopup(2)" role="button" tabindex="0" aria-label="Read more about Confidential principle">
+            <svg class="mb-4" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 0L12 6L6 12L0 6Z" fill="#F9B233"/></svg>
+            <h3 class="font-serif text-lg font-light text-titanium mb-2">Confidential</h3>
+            <p class="text-titanium/40 text-xs leading-relaxed">Complete discretion, with sensitive information handled to the highest standard.</p>
+            <span class="principle-more text-gold/40 text-[0.65rem] tracking-widest uppercase mt-3 inline-block">Details →</span>
+          </div>
+          <div class="glass principle-card principle-card-popup rounded-sm p-7" onclick="openPrinciplePopup(3)" role="button" tabindex="0" aria-label="Read more about Client-Led principle">
+            <svg class="mb-4" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 0L12 6L6 12L0 6Z" fill="#F9B233"/></svg>
+            <h3 class="font-serif text-lg font-light text-titanium mb-2">Client‑Led</h3>
+            <p class="text-titanium/40 text-xs leading-relaxed">You stay in control. Final decisions remain with your team.</p>
+            <span class="principle-more text-gold/40 text-[0.65rem] tracking-widest uppercase mt-3 inline-block">Details →</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ENGAGE DETAIL POPUP -->
+<div id="engage-popup" role="dialog" aria-modal="true" aria-label="Engagement detail">
+  <button id="engage-popup-close" aria-label="Close detail">×</button>
+  <div id="engage-popup-inner">
+    <h2 class="modal-title" id="engage-popup-title"></h2>
+    <div class="modal-divider"></div>
+    <div class="modal-body" id="engage-popup-body"></div>
+  </div>
+</div>
 
 <!-- INSIGHTS -->
 <section id="insights" class="py-40 px-6 bg-obsidian">
@@ -1237,34 +1535,48 @@
       Thinking on early development,<br>formulation, and <em class="text-gold" style="font-style:italic;">CMC risk</em>
     </h2>
     <div class="grid md:grid-cols-3 gap-4 reveal">
-      <div class="insight-card">
+      <div class="insight-card insight-card-popup" onclick="openInsightPopup(0)" role="button" tabindex="0" aria-label="Read more about CMC Strategy">
         <img src="assets/images/insight-cmc.jpg" alt="CMC Laboratory scene" class="insight-card-img" width="394" height="220" loading="lazy" decoding="async">
         <div class="insight-card-content">
           <div class="section-label mb-5">CMC Strategy</div>
-          <h3 class="font-serif text-xl font-light text-titanium leading-snug mb-4">Why CMC Liabilities Are Invisible Until They Are Not</h3>
-          <p class="text-titanium/40 text-sm leading-relaxed">The most damaging CMC issues rarely announce themselves at preclinical stage. They accumulate quietly in decisions that seem rational in isolation but create compound risk over time.</p>
+          <h3 class="font-serif text-xl font-light text-titanium leading-snug mb-4">Why CMC Liabilities Stay Invisible — Until They Don't</h3>
+          <p class="text-titanium/40 text-sm leading-relaxed mb-5">The most damaging CMC issues rarely announce themselves at preclinical stage. They accumulate quietly in decisions that seem rational in isolation but create compound risk over time.</p>
+          <span class="insight-read font-mono text-[0.68rem] tracking-widest uppercase text-gold/50">Read →</span>
         </div>
       </div>
-      <div class="insight-card">
+      <div class="insight-card insight-card-popup" onclick="openInsightPopup(1)" role="button" tabindex="0" aria-label="Read more about Formulation">
         <img src="assets/images/insight-formulation.jpg" alt="Formulation with scientist holding vial" class="insight-card-img" width="394" height="220" loading="lazy" decoding="async">
         <div class="insight-card-content">
           <div class="section-label mb-5">Formulation</div>
           <h3 class="font-serif text-xl font-light text-titanium leading-snug mb-4">Formulation Is a Decision, Not a Process</h3>
-          <p class="text-titanium/40 text-sm leading-relaxed">Too many early-stage programs treat formulation as something resolved by the CRO during scale-up. By then, the decisions have already been made — just not by you.</p>
+          <p class="text-titanium/40 text-sm leading-relaxed mb-5">Too many early-stage programs treat formulation as something resolved by the CRO during scale-up. By then, the decisions have already been made — just not by you.</p>
+          <span class="insight-read font-mono text-[0.68rem] tracking-widest uppercase text-gold/50">Read →</span>
         </div>
       </div>
-      <div class="insight-card">
+      <div class="insight-card insight-card-popup" onclick="openInsightPopup(2)" role="button" tabindex="0" aria-label="Read more about Platform Risk">
         <img src="assets/images/insight-platforms.jpg" alt="Novel platform nanoparticle network" class="insight-card-img" width="394" height="220" loading="lazy" decoding="async">
         <div class="insight-card-content">
           <div class="section-label mb-5">Platform Risk</div>
           <h3 class="font-serif text-xl font-light text-titanium leading-snug mb-4">Novel Platforms and the Credibility Gap</h3>
-          <p class="text-titanium/40 text-sm leading-relaxed">Delivery platform selection often happens under commercial pressure with limited independent technical scrutiny. The gap between what platforms claim and what they can demonstrably deliver remains significant.</p>
+          <p class="text-titanium/40 text-sm leading-relaxed mb-5">Delivery platform selection often happens under commercial pressure with limited independent technical scrutiny. The gap between what platforms claim and what they can demonstrably deliver remains significant.</p>
+          <span class="insight-read font-mono text-[0.68rem] tracking-widest uppercase text-gold/50">Read →</span>
         </div>
       </div>
     </div>
     <p class="font-serif text-sm italic text-titanium/25 mt-8 reveal">Insights are published selectively and are not intended as regulatory or legal advice.</p>
   </div>
 </section>
+
+<!-- INSIGHT DETAIL POPUP -->
+<div id="insight-popup" role="dialog" aria-modal="true" aria-label="Insight detail">
+  <button id="insight-popup-close" aria-label="Close insight">×</button>
+  <div id="insight-popup-inner">
+    <div class="modal-meta" id="insight-popup-meta"></div>
+    <h2 class="modal-title" id="insight-popup-title"></h2>
+    <div class="modal-divider"></div>
+    <div class="modal-body" id="insight-popup-body"></div>
+  </div>
+</div>
 
 <!-- BLOG / PERSPECTIVES -->
 <section id="blog" class="py-40 px-6" style="background:#00161C;">
@@ -1336,8 +1648,8 @@
       <button class="blog-dot" data-index="3" aria-label="Go to post 4"></button>
     </div>
     <!-- View all link -->
-    <div class="flex justify-end reveal" style="padding-top:2rem;">
-      <a href="blog.html" class="view-all-link group inline-flex items-center gap-3 font-mono text-[0.8125rem] tracking-[0.12em] uppercase text-gold hover:text-titanium transition-all">
+    <div class="flex justify-end reveal" style="padding-top:2rem;position:relative;z-index:2;">
+      <a href="blog.html" class="view-all-link group inline-flex items-center gap-3 font-mono text-[0.8125rem] tracking-[0.12em] uppercase text-gold hover:text-titanium transition-all" style="position:relative;z-index:3;">
         View All <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
       </a>
     </div>
@@ -2024,6 +2336,366 @@ document.addEventListener('keydown', function(e) {
 
 // Register blog-card and modal elements for custom cursor hover
 document.querySelectorAll('.blog-card, .blog-card-read, #blog-modal-close').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+// ── ENGAGEMENT POPUP DATA ──
+const engageItems = [
+  {
+    title: 'Regulatory and CMC Readiness Reviews',
+    body: '<p>Is your package ready for regulator and investor scrutiny, or are there hidden gaps?</p><p>We review the coherence of your CMC development narrative, analytical control strategy, and regulatory positioning—identifying issues that could delay submissions or erode credibility during due diligence.</p>'
+  },
+  {
+    title: 'Delivery Platform Feasibility Evaluations',
+    body: '<p>Does this technology genuinely fit your program, or are you buying into a story?</p><p>We provide independent technical assessment of novel delivery platforms—evaluating manufacturability, scalability, regulatory precedent, and the gap between what is claimed and what is demonstrable.</p>'
+  },
+  {
+    title: 'Technical Due Diligence Packages',
+    body: '<p>Independent CMC and platform assessments to support licensing, partnering, or acquisition decisions.</p><p>We deliver structured, evidence‑based technical opinions designed for boards, investors, and deal teams—focused on risk, not promotional narratives.</p>'
+  }
+];
+
+const principleItems = [
+  {
+    title: 'Advisory‑Only',
+    body: '<p>Independent judgement only. No execution services, no labs, no manufacturing—so no conflict of interest in our recommendations.</p><p>Our value lies entirely in the quality of the advice, not in selling downstream services.</p>'
+  },
+  {
+    title: 'Defined Scope',
+    body: '<p>Clear objectives, questions, and deliverables agreed before we start.</p><p>If the brief changes, scope changes are explicit—not hidden. You will never receive an invoice for work that wasn\'t agreed in advance.</p>'
+  },
+  {
+    title: 'Confidential',
+    body: '<p>Complete discretion, with sensitive information handled to the same standard you expect from legal and regulatory advisers.</p><p>We understand the commercial sensitivity of early-stage programs and treat every engagement accordingly.</p>'
+  },
+  {
+    title: 'Client‑Led',
+    body: '<p>You stay in control. Execution, regulatory submissions, vendor selection, and final decisions remain with your team.</p><p>We give you the clearest possible basis to decide—then step back so you can act.</p>'
+  }
+];
+
+// ── ENGAGEMENT POPUP LOGIC ──
+const engagePopup = document.getElementById('engage-popup');
+const engagePopupClose = document.getElementById('engage-popup-close');
+
+function openEngagePopup(idx) {
+  const item = engageItems[idx];
+  document.getElementById('engage-popup-title').textContent = item.title;
+  document.getElementById('engage-popup-body').innerHTML = item.body;
+  engagePopup.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  engagePopup.scrollTop = 0;
+  var pillNav = document.getElementById('pill-nav');
+  var progressBar = document.getElementById('progress-bar');
+  if (pillNav) pillNav.style.display = 'none';
+  if (progressBar) progressBar.style.display = 'none';
+}
+
+function openPrinciplePopup(idx) {
+  const item = principleItems[idx];
+  document.getElementById('engage-popup-title').textContent = item.title;
+  document.getElementById('engage-popup-body').innerHTML = item.body;
+  engagePopup.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  engagePopup.scrollTop = 0;
+  var pillNav = document.getElementById('pill-nav');
+  var progressBar = document.getElementById('progress-bar');
+  if (pillNav) pillNav.style.display = 'none';
+  if (progressBar) progressBar.style.display = 'none';
+}
+
+function closeEngagePopup() {
+  engagePopup.classList.remove('open');
+  document.body.style.overflow = '';
+  var pillNav = document.getElementById('pill-nav');
+  var progressBar = document.getElementById('progress-bar');
+  if (pillNav) pillNav.style.display = '';
+  if (progressBar) progressBar.style.display = '';
+}
+
+engagePopupClose.addEventListener('click', closeEngagePopup);
+engagePopup.addEventListener('click', function(e) {
+  if (e.target === engagePopup) closeEngagePopup();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && engagePopup.classList.contains('open')) closeEngagePopup();
+});
+
+// Keyboard support for engagement popup triggers
+document.querySelectorAll('.et-row-popup, .principle-card-popup').forEach(el => {
+  el.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+  });
+});
+
+// Register engagement popup elements for custom cursor hover
+document.querySelectorAll('.et-row-popup, .principle-card-popup, #engage-popup-close').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+// ── INSIGHT POPUP DATA ──
+const insightItems = [
+  {
+    cat: 'CMC Strategy',
+    title: 'Why CMC Liabilities Stay Invisible — Until They Don\u2019t',
+    body: `<p>The most damaging CMC problems rarely show up as obvious "red flags" early on.</p>
+<p>They build quietly through a series of local, reasonable decisions that, when combined, create significant risk to quality, timelines, and approval.</p>
+<p>Small compromises in analytics, control strategy, formulation, or manufacturing may feel harmless at the preclinical or early\u2011clinical stage. But over time they turn into CMC debt that has to be repaid later\u2014usually under regulatory pressure, on a critical deal path, or just as you are trying to scale.</p>`
+  },
+  {
+    cat: 'Formulation',
+    title: 'Formulation Is a Decision, Not a Process',
+    body: `<p>Too many early-stage programs assume "the CRO will sort out the formulation during scale-up." By the time that happens, the real decisions have already been made\u2014often implicitly, by default, and not in line with your long-term strategy.</p>
+<p>When you don\u2019t actively own your formulation choices, you also don\u2019t own the trade-offs around stability, manufacturability, and future flexibility.</p>
+<p>Helion helps you bring those decisions back into your control, before they lock in hidden cost, complexity, and regulatory risk.</p>`
+  },
+  {
+    cat: 'Platform Risk',
+    title: 'Novel Platforms and the Credibility Gap',
+    body: `<p>Delivery platform choices are often made under intense commercial and fundraising pressure, with limited truly independent technical scrutiny. The result is a persistent credibility gap between what platforms promise in decks and what they can consistently deliver in practice.</p>
+<p>Without disciplined, evidence-based evaluation, teams risk locking into technologies whose real performance, scalability, or regulatory path only becomes clear once significant time and capital have already been spent.</p>
+<p>Helion helps close that gap so platform decisions are driven by data, not marketing.</p>`
+  }
+];
+
+// ── INSIGHT POPUP LOGIC ──
+const insightPopup = document.getElementById('insight-popup');
+const insightPopupClose = document.getElementById('insight-popup-close');
+
+function openInsightPopup(idx) {
+  const item = insightItems[idx];
+  document.getElementById('insight-popup-meta').innerHTML = '<span>' + item.cat + '</span>';
+  document.getElementById('insight-popup-title').textContent = item.title;
+  document.getElementById('insight-popup-body').innerHTML = item.body;
+  insightPopup.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  insightPopup.scrollTop = 0;
+  var pillNav = document.getElementById('pill-nav');
+  var progressBar = document.getElementById('progress-bar');
+  if (pillNav) pillNav.style.display = 'none';
+  if (progressBar) progressBar.style.display = 'none';
+}
+
+function closeInsightPopup() {
+  insightPopup.classList.remove('open');
+  document.body.style.overflow = '';
+  var pillNav = document.getElementById('pill-nav');
+  var progressBar = document.getElementById('progress-bar');
+  if (pillNav) pillNav.style.display = '';
+  if (progressBar) progressBar.style.display = '';
+}
+
+insightPopupClose.addEventListener('click', closeInsightPopup);
+insightPopup.addEventListener('click', function(e) {
+  if (e.target === insightPopup) closeInsightPopup();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && insightPopup.classList.contains('open')) closeInsightPopup();
+});
+
+// Keyboard support for insight popup triggers
+document.querySelectorAll('.insight-card-popup').forEach(el => {
+  el.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+  });
+});
+
+// Register insight popup elements for custom cursor hover
+document.querySelectorAll('.insight-card-popup, #insight-popup-close').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+// ── SERVICE POPUP DATA ──
+const serviceItems = [
+  {
+    cat: 'Advisory Domain',
+    title: 'Early Development & Regulatory Readiness',
+    body: `<p>The jump from discovery to first‑in‑human (FiH) is where many great ideas stall. We help you turn early‑stage assets into credible, regulator‑ready development plans that attract investors, build partner confidence, and move smoothly toward the clinic.</p>
+<p>We work with founders and growing biotechs to shape complex science into a clear story: what your program is, why it's de‑risked, and how it will reach patients. Our focus is on making your plan easy to understand and compelling to support.</p>
+<h3>Clear, joined‑up development planning</h3>
+<p>Instead of isolated studies, you get a joined‑up plan that makes sense end‑to‑end.</p>
+<ul>
+<li>Clarify what "success" looks like for your product and build your early plan around it.</li>
+<li>Sequence key nonclinical work so each step builds toward FiH rather than creating loose pieces of data.</li>
+<li>Make it straightforward to explain your path to the clinic in slides, documents, and meetings.</li>
+</ul>
+<p>This shows regulators, investors, and partners that you have a thought‑through roadmap, not just a collection of experiments.</p>
+<h3>Making risk easy to understand</h3>
+<p>Early programs always carry risk; what matters is how clearly you can explain it.</p>
+<ul>
+<li>Identify the main questions around safety, dosing, and how well your findings are likely to translate to people.</li>
+<li>Highlight what has already been addressed and where focused work will have the biggest impact.</li>
+<li>Turn complex issues into simple, honest messages that non‑scientists can quickly grasp.</li>
+</ul>
+<p>This positions your program as actively managed and de‑risked, rather than vague or hard to assess.</p>
+<h3>Formulation, dose, and FiH design that support your story</h3>
+<p>Your early clinical approach is a powerful part of your program's story.</p>
+<ul>
+<li>Make early choices about how the product will be given and used with real‑world patients in mind.</li>
+<li>Build a clear, sensible justification for your starting dose and escalation approach.</li>
+<li>Design FiH studies that are safe, explainable, and easy to defend in both regulatory and investor discussions.</li>
+</ul>
+<p>This helps your program look like a serious, well‑planned opportunity rather than a high‑level concept.</p>
+<h3>What you gain</h3>
+<ul>
+<li>A clear development pathway that reduces regulatory and clinical surprises.</li>
+<li>A stronger, more confident narrative for investors, partners, and advisory boards.</li>
+<li>Greater assurance moving into FiH, knowing your program is positioned the way experienced stakeholders expect.</li>
+</ul>`
+  },
+  {
+    cat: 'Advisory Domain',
+    title: 'Formulation & Stabilisation Strategy',
+    body: `<p>Stability-led formulation strategy aligned with delivery route, scale-up, and regulatory expectations.</p>
+<p>We help you make deliberate formulation decisions early—before the CRO "sorts it out" during scale-up, and before implicit choices lock in hidden cost, complexity, and regulatory risk.</p>
+<ul>
+<li>Product definition for early clinical use</li>
+<li>Route-appropriate formulation decisions</li>
+<li>Managing formulation evolution without undermining your development narrative</li>
+</ul>
+<p>Formulation strategies that are scientifically sound, manufacturable, and regulator-credible.</p>`
+  },
+  {
+    cat: 'Advisory Domain',
+    title: 'CMC Strategy & Technical Due Diligence',
+    body: `<p>Independent CMC judgement to support internal decisions, investor confidence, and business development activity.</p>
+<p>We provide early-stage CMC strategy from preclinical through Phase I/II, control strategy and risk identification, and structured technical due diligence for licensing or acquisition.</p>
+<ul>
+<li>Early CMC strategy — preclinical through Phase I/II</li>
+<li>Control strategy and risk identification</li>
+<li>Manufacturability, scale-up &amp; transfer readiness</li>
+<li>Technical due diligence for licensing or acquisition</li>
+</ul>
+<p>Early identification of hidden CMC liabilities before they become program-limiting.</p>`
+  },
+  {
+    cat: 'Advisory Domain',
+    title: 'Novel Delivery & Platform Evaluation',
+    body: `<p>Advising on emerging and advanced delivery platforms — separating technical reality from marketing claims.</p>
+<p>Delivery platform choices are often made under intense commercial and fundraising pressure, with limited truly independent technical scrutiny. We provide disciplined, evidence-based evaluation so platform decisions are driven by data, not marketing.</p>
+<ul>
+<li>Microneedle systems</li>
+<li>Nasal &amp; pulmonary delivery</li>
+<li>Biologic/device combination products</li>
+</ul>
+<p>Evidence-based go/no-go decisions on delivery technologies and platform partnerships.</p>`
+  }
+];
+
+// ── SERVICE POPUP LOGIC ──
+const servicePopup = document.getElementById('service-popup');
+const servicePopupClose = document.getElementById('service-popup-close');
+
+function openServicePopup(idx) {
+  const item = serviceItems[idx];
+  document.getElementById('service-popup-meta').innerHTML = '<span>' + item.cat + '</span>';
+  document.getElementById('service-popup-title').textContent = item.title;
+  document.getElementById('service-popup-body').innerHTML = item.body;
+  servicePopup.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  servicePopup.scrollTop = 0;
+  var pillNav = document.getElementById('pill-nav');
+  var progressBar = document.getElementById('progress-bar');
+  if (pillNav) pillNav.style.display = 'none';
+  if (progressBar) progressBar.style.display = 'none';
+}
+
+function closeServicePopup() {
+  servicePopup.classList.remove('open');
+  document.body.style.overflow = '';
+  var pillNav = document.getElementById('pill-nav');
+  var progressBar = document.getElementById('progress-bar');
+  if (pillNav) pillNav.style.display = '';
+  if (progressBar) progressBar.style.display = '';
+}
+
+servicePopupClose.addEventListener('click', closeServicePopup);
+servicePopup.addEventListener('click', function(e) { if (e.target === servicePopup) closeServicePopup(); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && servicePopup.classList.contains('open')) closeServicePopup(); });
+
+document.querySelectorAll('.svc-card-popup').forEach(el => {
+  el.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); } });
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+// ── ENGAGE-WHEN POPUP DATA ──
+const engageWhenItems = [
+  {
+    title: 'When You Need Us Most',
+    body: `<p>Typical inflection points where we help clients navigate uncertainty and protect program value:</p>
+<h3>Preparing for first-in-human (FiH) studies</h3>
+<p>Turning scattered preclinical data into a clear, regulator-ready story that justifies dosing humans confidently.</p>
+<h3>Transitioning from discovery to development</h3>
+<p>Building credible development logic when the path from lab bench to clinic feels unclear or risky.</p>
+<h3>Selecting or committing to a delivery platform</h3>
+<p>Separating genuine technical opportunity from vendor hype before you sign binding agreements.</p>
+<h3>Facing formulation or comparability uncertainty</h3>
+<p>Resolving stability, manufacturing, or reformulation challenges without derailing timelines or data integrity.</p>
+<h3>Supporting BD, licensing, or investment decisions</h3>
+<p>Providing the independent technical judgement that gives investors, partners, and boards genuine confidence.</p>`
+  },
+  {
+    title: 'Warning Signs You\u2019re Off Track',
+    body: `<p>These red flags signal CMC and development issues that can quietly drain capital and delay your program:</p>
+<h3>"We'll fix it in the next phase..."</h3>
+<p>Kicking tough formulation, stability, or manufacturing decisions down the road almost always creates bigger problems later.</p>
+<h3>Formulation or analytical choices treated as temporary</h3>
+<p>When early clinical material becomes the unintended "final" formulation, you lose flexibility and face costly comparability exercises.</p>
+<h3>Development logic being retrofitted to existing data</h3>
+<p>Forcing a story to fit scattered studies rather than designing a coherent plan from the start invites regulatory skepticism.</p>
+<h3>Regulatory questions focusing on consistency rather than gaps</h3>
+<p>When regulators probe "why did you change?" instead of "what more do you need?", you've already lost narrative control.</p>`
+  },
+  {
+    title: 'What Helion Delivers',
+    body: `<p>We step in at critical moments to protect your program and accelerate progress:</p>
+<h3>Independent review and risk framing</h3>
+<p>Providing the objective, expert assessment your internal team needs\u2014but without internal politics or blind spots.</p>
+<h3>Decision support before further commitments</h3>
+<p>Clear recommendations on go/no-go, platform selection, or next steps so you commit capital confidently.</p>
+<h3>Stabilising development logic under uncertainty</h3>
+<p>Turning scattered data, conflicting priorities, and unclear pathways into a coherent, regulator-ready story.</p>
+<h3>Identifying hidden liabilities before they become program-limiting</h3>
+<p>Spotting formulation, CMC, or translational gaps that could quietly drain resources or halt momentum.</p>`
+  }
+];
+
+// ── ENGAGE-WHEN POPUP LOGIC ──
+const engageWhenPopup = document.getElementById('engage-when-popup');
+const engageWhenPopupClose = document.getElementById('engage-when-popup-close');
+
+function openEngageWhenPopup(idx) {
+  const item = engageWhenItems[idx];
+  document.getElementById('engage-when-popup-title').textContent = item.title;
+  document.getElementById('engage-when-popup-body').innerHTML = item.body;
+  engageWhenPopup.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  engageWhenPopup.scrollTop = 0;
+  var pillNav = document.getElementById('pill-nav');
+  var progressBar = document.getElementById('progress-bar');
+  if (pillNav) pillNav.style.display = 'none';
+  if (progressBar) progressBar.style.display = 'none';
+}
+
+function closeEngageWhenPopup() {
+  engageWhenPopup.classList.remove('open');
+  document.body.style.overflow = '';
+  var pillNav = document.getElementById('pill-nav');
+  var progressBar = document.getElementById('progress-bar');
+  if (pillNav) pillNav.style.display = '';
+  if (progressBar) progressBar.style.display = '';
+}
+
+engageWhenPopupClose.addEventListener('click', closeEngageWhenPopup);
+engageWhenPopup.addEventListener('click', function(e) { if (e.target === engageWhenPopup) closeEngageWhenPopup(); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && engageWhenPopup.classList.contains('open')) closeEngageWhenPopup(); });
+
+document.querySelectorAll('.engage-when-popup').forEach(el => {
+  el.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); } });
   el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
   el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
 });
