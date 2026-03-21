@@ -620,6 +620,31 @@
     }
     #form-success.active { display:flex; }
 
+    /* ── FIXED TOP HEADER BAR ── */
+    .top-header {
+      position:absolute; top:0; left:0; right:0;
+      z-index:999;
+      padding:22px 0;
+      display:flex; align-items:center; justify-content:flex-start;
+      pointer-events:none;
+    }
+    .top-header-inner {
+      width:100%; max-width:80rem; /* match max-w-7xl */ 
+      margin:0 auto;
+      padding:0 1.5rem; /* match px-6 */
+    }
+    .top-header a { pointer-events:auto; }
+    .top-header-logo {
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none;
+      opacity:0.8;
+      transition:opacity 0.3s ease;
+    }
+    .top-header-logo:hover { opacity:1; }
+    @media (max-width:768px) {
+      .top-header { display:none !important; }
+    }
+
     /* ── FLOATING PILL NAVBAR ── */
     #pill-nav {
       position:fixed; top:60px; left:50%; transform:translateX(-50%);
@@ -829,9 +854,16 @@
         display:none !important;
       }
     }
-    /* Ultra-wide screens: push bulb further right to avoid text overlap */
-    @media (min-width:1500px) {
-      .hero-bulb-wrap { right:-14%; }
+
+    /* ── FREEZE LAYOUT AT 1400px — nothing grows beyond this ── */
+    @media (min-width:1400px) {
+      /* Hero heading: 8.5vw at 1400 = 119px */
+      #home h1 { font-size:119px !important; }
+      /* Hero subtitle: already capped by clamp — no change needed */
+      /* Decision tree image: 38vw at 1400 = 532px */
+      .hero-bulb-wrap { width:532px !important; }
+      /* Hero glow: 80vw at 1400 = 1120px */
+      .hero-glow { width:1120px !important; }
     }
 
     /* ── RESPONSIVE ── */
@@ -1146,6 +1178,19 @@
   </div>
 </div>
 
+<!-- FIXED TOP HEADER -->
+<header class="top-header">
+  <div class="top-header-inner">
+    <a href="#home" class="top-header-logo">
+      <img src="assets/images/symbol_white.png" alt="Helion Advisory Group" width="24" height="32" style="height:32px;width:auto;object-fit:contain;">
+      <div class="leading-none">
+        <div class="font-sans font-medium text-[0.8rem] tracking-[0.12em] uppercase text-titanium/80">Helion</div>
+        <div class="font-mono text-[0.55rem] tracking-[0.3em] uppercase text-gold/60 mt-0.5">Advisory Group</div>
+      </div>
+    </a>
+  </div>
+</header>
+
 <!-- FLOATING PILL NAV -->
 <nav id="pill-nav">
   <a href="#home" class="pill-logo">
@@ -1269,7 +1314,7 @@
         <h2 class="font-serif font-light leading-[1.05] mb-8 reveal" style="font-size:clamp(2.4rem,5vw,4.2rem);letter-spacing:-0.01em;">
           Improving decision quality at <em class="text-gold" style="font-style:italic;">inflection points</em>
         </h2>
-        <p class="font-serif text-[1.1875rem] font-light text-titanium/75 leading-relaxed mb-6 reveal" style="font-style:italic;">
+        <p class="font-serif text-[1.3125rem] font-light text-titanium/80 leading-relaxed mb-6 reveal" style="font-style:italic;">
           Most programs don't fail because the science is weak; they run into trouble because early CMC, formulation, or platform decisions were never fully stress‑tested—and only show up as problems when timelines, capital, and reputation are already on the line.
         </p>
         <p class="text-titanium/55 text-[1.0625rem] leading-[1.9] mb-5 reveal">
@@ -1296,8 +1341,8 @@
 <!-- ADVISORY BOUNDARY STRIP -->
 <div class="py-14 px-6" style="background:rgba(0,0,0,0.5);border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);">
   <div class="max-w-4xl mx-auto text-center reveal">
-    <div class="font-mono text-[0.8125rem] uppercase tracking-[0.55em] text-titanium/20 mb-4">Advisory Boundary</div>
-    <p class="font-serif text-sm italic text-titanium/30 leading-relaxed">
+    <div class="font-mono text-[0.8125rem] uppercase tracking-[0.55em] text-titanium/70 mb-4">Advisory Boundary</div>
+    <p class="font-serif text-sm italic text-titanium/60 leading-relaxed">
       All implementation and final regulatory responsibility remains with the client. Helion provides independent judgement and decision support, not implementation.
     </p>
   </div>
@@ -1411,12 +1456,12 @@
       </div>
 
       <div class="engage-col rounded-sm p-10 reveal engage-when-popup" style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.12);" onclick="openEngageWhenPopup(1)" role="button" tabindex="0" aria-label="Read more about Warning Signs">
-        <h3 class="font-serif text-2xl font-light italic mb-8 pb-6 border-b border-red-500/10" style="color:rgba(252,165,165,0.7);">Warning Signs</h3>
+        <h3 class="font-serif text-[1.65rem] font-light italic mb-8 pb-6 border-b border-red-500/10" style="color:rgba(252,165,165,0.7);">Warning Signs</h3>
         <div class="space-y-6">
-          <p class="font-serif text-lg font-light text-titanium/60 italic">"We'll fix it in the next phase..."</p>
-          <p class="text-titanium/45 text-sm leading-relaxed">Formulation or analytical choices treated as temporary.</p>
-          <p class="text-titanium/45 text-sm leading-relaxed">Development logic being retrofitted to existing data.</p>
-          <p class="text-titanium/45 text-sm leading-relaxed">Regulatory questions focusing on consistency rather than gaps.</p>
+          <p class="font-serif text-[1.45rem] font-normal text-titanium/65 italic leading-snug">"We'll fix it in the next phase..."</p>
+          <p class="text-titanium/50 text-[0.9375rem] leading-relaxed">Formulation or analytical choices treated as temporary.</p>
+          <p class="text-titanium/50 text-[0.9375rem] leading-relaxed">Development logic being retrofitted to existing data.</p>
+          <p class="text-titanium/50 text-[0.9375rem] leading-relaxed">Regulatory questions focusing on consistency rather than gaps.</p>
         </div>
         <span class="engage-when-more font-mono text-[0.68rem] tracking-widest uppercase text-gold/45 mt-6 inline-block">Read more →</span>
       </div>
@@ -1670,8 +1715,8 @@
 <!-- INDEPENDENCE STRIP -->
 <div class="py-14 px-6" style="background:rgba(0,0,0,0.5);border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);">
   <div class="max-w-4xl mx-auto text-center reveal">
-    <div class="font-mono text-[0.8125rem] uppercase tracking-[0.55em] text-titanium/20 mb-4">Independence Protocol</div>
-    <p class="font-serif text-sm italic text-titanium/30 leading-relaxed">
+    <div class="font-mono text-[0.8125rem] uppercase tracking-[0.55em] text-titanium/70 mb-4">Independence Protocol</div>
+    <p class="font-serif text-sm italic text-titanium/60 leading-relaxed">
       Helion Advisory Group provides independent technical judgement and advisory services only. Helion does not provide regulatory sign-off, execution services, or manufacturing activities. All development, regulatory, and implementation decisions remain the responsibility of the client.
     </p>
   </div>
@@ -1834,6 +1879,9 @@
       </div>
       <div class="font-mono tracking-widest text-titanium/60 footer-copyright" style="font-size:0.8125rem;">© 2026 Helion Advisory Group</div>
     </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-6 border-t border-titanium/10 flex justify-center" style="margin-top:.5rem;padding-top:.5rem;">
+    <p class="font-mono text-[0.55rem] tracking-widest text-titanium/30">Crafted with <svg style="width:9px;height:9px;display:inline;vertical-align:middle;opacity:0.5;" fill="#F9B233" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> by <a href="https://karthickajan.github.io/Ajan/" target="_blank" rel="noopener noreferrer" class="text-gold/50 hover:text-gold transition-colors">Ajan</a> in Bangalore</p>
   </div>
 </footer>
 
