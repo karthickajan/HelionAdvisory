@@ -1885,10 +1885,22 @@
   </div>
 </footer>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
-<script src="config.js" defer></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" crossorigin="anonymous"></script>
 
 <script>
+// ── EMAILJS CONFIG (hardcoded for reliability) ──
+const EMAIL_CONFIG = {
+  PUBLIC_KEY: 'gleM0AJU9DsVklOhy',
+  SERVICE_ID: 'service_h7nkngc',
+  TEMPLATE_ID: 'template_m2bhk9f',
+  TO_EMAIL: 'senthil@helionadvisory.net'
+};
+
+// Initialize EmailJS immediately
+if (typeof emailjs !== 'undefined') {
+  emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
+}
+
 // ── CUSTOM CURSOR ──
 const cursor = document.getElementById('cursor');
 const cursorRing = document.getElementById('cursor-ring');
@@ -2192,15 +2204,6 @@ animateMolecule();
   });
 })();
 
-// ── EMAILJS INITIALIZATION ──
-document.addEventListener('DOMContentLoaded', function() {
-  if (typeof emailjs !== 'undefined' && typeof EMAIL_CONFIG !== 'undefined') {
-    emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
-  } else {
-    console.warn('EmailJS SDK or config failed to load. Contact form will not send emails.');
-  }
-});
-
 // ── CONTACT FORM ──
 async function handleContactSubmit(e) {
   e.preventDefault();
@@ -2257,13 +2260,14 @@ async function handleContactSubmit(e) {
     form.reset();
   } catch (error) {
     console.error('EmailJS Error:', error);
-    // Provide more specific error message
-    let errorMsg = 'Failed to send enquiry. ';
-    if (error.message && error.message.includes('fetch')) {
-      errorMsg += 'Network error - please check your internet connection or try again later. ';
+    // On mobile/iOS, offer to open email client directly
+    const subject = encodeURIComponent(interestMap[interest]);
+    const body = encodeURIComponent(emailBody);
+    const mailtoLink = `mailto:${EMAIL_CONFIG.TO_EMAIL}?subject=${subject}&body=${body}`;
+    
+    if (confirm('Unable to send directly. Would you like to open your email app instead?')) {
+      window.location.href = mailtoLink;
     }
-    errorMsg += 'You can also email us directly at ' + EMAIL_CONFIG.TO_EMAIL;
-    alert(errorMsg);
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = originalText;
