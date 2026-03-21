@@ -2257,7 +2257,13 @@ async function handleContactSubmit(e) {
     form.reset();
   } catch (error) {
     console.error('EmailJS Error:', error);
-    alert('Failed to send enquiry. Please try again or email us directly at ' + EMAIL_CONFIG.TO_EMAIL);
+    // Provide more specific error message
+    let errorMsg = 'Failed to send enquiry. ';
+    if (error.message && error.message.includes('fetch')) {
+      errorMsg += 'Network error - please check your internet connection or try again later. ';
+    }
+    errorMsg += 'You can also email us directly at ' + EMAIL_CONFIG.TO_EMAIL;
+    alert(errorMsg);
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = originalText;
@@ -2776,7 +2782,6 @@ document.querySelectorAll('.engage-when-popup').forEach(el => {
   }
   .fcw-item {
     display:flex; align-items:center; gap:10px; cursor:pointer; text-decoration:none;
-    pointer-events:auto; /* Make action items clickable */
   }
   .fcw-label {
     background:rgba(0,24,32,0.92); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
