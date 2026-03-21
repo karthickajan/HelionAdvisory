@@ -2193,13 +2193,13 @@ animateMolecule();
 })();
 
 // ── EMAILJS INITIALIZATION ──
-(function() {
-  if (typeof emailjs !== 'undefined') {
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof emailjs !== 'undefined' && typeof EMAIL_CONFIG !== 'undefined') {
     emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
   } else {
-    console.warn('EmailJS SDK failed to load. Contact form will not send emails.');
+    console.warn('EmailJS SDK or config failed to load. Contact form will not send emails.');
   }
-})();
+});
 
 // ── CONTACT FORM ──
 async function handleContactSubmit(e) {
