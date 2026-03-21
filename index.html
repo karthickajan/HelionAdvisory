@@ -2758,17 +2758,25 @@ document.querySelectorAll('.engage-when-popup').forEach(el => {
     position:fixed; bottom:32px; right:32px; z-index:9999;
     display:flex; flex-direction:column; align-items:flex-end; gap:10px;
     font-family:'DM Sans',sans-serif;
+    pointer-events:none; /* Allow clicks to pass through the container */
   }
+  @media (max-width: 768px) {
+  .fcw {
+    bottom: 80px;
+    right: 20px;
+  }
+}
   .fcw-actions {
     display:flex; flex-direction:column; align-items:flex-end; gap:8px;
     pointer-events:none; opacity:0; transform:translateY(12px);
     transition:opacity 0.3s cubic-bezier(0.25,0.46,0.45,0.94),transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
   }
   .fcw.open .fcw-actions {
-    pointer-events:all; opacity:1; transform:translateY(0);
+    pointer-events:auto; opacity:1; transform:translateY(0);
   }
   .fcw-item {
     display:flex; align-items:center; gap:10px; cursor:pointer; text-decoration:none;
+    pointer-events:auto; /* Make action items clickable */
   }
   .fcw-label {
     background:rgba(0,24,32,0.92); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
@@ -2793,13 +2801,13 @@ document.querySelectorAll('.engage-when-popup').forEach(el => {
   .fcw-icon-btn svg {
     width:18px; height:18px; stroke:#F9B233; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;
   }
-  /* Trigger */
   .fcw-trigger {
     width:54px; height:54px; border-radius:50%; background:#F9B233; border:none; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
     box-shadow:0 8px 28px rgba(249,178,51,0.35),0 2px 8px rgba(0,0,0,0.25);
     transition:background 0.3s,transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94),box-shadow 0.3s;
     position:relative;
+    pointer-events:auto; /* Make trigger button clickable */
   }
   .fcw-trigger:hover {
     background:#FBC760; transform:scale(1.08); box-shadow:0 12px 36px rgba(249,178,51,0.45);
@@ -2821,7 +2829,6 @@ document.querySelectorAll('.engage-when-popup').forEach(el => {
     width:22px; height:22px; stroke:#001820; fill:none; stroke-width:2.2; stroke-linecap:round;
   }
   @media (max-width:768px) {
-    .fcw { bottom:20px; right:20px; }
     .fcw-trigger { width:50px; height:50px; }
     .fcw-label { font-size:0.7rem; padding:6px 14px; }
   }
