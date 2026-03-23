@@ -25,6 +25,7 @@
   <link rel="shortcut icon" type="image/png" href="assets/images/favicon-dark.png">
   <link rel="apple-touch-icon" href="assets/images/favicon-dark.png">
   <meta name="theme-color" content="#001820">
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
@@ -44,6 +45,9 @@
       font-feature-settings: "kern" 1, "liga" 1;
       overflow-x: hidden;
     }
+
+    /* ── SCROLL OFFSET for fixed pill nav (applies to all #hash targets) ── */
+    [id] { scroll-margin-top: 120px; }
 
     /* ── CUSTOM CURSOR (desktop only) ── */
     @media (pointer: fine) {
@@ -1175,7 +1179,7 @@
     <a href="#services" class="mob-link" data-section="services" onclick="closeMobileOverlay()">Services</a>
     <a href="#engage" class="mob-link" data-section="engage" onclick="closeMobileOverlay()">When to Engage</a>
     <a href="#insights" class="mob-link" data-section="insights" onclick="closeMobileOverlay()">Insights</a>
-    <a href="#blog" class="mob-link" data-section="blog" onclick="closeMobileOverlay()">Perspectives</a>
+    <a href="#perspectives-anchor" class="mob-link" data-section="blog" onclick="closeMobileOverlay()">Perspectives</a>
     <a href="#contact" class="mob-link" data-section="contact" onclick="closeMobileOverlay()" style="color:var(--gold);font-style:italic;">Enquire</a>
   </div>
 </div>
@@ -1628,64 +1632,13 @@
 <!-- BLOG / PERSPECTIVES -->
 <section id="blog" class="py-40 px-6" style="background:#00161C;">
   <div class="max-w-7xl mx-auto">
+    <div id="perspectives-anchor"></div>
     <div class="section-label mb-5 reveal">Perspectives</div>
     <h2 class="font-serif font-light leading-tight mb-20 reveal" style="font-size:clamp(2.8rem,6vw,5.5rem);letter-spacing:-0.02em;">
       From the<br><em class="text-gold" style="font-style:italic;">advisory desk</em>
     </h2>
     <div id="blog-grid" class="grid md:grid-cols-2 gap-5">
-
-      <!-- POST 1 -->
-      <div class="blog-card reveal" data-post="0">
-        <div>
-          <div class="blog-card-cat">Early Development</div>
-          <div class="blog-card-title">Most "Late" Problems in Biotech Actually Start Early</div>
-          <div class="blog-card-summary">Not in the lab. In the definition of the product. Teams start generating data before answering a few basic questions.</div>
-        </div>
-        <div class="blog-card-meta">
-          <span>4 min read · March 2026</span>
-          <a href="#" class="blog-card-read" onclick="openBlogModal(0);return false;">Read →</a>
-        </div>
-      </div>
-
-      <!-- POST 2 -->
-      <div class="blog-card reveal" data-post="1">
-        <div>
-          <div class="blog-card-cat">Platform Risk</div>
-          <div class="blog-card-title">Platform Products Don't Fail in the Lab. They Fail at the Interfaces.</div>
-          <div class="blog-card-summary">Most platform programs don't collapse because the science is weak. They stall when decisions made in isolation collide later.</div>
-        </div>
-        <div class="blog-card-meta">
-          <span>5 min read · March 2026</span>
-          <a href="#" class="blog-card-read" onclick="openBlogModal(1);return false;">Read →</a>
-        </div>
-      </div>
-
-      <!-- POST 3 -->
-      <div class="blog-card reveal" data-post="2">
-        <div>
-          <div class="blog-card-cat">Regulatory Strategy</div>
-          <div class="blog-card-title">Why Strong Data Doesn't Save a Weak Development Narrative</div>
-          <div class="blog-card-summary">Programs built on innovative platforms often generate strong early data. And yet, regulatory friction still appears.</div>
-        </div>
-        <div class="blog-card-meta">
-          <span>5 min read · February 2026</span>
-          <a href="#" class="blog-card-read" onclick="openBlogModal(2);return false;">Read →</a>
-        </div>
-      </div>
-
-      <!-- POST 4 -->
-      <div class="blog-card reveal" data-post="3">
-        <div>
-          <div class="blog-card-cat">CMC Strategy</div>
-          <div class="blog-card-title">The Most Dangerous Words in Drug Development: "We'll Fix It Later."</div>
-          <div class="blog-card-summary">This is one of the most common root causes behind "unexpected" regulatory setbacks.</div>
-        </div>
-        <div class="blog-card-meta">
-          <span>4 min read · February 2026</span>
-          <a href="#" class="blog-card-read" onclick="openBlogModal(3);return false;">Read →</a>
-        </div>
-      </div>
-
+      <!-- Dynamic posts loaded by index-perspectives-snippet.js -->
     </div>
     <!-- Blog carousel pagination dots (mobile only) -->
     <div class="blog-dots" id="blog-dots">
@@ -1696,7 +1649,7 @@
     </div>
     <!-- View all link -->
     <div class="flex justify-end reveal" style="padding-top:2rem;position:relative;z-index:2;">
-      <a href="blog.html" class="view-all-link group inline-flex items-center gap-3 font-mono text-[0.8125rem] tracking-[0.12em] uppercase text-gold hover:text-titanium transition-all" style="position:relative;z-index:3;">
+      <a href="blog.html" id="perspectivesViewAll" class="view-all-link group inline-flex items-center gap-3 font-mono text-[0.8125rem] tracking-[0.12em] uppercase text-gold hover:text-titanium transition-all" style="position:relative;z-index:3;">
         View All <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
       </a>
     </div>
@@ -1870,7 +1823,7 @@
       <a href="#services" class="font-mono uppercase tracking-widest text-titanium/70 hover:text-gold transition-colors" style="font-size:0.875rem;">Services</a>
       <a href="#engage" class="font-mono uppercase tracking-widest text-titanium/70 hover:text-gold transition-colors" style="font-size:0.875rem;">When to Engage</a>
       <a href="#insights" class="font-mono uppercase tracking-widest text-titanium/70 hover:text-gold transition-colors" style="font-size:0.875rem;">Insights</a>
-      <a href="#blog" class="font-mono uppercase tracking-widest text-titanium/70 hover:text-gold transition-colors" style="font-size:0.875rem;">Blog</a>
+      <a href="#perspectives-anchor" class="font-mono uppercase tracking-widest text-titanium/70 hover:text-gold transition-colors" style="font-size:0.875rem;">Blog</a>
       <a href="#contact" class="font-mono uppercase tracking-widest text-titanium/70 hover:text-gold transition-colors" style="font-size:0.875rem;">Contact</a>
     </nav>
     <div class="flex flex-col md:items-end gap-2">
@@ -2280,106 +2233,13 @@ function resetContactForm() {
   document.getElementById('form-success').classList.remove('active');
 }
 
-// ── BLOG POSTS DATA ──
-const blogPosts = [
-  {
-    cat: 'Early Development',
-    title: 'Most "Late" Problems in Biotech Actually Start Early',
-    meta: '4 min read · March 2026',
-    body: `<p>Not in the lab. In the definition of the product.</p>
-<p>Teams start generating data before answering a few basic questions:</p>
-<ul style="list-style:none;padding:0;margin:0 0 1.5rem 0;">
-<li style="margin-bottom:0.5rem;">— What exactly is the product?</li>
-<li style="margin-bottom:0.5rem;">— How will it be delivered?</li>
-<li style="margin-bottom:0.5rem;">— What exposure should the body see?</li>
-<li style="margin-bottom:0.5rem;">— What will regulators actually evaluate?</li>
-</ul>
-<p>If those answers change later, the development path starts to wobble. Formulation changes. Tox assumptions shift. CMC strategies need rewriting.</p>
-<p>Suddenly the program looks inconsistent, even if the science is strong.</p>
-<p>This happens often with newer platforms like RNA therapies, microneedle patches, or nasal delivery systems.</p>
-<p>The lesson is simple: the earlier the product is clearly defined, the fewer surprises show up later.</p>
-<p>Most development delays aren't caused by bad experiments. They start with a product that was never fully defined.</p>`
-  },
-  {
-    cat: 'Platform Risk',
-    title: "Platform Products Don't Fail in the Lab. They Fail at the Interfaces.",
-    meta: '5 min read · March 2026',
-    body: `<p>Most platform programs don't collapse because the science is weak. They stall when decisions made in isolation collide later.</p>
-<p>Common pattern seen with RNA, microneedle, and nasal platforms:</p>
-<ul style="list-style:none;padding:0;margin:0 0 1.5rem 0;">
-<li style="margin-bottom:0.5rem;">• Delivery is optimised without formulation lock</li>
-<li style="margin-bottom:0.5rem;">• Formulation evolves independently of tox assumptions</li>
-<li style="margin-bottom:0.5rem;">• Tox is designed before exposure and route logic stabilises</li>
-<li style="margin-bottom:0.5rem;">• CMC is treated as downstream execution, not upstream strategy</li>
-</ul>
-<p>Individually, each decision looks reasonable. Collectively, the development story fractures.</p>
-<p>That's when regulators start asking questions no dataset can easily answer.</p>
-<p>Platform development isn't about excelling in one function. It's about alignment across interfaces — delivery ↔ formulation ↔ tox ↔ CMC.</p>
-<p>Most delays aren't scientific failures. They're integration failures that show up too late to fix cleanly.</p>`
-  },
-  {
-    cat: 'Regulatory Strategy',
-    title: "Why Strong Data Doesn't Save a Weak Development Narrative",
-    meta: '5 min read · February 2026',
-    body: `<p>Programs built on innovative platforms often generate strong early data — clean toxicology, encouraging early clinical signals, solid stability or performance datasets.</p>
-<p>And yet, regulatory friction still appears.</p>
-<p>Not because the data is weak — but because the development narrative isn't coherent across the platform.</p>
-<p>In RNA, microneedle, and nasal programs, this usually shows up when:</p>
-<ul style="list-style:none;padding:0;margin:0 0 1.5rem 0;">
-<li style="margin-bottom:0.5rem;">— Product definition evolves without a clear control strategy</li>
-<li style="margin-bottom:0.5rem;">— Exposure logic differs by route or formulation iteration</li>
-<li style="margin-bottom:0.5rem;">— Platform assumptions are carried forward without being re-justified</li>
-</ul>
-<p>Regulators don't review RNA, device-assisted, or mucosal datasets in isolation. They assess whether the story connecting formulation, delivery, exposure, and safety is internally consistent.</p>
-<p>When that story is assembled after data exists, even strong results become difficult to defend.</p>
-<p>Platform-based programs don't just need good data. They need a clear, early development narrative that the data continuously reinforces.</p>
-<p>Strong data supports a strong story. It does not replace one.</p>`
-  },
-  {
-    cat: 'CMC Strategy',
-    title: `The Most Dangerous Words in Drug Development: "We'll Fix It Later."`,
-    meta: '4 min read · February 2026',
-    body: `<p>This is one of the most common root causes behind "unexpected" regulatory setbacks.</p>
-<p>It usually shows up when teams are under pressure and decisions feel uncomfortable:</p>
-<ul style="list-style:none;padding:0;margin:0 0 1.5rem 0;">
-<li style="margin-bottom:0.5rem;">— Formulation isn't final → "we'll lock it later"</li>
-<li style="margin-bottom:0.5rem;">— Analytical method isn't robust → "we'll improve it in Phase II"</li>
-<li style="margin-bottom:0.5rem;">— CMC story isn't consistent → "we'll tighten it after the submission"</li>
-</ul>
-<p>The issue is that regulators don't just assess data. They assess whether your development logic holds together.</p>
-<p>And the moment tox and early clinical data are generated, "later" becomes expensive:</p>
-<ul style="list-style:none;padding:0;margin:0 0 1.5rem 0;">
-<li style="margin-bottom:0.5rem;">— Changes trigger comparability work</li>
-<li style="margin-bottom:0.5rem;">— Bridging packages appear</li>
-<li style="margin-bottom:0.5rem;">— Timelines slip quietly</li>
-</ul>
-<p>Good programs don't avoid problems. They avoid deferring decisions that create fragile narratives.</p>`
-  }
-];
-
-// ── BLOG MODAL LOGIC ──
+// ── BLOG MODAL LOGIC (kept for dynamic snippet + closeBlogModal) ──
 const blogModal = document.getElementById('blog-modal');
 const blogModalClose = document.getElementById('blog-modal-close');
-
-function openBlogModal(idx) {
-  const post = blogPosts[idx];
-  document.getElementById('blog-modal-title').textContent = post.title;
-  document.getElementById('blog-modal-meta').innerHTML = '<span>' + post.cat + '</span> &nbsp;·&nbsp; ' + post.meta;
-  document.getElementById('blog-modal-body').innerHTML = post.body;
-  blogModal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  blogModal.scrollTop = 0;
-  // Hide pill nav and progress bar behind modal
-  var pillNav = document.getElementById('pill-nav');
-  var progressBar = document.getElementById('progress-bar');
-  if (pillNav) pillNav.style.display = 'none';
-  if (progressBar) progressBar.style.display = 'none';
-}
 
 function closeBlogModal() {
   blogModal.classList.remove('open');
   document.body.style.overflow = '';
-  // Restore pill nav and progress bar
   var pillNav = document.getElementById('pill-nav');
   var progressBar = document.getElementById('progress-bar');
   if (pillNav) pillNav.style.display = '';
@@ -2392,12 +2252,6 @@ blogModal.addEventListener('click', function(e) {
 });
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape' && blogModal.classList.contains('open')) closeBlogModal();
-});
-
-// Register blog-card and modal elements for custom cursor hover
-document.querySelectorAll('.blog-card, .blog-card-read, #blog-modal-close').forEach(el => {
-  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
 });
 
 // ── ENGAGEMENT POPUP DATA ──
@@ -2883,6 +2737,56 @@ document.querySelectorAll('.engage-when-popup').forEach(el => {
   document.addEventListener('click', e => {
     if (!fcWidget.contains(e.target)) fcWidget.classList.remove('open');
   });
+</script>
+
+<!-- Dynamic posts loader -->
+<script src="posts-loader.js"></script>
+<script src="index-perspectives-snippet.js"></script>
+
+<!-- Deferred hash-scroll: handles initial page load with #hash -->
+<!-- Needed because reveal animations shift layout before content settles -->
+<script>
+(function() {
+  var hash = window.location.hash;
+  if (!hash) return;
+
+  // Prevent the browser's premature jump (before layout settles)
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+
+  // Two-pass scroll: first after load, then a correction after reveals settle
+  function scrollToHash() {
+    var el = document.querySelector(hash);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Second pass: layout may still shift from late reveals / images
+    requestAnimationFrame(function() {
+      setTimeout(function() {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Restore normal scroll restoration for back/forward
+        if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
+      }, 600);
+    });
+  }
+
+  // Wait for full load (images, fonts, scripts)
+  if (document.readyState === 'complete') {
+    scrollToHash();
+  } else {
+    window.addEventListener('load', scrollToHash);
+  }
+})();
+</script>
+
+<!-- Netlify Identity redirect -->
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on('init', user => {
+      if (!user) {
+        window.netlifyIdentity.on('login', () => { document.location.href = '/admin/'; });
+      }
+    });
+  }
 </script>
 
 </body>

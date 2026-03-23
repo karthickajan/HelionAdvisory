@@ -1,0 +1,23 @@
+backend:
+  name: git-gateway
+  branch: main
+
+publish_mode: editorial_workflow
+
+media_folder: "assets/images/blog"
+public_folder: "/assets/images/blog"
+
+collections:
+  - name: "posts"
+    label: "Perspectives"
+    folder: "posts"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Category", name: "cat", widget: "select", options: ["Early Development", "Platform Risk", "Regulatory Strategy", "CMC Strategy", "Formulation"] }
+      - { label: "Read Time", name: "meta", widget: "string", hint: "e.g. 4 min read · March 2026" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Visible", name: "visible", widget: "boolean", default: true, hint: "Uncheck to hide this post without deleting it" }
+      - { label: "Body", name: "body", widget: "markdown" }
