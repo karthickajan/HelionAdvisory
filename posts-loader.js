@@ -6,7 +6,8 @@ const POSTS_INDEX = [
   'most-late-problems-in-biotech-actually-start-early',
   'platform-products-dont-fail-in-the-lab',
   'why-strong-data-doesnt-save-a-weak-development-narrative',
-  'the-most-dangerous-words-in-drug-development'
+  'the-most-dangerous-words-in-drug-development',
+  'testing-platform-products-dont-fail-in-the-lab-they-fail-at-the-interfaces'
 ];
 
 // Simple markdown to HTML parser (no external lib needed)
@@ -37,23 +38,8 @@ function parseMarkdown(md) {
 function parseFrontmatter(content) {
   const match = content.match(/^---\n([\s\S]+?)\n---\n([\s\S]*)$/);
   if (!match) return { meta: {}, body: content };
-
-  const frontmatter = {};
-  match[1].split('\n').forEach(line => {
-    const idx = line.indexOf(': ');
-    if (idx === -1) return;
-    const key = line.substring(0, idx).trim();
-    let val = line.substring(idx + 2).trim();
-    // Strip outer quotes (single or double) and unescape YAML doubled single-quotes
-    if ((val[0] === '"' && val[val.length - 1] === '"') ||
-        (val[0] === "'" && val[val.length - 1] === "'")) {
-      val = val.slice(1, -1);
-    }
-    val = val.replace(/''/g, "'");
-    frontmatter[key] = val;
-  });
-
-  return { meta: frontmatter, body: match[2].trim() };
+  const meta = jsyaml.load(match[1]);
+  return { meta, body: match[2].trim() };
 }
 
 // Fetch a single post
