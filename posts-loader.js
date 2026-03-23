@@ -63,7 +63,7 @@ async function fetchPost(slug) {
       cat: meta.cat || '',
       meta: meta.meta || '',
       date: meta.date || '',
-      visible: meta.visible !== 'false',
+      visible: meta.visible !== 'false' && meta.visible !== false,
       body: parseMarkdown(body)
     };
   } catch (e) {
