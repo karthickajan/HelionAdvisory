@@ -14,6 +14,9 @@ collections:
     create: true
     delete: true
     slug: "{{slug}}"
+    sortable_fields: ['date', 'title']
+    default_sort_field: 'date'
+    default_sort_direction: 'Descending'
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Category", name: "cat", widget: "select", options: ["Early Development", "Platform Risk", "Regulatory Strategy", "CMC Strategy", "Formulation"] }

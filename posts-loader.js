@@ -76,7 +76,7 @@ async function fetchPost(slug) {
 async function fetchAllPosts() {
   const results = await Promise.all(POSTS_INDEX.map(fetchPost));
   return results
-    .filter(p => p !== null) // .filter(p => p && p.visible)
+    .filter(p => p && p.visible !== false && p.visible !== 'false')
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
