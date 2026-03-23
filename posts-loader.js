@@ -40,10 +40,17 @@ function parseFrontmatter(content) {
 
   const frontmatter = {};
   match[1].split('\n').forEach(line => {
-    const [key, ...val] = line.split(': ');
-    if (key && val.length) {
-      frontmatter[key.trim()] = val.join(': ').trim().replace(/^["']|["']$/g, '');
+    const idx = line.indexOf(': ');
+    if (idx === -1) return;
+    const key = line.substring(0, idx).trim();
+    let val = line.substring(idx + 2).trim();
+    // Strip outer quotes (single or double) and unescape YAML doubled single-quotes
+    if ((val[0] === '"' && val[val.length - 1] === '"') ||
+        (val[0] === "'" && val[val.length - 1] === "'")) {
+      val = val.slice(1, -1);
     }
+    val = val.replace(/''/g, "'");
+    frontmatter[key] = val;
   });
 
   return { meta: frontmatter, body: match[2].trim() };

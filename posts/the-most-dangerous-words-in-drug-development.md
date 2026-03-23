@@ -1,5 +1,5 @@
 ---
-title: The Most Dangerous Words in Drug Development: "We will Fix It Later."
+title: 'The Most Dangerous Words in Drug Development: "We''ll Fix It Later."'
 cat: CMC Strategy
 meta: 4 min read · February 2026
 date: 2026-02-01T00:00:00.000Z
