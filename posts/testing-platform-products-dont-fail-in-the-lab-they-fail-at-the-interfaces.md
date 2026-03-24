@@ -4,7 +4,7 @@ title: "TESTING: Rename this Platform Products Don't Fail in the Lab. They Fail
 cat: Formulation
 meta: 4 min read · March 2026
 date: 2026-03-24T01:00:00.000+05:30
-visible: true
+visible: false
 ---
 Most platform programs don't collapse because the science is weak. They stall when decisions made in isolation collide later.
 
