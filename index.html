@@ -1848,14 +1848,16 @@
 const EMAIL_CONFIG = {
   PUBLIC_KEY: 'gleM0AJU9DsVklOhy',
   SERVICE_ID: 'service_h7nkngc',
-  TEMPLATE_ID: 'template_m2bhk9f',
+  TEMPLATE_ID: 'template_iyhobnw',
   TO_EMAIL: 'senthil@helionadvisory.net'
 };
 
 // Initialize EmailJS immediately
-if (typeof emailjs !== 'undefined') {
-  emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
-}
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
+  }
+});
 
 // ── CUSTOM CURSOR ──
 const cursor = document.getElementById('cursor');
@@ -2204,6 +2206,7 @@ async function handleContactSubmit(e) {
       {
         from_name: name,
         from_email: email,
+        org: org,
         reply_to: email,
         to_email: EMAIL_CONFIG.TO_EMAIL,
         subject: interestMap[interest],
