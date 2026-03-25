@@ -2210,7 +2210,7 @@ async function handleContactSubmit(e) {
         reply_to: email,
         to_email: EMAIL_CONFIG.TO_EMAIL,
         subject: interestMap[interest],
-        message: emailBody
+        message: message // emailBody
       }
     );
     
