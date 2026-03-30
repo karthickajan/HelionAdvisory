@@ -7,7 +7,8 @@ const POSTS_INDEX = [
   'platform-products-dont-fail-in-the-lab',
   'why-strong-data-doesnt-save-a-weak-development-narrative',
   'the-most-dangerous-words-in-drug-development',
-  'testing-platform-products-dont-fail-in-the-lab-they-fail-at-the-interfaces'
+  'testing-platform-products-dont-fail-in-the-lab-they-fail-at-the-interfaces',
+  'extractables-leachables-a-hidden-risk-in-biologics-development'
 ];
 
 // Simple markdown to HTML parser (no external lib needed)
