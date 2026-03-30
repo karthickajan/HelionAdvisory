@@ -3,12 +3,13 @@
 // Used by both index.html (first 4) and blog.html (all posts)
 
 const POSTS_INDEX = [
+  'extractables-leachables-a-hidden-risk-in-biologics-development',
   'most-late-problems-in-biotech-actually-start-early',
   'platform-products-dont-fail-in-the-lab',
-  'why-strong-data-doesnt-save-a-weak-development-narrative',
-  'the-most-dangerous-words-in-drug-development',
   'testing-platform-products-dont-fail-in-the-lab-they-fail-at-the-interfaces',
-  'extractables-leachables-a-hidden-risk-in-biologics-development'
+  'testing-testing-testing-testing',
+  'the-most-dangerous-words-in-drug-development',
+  'why-strong-data-doesnt-save-a-weak-development-narrative'
 ];
 
 // Simple markdown to HTML parser (no external lib needed)
