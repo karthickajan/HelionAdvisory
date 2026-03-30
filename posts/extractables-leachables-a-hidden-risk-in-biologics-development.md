@@ -1,7 +1,7 @@
 ---
 title: "Extractables & Leachables: A Hidden Risk in Biologics Development"
 cat: CMC Strategy
-meta: 3 min read
+meta: 3 min read · March 2026
 date: 2026-03-30T10:39:00.000+10:00
 visible: true
 ---
