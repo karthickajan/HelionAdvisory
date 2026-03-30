@@ -2,7 +2,7 @@
 title: "Extractables & Leachables: A Hidden Risk in Biologics Development"
 cat: CMC Strategy
 meta: 3 min read · March 2026
-date: 2026-03-30T10:39:00.000+10:00
+date: 2026-03-30T10:49:00.000+10:00
 visible: true
 ---
 Extractable and leachable (E&L) are one of the most common blind spots in biologics development. While teams focus on formulation, stability, and process design, the chemistry coming from contact materials - such as bags, tubing, filters, stoppers, syringes, and delivery devices - is often under-evaluated.
