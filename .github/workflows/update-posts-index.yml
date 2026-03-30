@@ -1,0 +1,41 @@
+name: Auto-update POSTS_INDEX
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'posts/**.md'
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Rebuild POSTS_INDEX
+        run: |
+          node -e "
+            const fs = require('fs');
+            const posts = fs.readdirSync('posts')
+              .filter(f => f.endsWith('.md'))
+              .map(f => f.replace('.md', ''))
+              .map(s => \`  '\${s}'\`)
+              .join(',\n');
+            let content = fs.readFileSync('posts-loader.js', 'utf8');
+            content = content.replace(
+              /const POSTS_INDEX = \[[\s\S]*?\];/,
+              \`const POSTS_INDEX = [\n\${posts}\n];\`
+            );
+            fs.writeFileSync('posts-loader.js', content);
+            console.log('POSTS_INDEX updated with:\n', posts);
+          "
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add posts-loader.js
+          git diff --staged --quiet || git commit -m "chore: auto-update POSTS_INDEX"
+          git push
