@@ -5,7 +5,7 @@ meta: 3 min read
 date: 2026-03-30T10:39:00.000+10:00
 visible: true
 ---
-Extractable and leachable (E&L) are one of the most common blind spots in biologics development. While teams focus on formulation, stability, and process design, the chemistry coming from contact materials — such as bags, tubing, filters, stoppers, syringes, and delivery devices — is often under-evaluated.
+Extractable and leachable (E&L) are one of the most common blind spots in biologics development. While teams focus on formulation, stability, and process design, the chemistry coming from contact materials - such as bags, tubing, filters, stoppers, syringes, and delivery devices - is often under-evaluated.
 
 When E&L is left to late-phase studies, programs risk unexpected leachables on stability, assay interference after material or supplier changes, and even forced container or device changes under regulatory scrutiny. These issues can delay clinical supply, add unplanned studies, and complicate regulatory review.
 
