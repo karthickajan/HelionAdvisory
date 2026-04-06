@@ -13,6 +13,6 @@ Current GLP and GxP expectations emphasize contemporaneous, original, attributab
 
 When regulatory teams later need to justify a control strategy, explain a failed batch, or support a change, they are really asking one question: can we show a reliable progression of work from first principles to final decision? Programs that treat the lab notebook as the first draft of the submission have a much easier time answering “yes.”
 
-Helion Advisory Group works with development teams to tighten this link between daily documentation and regulatory storytelling: clarifying what needs to be recorded, aligning lab practices with data integrity expectations, and ensuring that key scientific decisions are traceable all the way into regulatory dossiers.
+**Helion Advisory Group** works with development teams to tighten this link between daily documentation and regulatory storytelling: clarifying what needs to be recorded, aligning lab practices with data integrity expectations, and ensuring that key scientific decisions are traceable all the way into regulatory dossiers.
 
 If you’d like to strengthen the regulatory story hidden in your lab records, contact us to discuss how we can help.
