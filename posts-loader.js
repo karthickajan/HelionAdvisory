@@ -3,6 +3,7 @@
 // Used by both index.html (first 4) and blog.html (all posts)
 
 const POSTS_INDEX = [
+  'dose-escalation-cmc’s-missing-link',
   'extractables-leachables-a-hidden-risk-in-biologics-development',
   'most-late-problems-in-biotech-actually-start-early',
   'platform-products-dont-fail-in-the-lab',
