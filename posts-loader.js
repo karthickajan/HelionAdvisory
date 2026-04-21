@@ -8,6 +8,7 @@ const POSTS_INDEX = [
   'most-late-problems-in-biotech-actually-start-early',
   'platform-products-dont-fail-in-the-lab',
   'regulatory-narratives-start-in-the-lab-notebook',
+  'target-product-profile-wishlist-or-weapon',
   'testing-platform-products-dont-fail-in-the-lab-they-fail-at-the-interfaces',
   'the-most-dangerous-words-in-drug-development',
   'why-strong-data-doesnt-save-a-weak-development-narrative'
