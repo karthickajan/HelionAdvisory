@@ -6,6 +6,7 @@ const POSTS_INDEX = [
   'cmc-tech-transfer-where-hidden-risk-becomes-visible',
   'dose-escalation-cmc’s-missing-link',
   'extractables-leachables-a-hidden-risk-in-biologics-development',
+  'hold-times-the-forgotten-cpp',
   'most-late-problems-in-biotech-actually-start-early',
   'platform-products-dont-fail-in-the-lab',
   'regulatory-narratives-start-in-the-lab-notebook',
