@@ -4,6 +4,7 @@
 
 const POSTS_INDEX = [
   'cmc-tech-transfer-where-hidden-risk-becomes-visible',
+  'design-space-real-or-rubber-stamp',
   'dose-escalation-cmc’s-missing-link',
   'extractables-leachables-a-hidden-risk-in-biologics-development',
   'hold-times-the-forgotten-cpp',
