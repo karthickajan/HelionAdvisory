@@ -4,6 +4,7 @@
 
 const POSTS_INDEX = [
   'cmc-tech-transfer-where-hidden-risk-becomes-visible',
+  'design-for-comparability-from-day-one',
   'design-space-real-or-rubber-stamp',
   'dose-escalation-cmc’s-missing-link',
   'early‑phase-doesn’t-mean-easy-gmp',
