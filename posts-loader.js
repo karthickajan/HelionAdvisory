@@ -3,6 +3,7 @@
 // Used by both index.html (first 4) and blog.html (all posts)
 
 const POSTS_INDEX = [
+  'biologic-stabilization-excipients-aren’t-magic',
   'cmc-tech-transfer-where-hidden-risk-becomes-visible',
   'design-for-comparability-from-day-one',
   'design-space-real-or-rubber-stamp',
