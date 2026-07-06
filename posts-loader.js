@@ -16,6 +16,7 @@ const POSTS_INDEX = [
   'platform-products-dont-fail-in-the-lab',
   'regulatory-narratives-start-in-the-lab-notebook',
   'risk-assessment-the-missing-engine-in-many-qbd-programs',
+  'scale-up-isn’t-a-phase-3-problem',
   'stability-data-more-early-less-panic',
   'target-product-profile-wishlist-or-weapon',
   'testing-platform-products-dont-fail-in-the-lab-they-fail-at-the-interfaces',
