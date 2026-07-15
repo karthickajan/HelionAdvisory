@@ -14,7 +14,6 @@ const POSTS_INDEX = [
   'most-late-problems-in-biotech-actually-start-early',
   'outsourced-cmc-who-owns-knowledge',
   'platform-products-dont-fail-in-the-lab',
-  'process-performance-ppq-readiness',
   'regulatory-narratives-start-in-the-lab-notebook',
   'risk-assessment-the-missing-engine-in-many-qbd-programs',
   'scale-up-isn’t-a-phase-3-problem',
