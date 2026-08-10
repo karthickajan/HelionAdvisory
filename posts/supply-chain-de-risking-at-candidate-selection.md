@@ -22,7 +22,7 @@ A structured early review can consider:
 * Manufacturability, process complexity, scale-up potential, and reliance on specialised equipment.
 * Formulation and stability requirements, including temperature sensitivity and shipping constraints.
 * Availability of alternative suppliers, manufacturing sites, materials, or process routes.
-* Potential impact of future changes on comparability, control strategy, and regulatory filings.lek+4
+* Potential impact of future changes on comparability, control strategy, and regulatory filings.
 
 Some risks may be acceptable. The important point is that they should be visible, understood, and deliberately managed—not discovered when they are already threatening a clinical milestone.
 
