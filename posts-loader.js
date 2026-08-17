@@ -6,6 +6,7 @@ const POSTS_INDEX = [
   'biologic-stabilization-excipients-aren’t-magic',
   'change-control-master-plan-write-early',
   'cmc-tech-transfer-where-hidden-risk-becomes-visible',
+  'container-closure-beyond-the-vial',
   'design-for-comparability-from-day-one',
   'design-space-real-or-rubber-stamp',
   'dose-escalation-cmc’s-missing-link',
