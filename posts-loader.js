@@ -21,6 +21,7 @@ const POSTS_INDEX = [
   'process-performance-ppq-readiness-1',
   'regulatory-narratives-start-in-the-lab-notebook',
   'risk-assessment-the-missing-engine-in-many-qbd-programs',
+  'risk-based-cmc-science-vs-spreadsheets',
   'scale-up-isn’t-a-phase-3-problem',
   'stability-data-more-early-less-panic',
   'supply-chain-de-risking-at-candidate-selection',
