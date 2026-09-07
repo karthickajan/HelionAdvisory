@@ -17,6 +17,7 @@ const POSTS_INDEX = [
   'ind-briefing-package-first-stress-test',
   'most-late-problems-in-biotech-actually-start-early',
   'outsourced-cmc-who-owns-knowledge',
+  'photostability-failures-a-quiet-program-risk',
   'platform-products-dont-fail-in-the-lab',
   'process-characterization-data-or-understanding',
   'process-performance-ppq-readiness-1',
