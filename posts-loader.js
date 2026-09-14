@@ -7,6 +7,7 @@ const POSTS_INDEX = [
   'change-control-master-plan-write-early',
   'cmc-tech-transfer-where-hidden-risk-becomes-visible',
   'container-closure-beyond-the-vial',
+  'cqas-aren’t-checkboxes',
   'design-for-comparability-from-day-one',
   'design-space-real-or-rubber-stamp',
   'dose-escalation-cmc’s-missing-link',
