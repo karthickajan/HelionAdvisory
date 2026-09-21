@@ -14,6 +14,7 @@ const POSTS_INDEX = [
   'early‑phase-doesn’t-mean-easy-gmp',
   'executive-cmc-blind-spots',
   'extractables-leachables-a-hidden-risk-in-biologics-development',
+  'formulation-lock-in-silent-speed-killer',
   'hold-times-the-forgotten-cpp',
   'ind-briefing-package-first-stress-test',
   'most-late-problems-in-biotech-actually-start-early',
