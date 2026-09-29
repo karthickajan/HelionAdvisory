@@ -32,6 +32,7 @@ const POSTS_INDEX = [
   'target-product-profile-wishlist-or-weapon',
   'testing-platform-products-dont-fail-in-the-lab-they-fail-at-the-interfaces',
   'the-most-dangerous-words-in-drug-development',
+  'week-1-–-microneedle-basics-and-classification',
   'why-strong-data-doesnt-save-a-weak-development-narrative'
 ];
 
