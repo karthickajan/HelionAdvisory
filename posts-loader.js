@@ -33,6 +33,7 @@ const POSTS_INDEX = [
   'testing-platform-products-dont-fail-in-the-lab-they-fail-at-the-interfaces',
   'the-most-dangerous-words-in-drug-development',
   'week-1-–-microneedle-basics-and-classification',
+  'week-2-–-solid-microneedles-“poke-and-patch”',
   'why-strong-data-doesnt-save-a-weak-development-narrative'
 ];
 
