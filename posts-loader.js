@@ -34,6 +34,7 @@ const POSTS_INDEX = [
   'the-most-dangerous-words-in-drug-development',
   'week-1-–-microneedle-basics-and-classification',
   'week-2-–-solid-microneedles-“poke-and-patch”',
+  'week-3-–-coated-microneedles-rapid-delivery',
   'why-strong-data-doesnt-save-a-weak-development-narrative'
 ];
 
