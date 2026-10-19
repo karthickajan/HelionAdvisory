@@ -35,6 +35,7 @@ const POSTS_INDEX = [
   'week-1-–-microneedle-basics-and-classification',
   'week-2-–-solid-microneedles-“poke-and-patch”',
   'week-3-–-coated-microneedles-rapid-delivery',
+  'week-4-–-dissolving-microneedles-cargo-in-the-matrix',
   'why-strong-data-doesnt-save-a-weak-development-narrative'
 ];
 
