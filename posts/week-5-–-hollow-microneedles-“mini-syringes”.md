@@ -34,7 +34,7 @@ Hollow microneedles offer several advantages over other microneedle types and co
 
 ## **Challenges and limitations**
 
-Despite their advantages, hollow microneedles come with several challenges:pmc.ncbi.nlm.nih+6
+Despite their advantages, hollow microneedles come with several challenges:
 
 * **Clogging and leakage.** The lumen can become blocked by compressed skin tissue or drug particulates, hindering delivery and increasing infection risk.
 * **Mechanical fragility.** Hollow MNs are relatively weaker than solid or coated MNs and prone to failure under axial and lateral loads.
