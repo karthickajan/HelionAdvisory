@@ -44,7 +44,7 @@ Despite their advantages, hollow microneedles come with several challenges:pmc.n
 
 ## **CMC and regulatory considerations**
 
-For CMC teams, hollow microneedles raise several important questions:pmc.ncbi.nlm.nih+3
+For CMC teams, hollow microneedles raise several important questions:
 
 * **Material selection.** Silicon, glass, stainless steel, or polymers each have different implications for strength, biocompatibility, and cost.
 * **Lumen design and flow control.** Needle diameter, lumen length, insertion depth, and skin backpressure all affect infusion rate and must be characterised.
