@@ -37,6 +37,7 @@ const POSTS_INDEX = [
   'week-3-–-coated-microneedles-rapid-delivery',
   'week-4-–-dissolving-microneedles-cargo-in-the-matrix',
   'week-5-–-hollow-microneedles-“mini-syringes”',
+  'week-6-–-hydrogel‑forming-microneedles-delivery-and-sensing',
   'why-strong-data-doesnt-save-a-weak-development-narrative'
 ];
 
